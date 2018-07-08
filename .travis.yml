@@ -1,0 +1,12 @@
+---
+language: go
+go:
+  - 1.10
+go_import_path: github.com/mvisonneau/s5
+install:
+  - make setup
+  - make deps
+  - go get -u github.com/mattn/goveralls
+script:
+  - make all
+  - goveralls -service=travis-ci -coverprofile=coverage.out
