@@ -1,7 +1,7 @@
 ---
 language: go
 go:
-  - 1.10
+  - '1.10'
 go_import_path: github.com/mvisonneau/s5
 install:
   - make setup
