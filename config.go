@@ -8,11 +8,11 @@ type Config struct {
 		Level  string
 		Format string
 	}
-	
+
 	TransitKey string
 
 	Vault struct {
-		Address    string
-		Token      string
+		Address string
+		Token   string
 	}
 }

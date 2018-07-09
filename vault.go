@@ -9,7 +9,7 @@ import (
 
 // Vault : Handles a Vault API Client and a TransitKey name
 type Vault struct {
-	Client *api.Client
+	Client     *api.Client
 	TransitKey string
 }
 
@@ -41,6 +41,7 @@ func (v *Vault) ConfigureClient(address, token string) error {
 	return nil
 }
 
+// SetTransitKey : Configure the transit key to be used
 func (v *Vault) SetTransitKey(transitKey string) {
 	v.TransitKey = transitKey
 }
@@ -52,7 +53,7 @@ func (v *Vault) Cipher(value string) (string, error) {
 
 	d, err := v.Client.Logical().Write("transit/encrypt/"+v.TransitKey, payload)
 	if err != nil {
-		return "", fmt.Errorf("Vault error : %s", err )
+		return "", fmt.Errorf("Vault error : %s", err)
 	}
 
 	return d.Data["ciphertext"].(string), nil

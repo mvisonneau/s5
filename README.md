@@ -63,6 +63,20 @@ GLOBAL OPTIONS:
    --version, -v                print the version
 ```
 
+## Install
+
+You can have a look at the [release page](https://github.com/mvisonneau/s5/releases) of the project, we currently build it for **Linux**, **Darwin** and **Windows** platforms.
+
+```
+~$ wget https://github.com/mvisonneau/s5/releases/download/0.1.0/s5_linux_amd64 -O /usr/local/bin/s5; chmod +x /usr/local/bin/s5
+```
+
+You can also use the [docker version](https://hub.docker.com/r/mvisonneau/s5):
+
+```
+~$ docker run -it --rm mvisonneau/s5
+```
+
 ## Examples
 
 ### Render in-place

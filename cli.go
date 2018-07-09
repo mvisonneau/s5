@@ -77,7 +77,7 @@ func runCli() (c *cli.App) {
 					Usage: " ",
 				},
 			},
-			Action:    run,
+			Action: run,
 		},
 	}
 

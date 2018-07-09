@@ -1,11 +1,11 @@
 package main
 
 import (
-  "bufio"
+	"bufio"
 	"bytes"
 	"fmt"
 	"os"
-  "regexp"
+	"regexp"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -19,120 +19,120 @@ func run(c *cli.Context) error {
 	start = time.Now()
 	configureLogging(cfg.Log.Level, cfg.Log.Format)
 
-  log.Debug("Configuring Vault")
-  err := v.Configure(cfg.Vault.Address, cfg.Vault.Token, cfg.TransitKey)
-  if err != nil {
+	log.Debug("Configuring Vault")
+	err := v.Configure(cfg.Vault.Address, cfg.Vault.Token, cfg.TransitKey)
+	if err != nil {
 		return exit(cli.NewExitError(err.Error(), 1))
 	}
 
-  log.Debugf("Executing function '%s'", c.Command.FullName())
-  switch c.Command.FullName() {
+	log.Debugf("Executing function '%s'", c.Command.FullName())
+	switch c.Command.FullName() {
 	case "cipher":
-    err = cipher(c)
-  case "decipher":
-    err = decipher(c)
-  case "render":
-    err = render(c)
-  default:
-    log.Fatalf("Function %v is not implemented", c.Command.FullName())
-  }
+		err = cipher(c)
+	case "decipher":
+		err = decipher(c)
+	case "render":
+		err = render(c)
+	default:
+		log.Fatalf("Function %v is not implemented", c.Command.FullName())
+	}
 
 	return exit(err)
 }
 
 func cipher(c *cli.Context) error {
-  if c.NArg() != 1 {
-    cli.ShowSubcommandHelp(c)
-    return cli.NewExitError("", 1)
-  }
-  log.Debug("Ciphering using Vault transit key")
-  ciphered, err := v.Cipher(c.Args().First())
-  if err != nil {
-    return cli.NewExitError(err.Error(), 1)
-  }
-  fmt.Printf("{{ %s }}", ciphered)
+	if c.NArg() != 1 {
+		cli.ShowSubcommandHelp(c)
+		return cli.NewExitError("", 1)
+	}
+	log.Debug("Ciphering using Vault transit key")
+	ciphered, err := v.Cipher(c.Args().First())
+	if err != nil {
+		return cli.NewExitError(err.Error(), 1)
+	}
+	fmt.Printf("{{ %s }}", ciphered)
 
-  return nil
+	return nil
 }
 
 func decipher(c *cli.Context) error {
-  if c.NArg() != 1 {
-    cli.ShowSubcommandHelp(c)
-    return cli.NewExitError("", 1)
-  }
+	if c.NArg() != 1 {
+		cli.ShowSubcommandHelp(c)
+		return cli.NewExitError("", 1)
+	}
 
-  log.Debug("Validating input string")
-  re := regexp.MustCompile("{{ (vault:v1:.*) }}")
-  if ! re.MatchString(c.Args().First()) {
-    return cli.NewExitError("Invalid string format, should be '{{ vault:v1:* }}'", 1)
-  }
+	log.Debug("Validating input string")
+	re := regexp.MustCompile("{{ (vault:v1:.*) }}")
+	if !re.MatchString(c.Args().First()) {
+		return cli.NewExitError("Invalid string format, should be '{{ vault:v1:* }}'", 1)
+	}
 
-  log.Debugf("Deciphering '%s' using Vault transit key", re.FindStringSubmatch(c.Args().First())[1])
-  plain, err := v.Decipher(re.FindStringSubmatch(c.Args().First())[1])
-  if err != nil {
-    return cli.NewExitError(err.Error(), 1)
-  }
-  fmt.Print(plain)
+	log.Debugf("Deciphering '%s' using Vault transit key", re.FindStringSubmatch(c.Args().First())[1])
+	plain, err := v.Decipher(re.FindStringSubmatch(c.Args().First())[1])
+	if err != nil {
+		return cli.NewExitError(err.Error(), 1)
+	}
+	fmt.Print(plain)
 
-  return nil
+	return nil
 }
 
 func render(c *cli.Context) error {
-  if c.NArg() != 1 ||
-		( c.String("output") != "" && c.Bool("in-place") ) {
-    cli.ShowSubcommandHelp(c)
-    return cli.NewExitError("", 1)
-  }
+	if c.NArg() != 1 ||
+		(c.String("output") != "" && c.Bool("in-place")) {
+		cli.ShowSubcommandHelp(c)
+		return cli.NewExitError("", 1)
+	}
 
-  log.Debugf("Opening input file : %s", c.Args().First())
-  fi, err := os.Open(c.Args().First())
-  if err != nil {
-	   return cli.NewExitError(err.Error(), 1)
-  }
+	log.Debugf("Opening input file : %s", c.Args().First())
+	fi, err := os.Open(c.Args().First())
+	if err != nil {
+		return cli.NewExitError(err.Error(), 1)
+	}
 
-  re := regexp.MustCompile("{{ (vault:v1:[A-Za-z0-9+\\/=]*) }}")
-  in := bufio.NewScanner(fi)
+	re := regexp.MustCompile("{{ (vault:v1:[A-Za-z0-9+\\/=]*) }}")
+	in := bufio.NewScanner(fi)
 
 	var buf bytes.Buffer
 
-  log.Debug("Starting deciphering")
-  for in.Scan() {
-    buf.WriteString(
-      re.ReplaceAllStringFunc(in.Text(), func(src string) string {
-        log.Debugf("found: %v", re.FindStringSubmatch(src)[1])
-        plain, err := v.Decipher(re.FindStringSubmatch(src)[1])
-        if err != nil {
-          panic(err)
-        }
-        return plain
-      }) + "\n" )
-  }
+	log.Debug("Starting deciphering")
+	for in.Scan() {
+		buf.WriteString(
+			re.ReplaceAllStringFunc(in.Text(), func(src string) string {
+				log.Debugf("found: %v", re.FindStringSubmatch(src)[1])
+				plain, err := v.Decipher(re.FindStringSubmatch(src)[1])
+				if err != nil {
+					panic(err)
+				}
+				return plain
+			}) + "\n")
+	}
 
 	fi.Close()
 
-  if err := in.Err(); err != nil {
-    return cli.NewExitError(err.Error(), 1)
-  }
+	if err := in.Err(); err != nil {
+		return cli.NewExitError(err.Error(), 1)
+	}
 
 	var fo *os.File
 	if c.String("output") != "" {
 		log.Debugf("Creating and outputing to file : %s", c.String("output"))
-	  fo, err = os.Create(c.String("output") )
+		fo, err = os.Create(c.String("output"))
 		if err != nil {
-			 return cli.NewExitError(err.Error(), 1)
+			return cli.NewExitError(err.Error(), 1)
 		}
 		defer fo.Close()
-  } else if c.Bool("in-place") {
+	} else if c.Bool("in-place") {
 		log.Debug("Updating the source file (in-place)")
 		fo, err = os.Create(c.Args().First())
-	  if err != nil {
-		   return cli.NewExitError(err.Error(), 1)
-	  }
+		if err != nil {
+			return cli.NewExitError(err.Error(), 1)
+		}
 		defer fo.Close()
 	} else {
 		log.Debug("Outputing to stdout")
 		fo = os.Stdout
-  }
+	}
 
 	out := bufio.NewWriter(fo)
 	_, err = out.Write(buf.Bytes())
@@ -145,7 +145,7 @@ func render(c *cli.Context) error {
 		return err
 	}
 
-  return nil
+	return nil
 }
 
 func exit(err error) error {
