@@ -36,7 +36,12 @@ install: ## Build and install locally the binary (dev purpose)
 build: ## Build the binary
 	mkdir -p dist; rm -rf dist/*
 	gox -osarch "darwin/386 darwin/amd64 linux/386 linux/amd64 windows/386 windows/amd64" -ldflags "$(LDFLAGS)" -output dist/$(NAME)_{{.OS}}_{{.Arch}}
-	strip dist/*
+	strip dist/*_linux_*
+
+.PHONY: build-docker
+build-docker:
+	go build -ldflags "$(LDFLAGS)" .
+	strip s5
 
 .PHONY: publish-github
 publish-github: ## Send the binaries onto the GitHub release

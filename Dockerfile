@@ -13,7 +13,7 @@ make setup
 COPY . .
 RUN \
 make deps ;\
-make build
+make build-docker
 
 ##
 # RELEASE CONTAINER
@@ -23,7 +23,7 @@ FROM scratch
 
 WORKDIR /
 
-COPY --from=builder /go/src/github.com/mvisonneau/s5 /
+COPY --from=builder /go/src/github.com/mvisonneau/s5/s5 /
 
 ENTRYPOINT ["/s5"]
 CMD [""]
