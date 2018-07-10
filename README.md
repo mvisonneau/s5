@@ -17,21 +17,21 @@
 
 # Encrypt text
 ~$ s5 cipher very_sensitive_value
-{{ s5:sIPFWfAcBvilFOAosU1LnqVD2UAMDCd1jfEHXJxxSgJzWGKOnOtVcs65QGh+S3af4Wo= }}
+{{ s5:sIPFWfAcBvOnOtVcs65QGh+S3af4Wo= }}
 
 # Store it anywhere in your files
 ~$ cat example.yml
 ---
-var1: {{ s5:HoJ6JQ1UpYvdOuI6uHC92GqSEtWnJ8ZyuwzRn8I3jw== }}
-var2: {{ s5:lhxBVmVPAVGIsXZ/KFTmbnkJ8tceTb9yc0CBgEqrpw== }}
-{{ s5:Y5WWwFdw2tFYI0/vnGEKdD+IGo+v1MRAuNOorI3oJA== }}: {{ s5:jLhCkYdrjmlUE5bv7Z3ijxu/S4Lfavx2svWlSAD8sWHV }}
+var1: {{ s5:EtWnJ8ZyuwzRn8I3jw== }}
+var2: {{ s5:8tceTb9yc0CBgEqrpw== }}
+{{ s5:Glv1MRAuNOorI3oJA== }}: {{ s5:S4Lfavx2svWlSAD8sWHV }}
 
 # Render!
 ~$ s5 render example.yml
 ---
 var1: foo
 var2: bar
-key: value
+secret_key: secret_value
 ```
 
 ## Usage
@@ -83,7 +83,7 @@ You can also use the [docker version](https://hub.docker.com/r/mvisonneau/s5):
 
 ```bash
 ~$ cat example.yml
-foo: {{ s5:lhxBVmVPAVGIsXZ/KFTmbnkJ8tceTb9yc0CBgEqrpw== }}
+foo: {{ s5:8tceTb9yc0CBgEqrpw== }}
 
 ~$ s5 render --in-place example.yml
 
@@ -95,7 +95,7 @@ foo: bar
 
 ```bash
 ~$ cat example.yml
-foo: {{ s5:lhxBVmVPAVGIsXZ/KFTmbnkJ8tceTb9yc0CBgEqrpw== }}
+foo: {{ s5:8tceTb9yc0CBgEqrpw== }}
 
 ~$ s5 render example.yml --output example-dec.yml
 
@@ -109,7 +109,7 @@ You can use the `--log-level debug` flag in order to troubleshoot
 
 ```bash
 ~$ cat example.yml
-foo: {{ s5:lhxBVmVPAVGIsXZ/KFTmbnkJ8tceTb9yc0CBgEqrpw== }}
+foo: {{ s5:8tceTb9yc0CBgEqrpw== }}
 
 ~$ s5 --log-level debug render example.yml
 s5 --log-level debug render secrets.yml
@@ -117,7 +117,7 @@ DEBU[2018-07-09T15:06:49Z] Configuring Vault
 DEBU[2018-07-09T15:06:49Z] Executing function 'render'
 DEBU[2018-07-09T15:06:49Z] Opening input file : example.yml
 DEBU[2018-07-09T15:06:49Z] Starting deciphering
-DEBU[2018-07-09T15:06:49Z] found: s5:lhxBVmVPAVGIsXZ/KFTmbnkJ8tceTb9yc0CBgEqrpw==
+DEBU[2018-07-09T15:06:49Z] found: s5:8tceTb9yc0CBgEqrpw==
 DEBU[2018-07-09T15:06:49Z] Outputing to stdout
 foo: bar
 DEBU[2018-07-09T15:06:49Z] Executed in 13.1337ms, exiting..
