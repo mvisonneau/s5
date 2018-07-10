@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.1.1] - 2018-07-10
+### FEATURES
+- Replaced the `vault:v1` prefix on stored secrets with `s5`
+
+### BUGFIXES
+- Get the linux binaries working on `alpine` by disabling CGO
+- Fixed the Dockerfile
+- Fixed the `make dev-env` function
+
 ## [0.1.0] - 2018-07-09
 ### FEATURES
 - Working state of the app
@@ -18,5 +27,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - LICENSE
 - README
 
-[Unreleased]: https://github.com/mvisonneau/ahs/compare/0.1.0...HEAD
-[0.1.0]: https://github.com/mvisonneau/ahs/tree/0.1.0
+[Unreleased]: https://github.com/mvisonneau/s5/compare/0.1.1...HEAD
+[0.1.1]: https://github.com/mvisonneau/s5/tree/0.1.1
+[0.1.0]: https://github.com/mvisonneau/s5/tree/0.1.0
