@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
+	"regexp"
 
 	"github.com/hashicorp/vault/api"
 )
@@ -56,13 +57,15 @@ func (v *Vault) Cipher(value string) (string, error) {
 		return "", fmt.Errorf("Vault error : %s", err)
 	}
 
-	return d.Data["ciphertext"].(string), nil
+	re := regexp.MustCompile("(^vault:v1)")
+	return re.ReplaceAllString(d.Data["ciphertext"].(string), "s5"), nil
 }
 
 // Decipher : Decipher a value using the TransitKey
 func (v *Vault) Decipher(value string) (string, error) {
 	payload := make(map[string]interface{})
-	payload["ciphertext"] = value
+	re := regexp.MustCompile("(^s5:)")
+	payload["ciphertext"] = re.ReplaceAllString(value, "vault:v1:")
 
 	d, err := v.Client.Logical().Write("transit/decrypt/"+v.TransitKey, payload)
 	if err != nil {

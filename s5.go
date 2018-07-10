@@ -62,9 +62,9 @@ func decipher(c *cli.Context) error {
 	}
 
 	log.Debug("Validating input string")
-	re := regexp.MustCompile("{{ (vault:v1:.*) }}")
+	re := regexp.MustCompile("{{ (s5:.*) }}")
 	if !re.MatchString(c.Args().First()) {
-		return cli.NewExitError("Invalid string format, should be '{{ vault:v1:* }}'", 1)
+		return cli.NewExitError("Invalid string format, should be '{{ s5:* }}'", 1)
 	}
 
 	log.Debugf("Deciphering '%s' using Vault transit key", re.FindStringSubmatch(c.Args().First())[1])
@@ -90,7 +90,7 @@ func render(c *cli.Context) error {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-	re := regexp.MustCompile("{{ (vault:v1:[A-Za-z0-9+\\/=]*) }}")
+	re := regexp.MustCompile("{{ (s5:[A-Za-z0-9+\\/=]*) }}")
 	in := bufio.NewScanner(fi)
 
 	var buf bytes.Buffer
