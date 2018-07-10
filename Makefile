@@ -35,12 +35,12 @@ install: ## Build and install locally the binary (dev purpose)
 .PHONY: build
 build: ## Build the binary
 	mkdir -p dist; rm -rf dist/*
-	gox -osarch "darwin/386 darwin/amd64 linux/386 linux/amd64 windows/386 windows/amd64" -ldflags "$(LDFLAGS)" -output dist/$(NAME)_{{.OS}}_{{.Arch}}
+	CGO_ENABLED=0 gox -osarch "darwin/386 darwin/amd64 linux/386 linux/amd64 windows/386 windows/amd64" -ldflags "$(LDFLAGS)" -output dist/$(NAME)_{{.OS}}_{{.Arch}}
 	strip dist/*_linux_*
 
 .PHONY: build-docker
 build-docker:
-	go build -ldflags "$(LDFLAGS)" .
+	CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" .
 	strip s5
 
 .PHONY: publish-github
@@ -72,13 +72,13 @@ dev-env: ## Build a local development environment using Docker
 		-e VAULT_ADDR=http://localhost:8200 \
 		-e VAULT_TOKEN=$$(docker logs vault 2>/dev/null | grep 'Root Token' | cut -d' ' -f3 | sed -E "s/[[:cntrl:]]\[[0-9]{1,3}m//g") \
 		vault \
-		/bin/sh -c "vault secrets enable transit;"
+		/bin/sh -c "vault secrets enable transit"
 	@docker run -it --rm \
 		-v $(shell pwd):/go/src/github.com/mvisonneau/$(NAME) \
 		-w /go/src/github.com/mvisonneau/$(NAME) \
 		-e VAULT_ADDR=http://$$(docker inspect vault | jq -r '.[0].NetworkSettings.IPAddress'):8200 \
 		-e VAULT_TOKEN=$$(docker logs vault 2>/dev/null | grep 'Root Token' | cut -d' ' -f3 | sed -E "s/[[:cntrl:]]\[[0-9]{1,3}m//g") \
-		-e S5_TRANSIT_KEY=foo \ # key will be automatically generated if not existent as we have a root token
+		-e S5_TRANSIT_KEY=foo \
 		golang:1.10 \
 		/bin/bash -c 'make setup; make deps; make install; bash'
 	@docker kill vault
