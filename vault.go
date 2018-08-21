@@ -3,9 +3,11 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
+	"io/ioutil"
 	"regexp"
 
 	"github.com/hashicorp/vault/api"
+	"github.com/mitchellh/go-homedir"
 )
 
 // Vault : Handles a Vault API Client and a TransitKey name
@@ -33,7 +35,13 @@ func (v *Vault) ConfigureClient(address, token string) error {
 	}
 
 	if len(token) == 0 {
-		return fmt.Errorf("Vault token is not defined")
+		home, _ := homedir.Dir()
+		f, err := ioutil.ReadFile(home + "/.vault-token")
+		if err != nil {
+			return fmt.Errorf("Vault token is not defined")
+		}
+
+		token = string(f)
 	}
 
 	v.Client.SetAddress(address)
