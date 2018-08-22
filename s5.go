@@ -98,16 +98,23 @@ func decipher(c *cli.Context) error {
 }
 
 func render(c *cli.Context) error {
-	if c.NArg() != 1 ||
+	if c.NArg() > 1 ||
 		(c.String("output") != "" && c.Bool("in-place")) {
 		cli.ShowSubcommandHelp(c)
 		return cli.NewExitError("", 1)
 	}
 
-	log.Debugf("Opening input file : %s", c.Args().First())
-	fi, err := os.Open(c.Args().First())
-	if err != nil {
-		return cli.NewExitError(err.Error(), 1)
+	var fi *os.File
+	var err error
+	if c.NArg() == 1 {
+		log.Debugf("Opening input file : %s", c.Args().First())
+		fi, err = os.Open(c.Args().First())
+		if err != nil {
+			return cli.NewExitError(err.Error(), 1)
+		}
+	} else {
+		log.Debug("Reading from stdin")
+		fi = os.Stdin
 	}
 
 	re := regexp.MustCompile("{{ (s5:[A-Za-z0-9+\\/=]*) }}")

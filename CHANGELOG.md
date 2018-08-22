@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### FEATURES
-- We can now pass text through `stdin` as well as an argument for `cipher`/`decipher` functions
+- We can now pass text through `stdin` as well as an argument for all functions (`cipher`/`decipher`/`render`)
 ### ENHANCEMENTS
 - Updated dependencies
 - Used `busybox` image instead of **scratch** for the container image

@@ -32,6 +32,12 @@ var2: {{ s5:8tceTb9yc0CBgEqrpw== }}
 var1: foo
 var2: bar
 secret_key: secret_value
+
+# s5 can also read from stdin
+~$ echo "foo" | s5 cipher | s5 decipher
+foo
+~$ echo "foo: {{ s5:8tceTb9yc0CBgEqrpw== }}" | s5 render
+foo: bar
 ```
 
 ## Usage
@@ -135,6 +141,10 @@ If you use docker, you can easily get started using :
 ```
 
 This command will spin up a `Vault` container and build another one with everything required in terms of **golang** dependencies in order to get started.
+
+## BONUS
+
+If you are using [atom.io](https://atom.io) as you IDE. You can have a look onto a [module I have written that integrates s5 with it](https://github.com/mvisonneau/atom-s5).
 
 ## Contribute
 
