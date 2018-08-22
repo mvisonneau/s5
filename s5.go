@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"regexp"
 	"time"
@@ -40,13 +41,31 @@ func run(c *cli.Context) error {
 	return exit(err)
 }
 
-func cipher(c *cli.Context) error {
-	if c.NArg() != 1 {
-		cli.ShowSubcommandHelp(c)
-		return cli.NewExitError("", 1)
+func readInput(c *cli.Context) (input string, err error) {
+	switch c.NArg() {
+	case 0:
+		read, err := ioutil.ReadAll(os.Stdin)
+		if err != nil {
+			return "", err
+		}
+		input = string(read)
+	case 1:
+		input = c.Args().First()
+	default:
+		return "", fmt.Errorf("Too many arguments provided")
 	}
+	return
+}
+
+func cipher(c *cli.Context) error {
+	input, err := readInput(c)
+	if err != nil {
+		cli.ShowSubcommandHelp(c)
+		return exit(cli.NewExitError(err.Error(), 1))
+	}
+
 	log.Debug("Ciphering using Vault transit key")
-	ciphered, err := v.Cipher(c.Args().First())
+	ciphered, err := v.Cipher(input)
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
@@ -56,19 +75,20 @@ func cipher(c *cli.Context) error {
 }
 
 func decipher(c *cli.Context) error {
-	if c.NArg() != 1 {
+	input, err := readInput(c)
+	if err != nil {
 		cli.ShowSubcommandHelp(c)
-		return cli.NewExitError("", 1)
+		return exit(cli.NewExitError(err.Error(), 1))
 	}
 
 	log.Debug("Validating input string")
 	re := regexp.MustCompile("{{ (s5:.*) }}")
-	if !re.MatchString(c.Args().First()) {
+	if !re.MatchString(input) {
 		return cli.NewExitError("Invalid string format, should be '{{ s5:* }}'", 1)
 	}
 
-	log.Debugf("Deciphering '%s' using Vault transit key", re.FindStringSubmatch(c.Args().First())[1])
-	plain, err := v.Decipher(re.FindStringSubmatch(c.Args().First())[1])
+	log.Debugf("Deciphering '%s' using Vault transit key", re.FindStringSubmatch(input)[1])
+	plain, err := v.Decipher(re.FindStringSubmatch(input)[1])
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
