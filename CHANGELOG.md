@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### FEATURES
-- We can now pass text through `stdin` as well as an argument for cipher/decipher functions
+- We can now pass text through `stdin` as well as an argument for `cipher`/`decipher` functions
+### ENHANCEMENTS
+- Updated dependencies
 
 ## [0.1.1] - 2018-07-10
 ### FEATURES
