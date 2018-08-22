@@ -19,11 +19,11 @@ make build-docker
 # RELEASE CONTAINER
 ##
 
-FROM scratch
+FROM busybox:1.29
 
-WORKDIR /
+WORKDIR /usr/local/bin
 
-COPY --from=builder /go/src/github.com/mvisonneau/s5/s5 /
+COPY --from=builder /go/src/github.com/mvisonneau/s5/s5 /usr/local/bin
 
-ENTRYPOINT ["/s5"]
+ENTRYPOINT ["/usr/local/bin/s5"]
 CMD [""]
