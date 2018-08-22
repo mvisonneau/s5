@@ -3,7 +3,7 @@ VERSION       := $(shell git describe --tags --abbrev=1)
 FILES         := $(shell git ls-files '*.go')
 LDFLAGS       := -w -extldflags "-static" -X 'main.version=$(VERSION)'
 REGISTRY      := mvisonneau/$(NAME)
-VAULT_VERSION := 0.10.3
+VAULT_VERSION := 0.10.4
 .DEFAULT_GOAL := help
 
 .PHONY: setup
@@ -67,7 +67,7 @@ coverage: ## Generates coverage report
 .PHONY: dev-env
 dev-env: ## Build a local development environment using Docker
 	@docker run -d --cap-add IPC_LOCK --name vault vault:$(VAULT_VERSION)
-	@sleep 1
+	@sleep 2
 	@docker exec -it \
 		-e VAULT_ADDR=http://localhost:8200 \
 		-e VAULT_TOKEN=$$(docker logs vault 2>/dev/null | grep 'Root Token' | cut -d' ' -f3 | sed -E "s/[[:cntrl:]]\[[0-9]{1,3}m//g") \

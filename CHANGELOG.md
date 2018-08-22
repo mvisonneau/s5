@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### ENHANCEMENTS
 - Updated dependencies
 - Used `busybox` image instead of **scratch** for the container image
+- Use Vault `0.10.4` in the dev container
 
 ## [0.1.1] - 2018-07-10
 ### FEATURES
