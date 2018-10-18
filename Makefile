@@ -3,15 +3,15 @@ VERSION       := $(shell git describe --tags --abbrev=1)
 FILES         := $(shell git ls-files '*.go')
 LDFLAGS       := -w -extldflags "-static" -X 'main.version=$(VERSION)'
 REGISTRY      := mvisonneau/$(NAME)
-VAULT_VERSION := 0.10.4
+VAULT_VERSION := 0.11.3
 .DEFAULT_GOAL := help
 
 .PHONY: setup
 setup: ## Install required libraries/tools
 	go get -u -v github.com/golang/dep/cmd/dep
-	go get -u -v github.com/golang/lint/golint
 	go get -u -v github.com/mitchellh/gox
 	go get -u -v github.com/tcnksm/ghr
+	go get -u -v golang.org/x/lint/golint
 	go get -u -v golang.org/x/tools/cmd/cover
 	go get -u -v golang.org/x/tools/cmd/goimports
 
