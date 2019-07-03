@@ -75,9 +75,9 @@ You can have a look at the [release page](https://github.com/mvisonneau/s5/relea
 
 ```bash
 # Linux
-~$ wget https://github.com/mvisonneau/s5/releases/download/0.1.2/s5_linux_amd64 -O /usr/local/bin/s5; chmod +x /usr/local/bin/s5
+~$ wget https://github.com/mvisonneau/s5/releases/download/0.1.3/s5_linux_amd64 -O /usr/local/bin/s5; chmod +x /usr/local/bin/s5
 # MacOS
-~$ wget https://github.com/mvisonneau/s5/releases/download/0.1.2/s5_darwin_amd64 -O /usr/local/bin/s5; chmod +x /usr/local/bin/s5
+~$ wget https://github.com/mvisonneau/s5/releases/download/0.1.3/s5_darwin_amd64 -O /usr/local/bin/s5; chmod +x /usr/local/bin/s5
 # Windows
 ¯\_(ツ)_/¯
 ```
