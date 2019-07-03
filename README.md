@@ -73,13 +73,18 @@ GLOBAL OPTIONS:
 
 You can have a look at the [release page](https://github.com/mvisonneau/s5/releases) of the project, we currently build it for **Linux**, **Darwin** and **Windows** platforms.
 
-```
-~$ wget https://github.com/mvisonneau/s5/releases/download/0.1.1/s5_linux_amd64 -O /usr/local/bin/s5; chmod +x /usr/local/bin/s5
+```bash
+# Linux
+~$ wget https://github.com/mvisonneau/s5/releases/download/0.1.2/s5_linux_amd64 -O /usr/local/bin/s5; chmod +x /usr/local/bin/s5
+# MacOS
+~$ wget https://github.com/mvisonneau/s5/releases/download/0.1.2/s5_darwin_amd64 -O /usr/local/bin/s5; chmod +x /usr/local/bin/s5
+# Windows
+¯\_(ツ)_/¯
 ```
 
 You can also use the [docker version](https://hub.docker.com/r/mvisonneau/s5):
 
-```
+```bash
 ~$ docker run -it --rm mvisonneau/s5
 ```
 
