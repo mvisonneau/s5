@@ -2,9 +2,9 @@
 # BUILD CONTAINER
 ##
 
-FROM golang:1.10 as builder
+FROM golang:1.12.5 as builder
 
-WORKDIR /go/src/github.com/mvisonneau/s5
+WORKDIR /build
 
 COPY Makefile .
 RUN \
@@ -12,18 +12,17 @@ make setup
 
 COPY . .
 RUN \
-make deps ;\
 make build-docker
 
 ##
 # RELEASE CONTAINER
 ##
 
-FROM busybox:1.29
+FROM busybox:1.31-glibc
 
-WORKDIR /usr/local/bin
+WORKDIR /
 
-COPY --from=builder /go/src/github.com/mvisonneau/s5/s5 /usr/local/bin
+COPY --from=builder /build/s5 /usr/local/bin/
 
 ENTRYPOINT ["/usr/local/bin/s5"]
 CMD [""]

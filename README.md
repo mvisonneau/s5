@@ -1,9 +1,9 @@
 # mvisonneau/s5 - Safely Store Super Sensitive Stuff
 
-[![GoDoc](https://godoc.org/github.com/mvisonneau/s5?status.svg)](https://godoc.org/github.com/mvisonneau/s5/app)
+[![GoDoc](https://godoc.org/github.com/mvisonneau/s5?status.svg)](https://godoc.org/github.com/mvisonneau/s5)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mvisonneau/s5)](https://goreportcard.com/report/github.com/mvisonneau/s5)
 [![Docker Pulls](https://img.shields.io/docker/pulls/mvisonneau/s5.svg)](https://hub.docker.com/r/mvisonneau/s5/)
-[![Build Status](https://travis-ci.org/mvisonneau/s5.svg?branch=master)](https://travis-ci.org/mvisonneau/s5)
+[![Build Status](https://cloud.drone.io/api/badges/mvisonneau/s5/status.svg)](https://cloud.drone.io/mvisonneau/s5)
 [![Coverage Status](https://coveralls.io/repos/github/mvisonneau/s5/badge.svg?branch=master)](https://coveralls.io/github/mvisonneau/s5?branch=master)
 
 `s5` is a very small binary that allows you to easily cipher/decipher content within your files. For the moment it only supports [Vault transit secret engine](https://www.vaultproject.io/docs/secrets/transit/index.html) (Hashicorp) but it could be ported to additional ones as well.

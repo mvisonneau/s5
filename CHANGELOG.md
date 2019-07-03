@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### ENHANCEMENTS
+- Use Vault `0.11.3` in the dev container
+- Updated the `golang.org/x/lint/golint` path in the setup make rule
+- Upgraded to Go 1.12
+- Use Gomodules
+- Enhanced Makefile
+- Moved CI to drone.io
+
 ### FEATURES
 - We can now pass text through `stdin` as well as an argument for all functions (`cipher`/`decipher`/`render`)
 ### ENHANCEMENTS
