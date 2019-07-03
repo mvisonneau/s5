@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Use Gomodules
 - Enhanced Makefile
 - Moved CI to drone.io
+- Refactored codebase for better modularity and portability
 
 ### FEATURES
 - We can now pass text through `stdin` as well as an argument for all functions (`cipher`/`decipher`/`render`)
