@@ -31,7 +31,7 @@ func configure(ctx *cli.Context) error {
 
 	vt, err = vaultTransit.Init(
 		&vaultTransit.Config{
-			Key: ctx.GlobalString("vault-transit-key"),
+			Key: ctx.String("transit-key"),
 		},
 	)
 

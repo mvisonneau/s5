@@ -7,6 +7,9 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+## ENHANCEMENTS
+- Parameterized the cipher engine in order to not support only Vault
+
 ## [0.1.3] - 2019-07-03
 
 ### ENHANCEMENTS
