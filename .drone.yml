@@ -72,7 +72,7 @@ steps:
 
 trigger:
   repo:
-    - mvisonneau/automount
+    - mvisonneau/s5
   event:
     - tag
 
@@ -81,6 +81,6 @@ depends_on:
   - coverage
 ---
 kind: signature
-hmac: dc07ea10285a1599d522a7cc6acbe0c3e112152f64445af3523daaa6eb39d215
+hmac: 565b991363b70d0222b66ac3e58c2544b599364e0e64c301b0c9416133d3a65f
 
 ...
