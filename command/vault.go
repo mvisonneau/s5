@@ -1,19 +1,19 @@
 package command
 
 import (
-	cipherVaultTransit "github.com/mvisonneau/s5/cipher/vault/transit"
+	cipherVault "github.com/mvisonneau/s5/cipher/vault"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 )
 
 type vault struct {
-	client *cipherVaultTransit.Client
+	client *cipherVault.Client
 }
 
 func (v *vault) configure(ctx *cli.Context) (err error) {
-	v.client, err = cipherVaultTransit.Init(
-		&cipherVaultTransit.Config{
+	v.client, err = cipherVault.Init(
+		&cipherVault.Config{
 			Key: ctx.String("transit-key"),
 		},
 	)
