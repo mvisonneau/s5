@@ -45,15 +45,14 @@ func (c *Client) Cipher(value string) (string, error) {
 		return "", fmt.Errorf("Vault error : %s", err)
 	}
 
-	re := regexp.MustCompile("(^vault:v1)")
-	return re.ReplaceAllString(d.Data["ciphertext"].(string), "s5"), nil
+	re := regexp.MustCompile("(^vault:v1:)")
+	return re.ReplaceAllString(d.Data["ciphertext"].(string), ""), nil
 }
 
 // Decipher : Decipher a value using the TransitKey
 func (c *Client) Decipher(value string) (string, error) {
 	payload := make(map[string]interface{})
-	re := regexp.MustCompile("(^s5:)")
-	payload["ciphertext"] = re.ReplaceAllString(value, "vault:v1:")
+	payload["ciphertext"] = fmt.Sprintf("vault:v1:%s", value)
 
 	d, err := c.Logical().Write("transit/decrypt/"+c.Config.Key, payload)
 	if err != nil {

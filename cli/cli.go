@@ -7,13 +7,16 @@ import (
 	"github.com/urfave/cli"
 )
 
-var vaultFlags = []cli.Flag{
-	cli.StringFlag{
-		Name:   "transit-key",
-		EnvVar: "S5_VAULT_TRANSIT_KEY",
-		Usage:  "`name` of the transit key used by s5 to cipher/decipher data",
-		Value:  "default",
-	},
+var pgpPublicKeyPathFlag = cli.StringFlag{
+	Name:   "public-key",
+	EnvVar: "S5_PGP_PUBLIC_KEY_PATH",
+	Usage:  "`path` to a readable public pgp key (armored)",
+}
+
+var pgpPrivateKeyPathFlag = cli.StringFlag{
+	Name:   "private-key",
+	EnvVar: "S5_PGP_PRIVATE_KEY_PATH",
+	Usage:  "`path` to a readable private pgp key (armored)",
 }
 
 var renderFlags = []cli.Flag{
@@ -24,6 +27,15 @@ var renderFlags = []cli.Flag{
 	cli.BoolFlag{
 		Name:  "in-place,i",
 		Usage: " ",
+	},
+}
+
+var vaultFlags = []cli.Flag{
+	cli.StringFlag{
+		Name:   "transit-key",
+		EnvVar: "S5_VAULT_TRANSIT_KEY",
+		Usage:  "`name` of the transit key used by s5 to cipher/decipher data",
+		Value:  "default",
 	},
 }
 
@@ -56,6 +68,15 @@ func Init(version *string, start time.Time) (app *cli.App) {
 			Usage: "return an encrypted s5 pattern that can be included in any file",
 			Subcommands: []cli.Command{
 				{
+					Name:      "pgp",
+					Usage:     "cipher using a public pgp key",
+					ArgsUsage: "<value>",
+					Action:    command.Cipher,
+					Flags: []cli.Flag{
+						pgpPublicKeyPathFlag,
+					},
+				},
+				{
 					Name:      "vault",
 					Usage:     "cipher using a vault transit key",
 					ArgsUsage: "<value>",
@@ -69,6 +90,16 @@ func Init(version *string, start time.Time) (app *cli.App) {
 			Usage: "return an unencrypted s5 value from a given pattern",
 			Subcommands: []cli.Command{
 				{
+					Name:      "pgp",
+					Usage:     "decipher using a public/private pgp keypair",
+					ArgsUsage: "<value>",
+					Action:    command.Decipher,
+					Flags: []cli.Flag{
+						pgpPublicKeyPathFlag,
+						pgpPrivateKeyPathFlag,
+					},
+				},
+				{
 					Name:      "vault",
 					Usage:     "decipher using a vault transit key",
 					ArgsUsage: "<value>",
@@ -81,6 +112,13 @@ func Init(version *string, start time.Time) (app *cli.App) {
 			Name:  "render",
 			Usage: "render a file that (may) contain s5 encrypted patterns",
 			Subcommands: []cli.Command{
+				{
+					Name:      "pgp",
+					Usage:     "render using a public/private pgp keypair",
+					ArgsUsage: "<value>",
+					Action:    command.Render,
+					Flags:     append(renderFlags, pgpPublicKeyPathFlag, pgpPrivateKeyPathFlag),
+				},
 				{
 					Name:      "vault",
 					Usage:     "render using a vault transit key",

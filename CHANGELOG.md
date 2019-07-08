@@ -7,6 +7,9 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+## FEATURES
+- Added support for PGP public/private keypair
+
 ## ENHANCEMENTS
 - Parameterized the cipher engine in order to not support only Vault
 
