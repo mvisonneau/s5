@@ -1,14 +1,14 @@
 package command
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"time"
-	"bufio"
-	"bytes"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/mvisonneau/s5/logger"
 
@@ -99,7 +99,7 @@ func Decipher(ctx *cli.Context) error {
 	if !re.MatchString(input) {
 		return exit(fmt.Errorf("Invalid string format, should be '{{ s5:* }}'"), 1)
 	}
-	
+
 	deciphered, err := cmd.decipher(re.FindStringSubmatch(input)[1])
 	if err != nil {
 		return exit(err, 1)
