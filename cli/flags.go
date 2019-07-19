@@ -7,7 +7,7 @@ import (
 var aesFlags = []cli.Flag{
 	cli.StringFlag{
 		Name:   "key",
-		EnvVar: "S5_AES_KEY_PATH",
+		EnvVar: "S5_AES_KEY",
 		Usage:  "`path` to a readable key for AES encryption/decryption",
 	},
 }
