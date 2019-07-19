@@ -7,6 +7,8 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+## [0.1.4] - 2019-07-19
+
 ## Added
 
 - Added support for **PGP public/private keypair encryption**
