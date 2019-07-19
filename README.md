@@ -10,7 +10,11 @@
 
 ## Encryption backends supported
 
+- [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
+- [AWS](https://aws.amazon.com) - [KMS](https://aws.amazon.com/kms/)
+- [GCP](https://cloud.google.com) - [KMS](https://cloud.google.com/kms/)
 - [Hashicorp Vault](https://www.vaultproject.io) - [Transit secret engine](https://www.vaultproject.io/docs/secrets/transit/index.html)
+- [PGP](https://www.openpgp.org/)
 
 ## TL:DR
 
@@ -126,7 +130,7 @@ For the following ones, you need to know which version you want to install, to f
 ~$ cat example.yml
 foo: {{ s5:8tceTb9yc0CBgEqrpw== }}
 
-~$ s5 render --in-place example.yml
+~$ s5 render vault --in-place example.yml
 
 ~$ cat example.yml
 foo: bar
@@ -138,7 +142,7 @@ foo: bar
 ~$ cat example.yml
 foo: {{ s5:8tceTb9yc0CBgEqrpw== }}
 
-~$ s5 render example.yml --output example-dec.yml
+~$ s5 render vault example.yml --output example-dec.yml
 
 ~$ cat example-dec.yml
 foo: bar
@@ -153,7 +157,7 @@ You can use the `--log-level debug` flag in order to troubleshoot
 foo: {{ s5:8tceTb9yc0CBgEqrpw== }}
 
 ~$ s5 --log-level debug render example.yml
-s5 --log-level debug render secrets.yml
+s5 --log-level debug render vault secrets.yml
 DEBU[2018-07-09T15:06:49Z] Configuring Vault
 DEBU[2018-07-09T15:06:49Z] Executing function 'render'
 DEBU[2018-07-09T15:06:49Z] Opening input file : example.yml
@@ -176,6 +180,25 @@ If you use docker, you can easily get started using :
 ```
 
 This command will spin up a `Vault` container and build another one with everything required in terms of **golang** dependencies in order to get started.
+
+## Build / Release
+
+If you want to build and/or release your own version of `s5`, you need the following prerequisites :
+
+- [git](https://git-scm.com/)
+- [golang](https://golang.org/)
+- [make](https://www.gnu.org/software/make/)
+- [goreleaser](https://goreleaser.com/)
+
+```bash
+~$ git clone git@github.com:mvisonneau/strongbox.git && cd strongbox
+
+# Build the binaries locally
+~$ make build
+
+# Build the binaries and release them (you will need a GITHUB_TOKEN and to reconfigure .goreleaser.yml)
+~$ make release
+```
 
 ## BONUS
 
