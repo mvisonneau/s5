@@ -50,6 +50,13 @@ func Init(version *string, start time.Time) (app *cli.App) {
 					Flags:     awsFlags,
 				},
 				{
+					Name:      "gcp",
+					Usage:     "cipher using a GCP KMS key",
+					ArgsUsage: "<value>",
+					Action:    command.Cipher,
+					Flags:     gcpFlags,
+				},
+				{
 					Name:      "pgp",
 					Usage:     "cipher using a public pgp key",
 					ArgsUsage: "<value>",
@@ -83,6 +90,13 @@ func Init(version *string, start time.Time) (app *cli.App) {
 					Usage:     "decipher using an AWS KMS key",
 					ArgsUsage: "<value>",
 					Action:    command.Decipher,
+				},
+				{
+					Name:      "gcp",
+					Usage:     "decipher using a GCP key",
+					ArgsUsage: "<value>",
+					Action:    command.Decipher,
+					Flags:     gcpFlags,
 				},
 				{
 					Name:      "pgp",
@@ -120,6 +134,13 @@ func Init(version *string, start time.Time) (app *cli.App) {
 					ArgsUsage: "<value>",
 					Action:    command.Render,
 					Flags:     renderFlags,
+				},
+				{
+					Name:      "gcp",
+					Usage:     "render using a GCP key",
+					ArgsUsage: "<value>",
+					Action:    command.Render,
+					Flags:     append(renderFlags, gcpFlags...),
 				},
 				{
 					Name:      "pgp",

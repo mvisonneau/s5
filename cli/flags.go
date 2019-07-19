@@ -20,6 +20,14 @@ var awsFlags = []cli.Flag{
 	},
 }
 
+var gcpFlags = []cli.Flag{
+	cli.StringFlag{
+		Name:   "kms-key-name",
+		EnvVar: "S5_GCP_KMS_KEY_NAME",
+		Usage:  "`name` of a usable GCP KMS key for (de)ciphering text",
+	},
+}
+
 var pgpPublicKeyPathFlag = cli.StringFlag{
 	Name:   "public-key",
 	EnvVar: "S5_PGP_PUBLIC_KEY_PATH",
