@@ -43,6 +43,8 @@ func configure(cmd Command, ctx *cli.Context) error {
 func getCipherEngine(ctx *cli.Context) (Command, error) {
 	cmds := strings.Fields(ctx.Command.FullName())
 	switch cmds[len(cmds)-1] {
+	case "aes":
+		return &aes{}, nil
 	case "pgp":
 		return &pgp{}, nil
 	case "vault":
@@ -95,7 +97,7 @@ func Decipher(ctx *cli.Context) error {
 	}
 
 	log.Debug("Validating input string")
-	re := regexp.MustCompile("{{ (s5:.*) }}")
+	re := regexp.MustCompile("{{ s5:(.*) }}")
 	if !re.MatchString(input) {
 		return exit(fmt.Errorf("Invalid string format, should be '{{ s5:* }}'"), 1)
 	}
