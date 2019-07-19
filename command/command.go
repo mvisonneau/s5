@@ -45,6 +45,8 @@ func getCipherEngine(ctx *cli.Context) (Command, error) {
 	switch cmds[len(cmds)-1] {
 	case "aes":
 		return &aes{}, nil
+	case "aws":
+		return &aws{}, nil
 	case "pgp":
 		return &pgp{}, nil
 	case "vault":

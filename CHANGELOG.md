@@ -9,8 +9,9 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## Added
 
-- Added support for PGP public/private keypair
-- Added support for AES (GCM) key encryption
+- Added support for **PGP public/private keypair encryption**
+- Added support for **AES (GCM) key encryption**
+- Added support for **AWS KMS key encryption**
 - Release `homebrew` packages
 - Release `scoop` packages
 - Release `freebsd` packages

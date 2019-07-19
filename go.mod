@@ -3,6 +3,7 @@ module github.com/mvisonneau/s5
 go 1.12
 
 require (
+	github.com/aws/aws-sdk-go v1.21.0
 	github.com/hashicorp/go-retryablehttp v0.5.4 // indirect
 	github.com/hashicorp/go-rootcerts v1.0.1 // indirect
 	github.com/hashicorp/vault/api v1.0.2

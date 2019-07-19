@@ -12,6 +12,14 @@ var aesFlags = []cli.Flag{
 	},
 }
 
+var awsFlags = []cli.Flag{
+	cli.StringFlag{
+		Name:   "kms-key-arn",
+		EnvVar: "S5_AWS_KMS_KEY_ARN",
+		Usage:  "`arn` of a usable AWS KMS key for (de)ciphering text",
+	},
+}
+
 var pgpPublicKeyPathFlag = cli.StringFlag{
 	Name:   "public-key",
 	EnvVar: "S5_PGP_PUBLIC_KEY_PATH",

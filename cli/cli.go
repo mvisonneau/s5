@@ -37,10 +37,17 @@ func Init(version *string, start time.Time) (app *cli.App) {
 			Subcommands: []cli.Command{
 				{
 					Name:      "aes",
-					Usage:     "cipher using AES",
+					Usage:     "cipher using an AES key",
 					ArgsUsage: "<value>",
 					Action:    command.Cipher,
 					Flags:     aesFlags,
+				},
+				{
+					Name:      "aws",
+					Usage:     "cipher using an AWS KMS key",
+					ArgsUsage: "<value>",
+					Action:    command.Cipher,
+					Flags:     awsFlags,
 				},
 				{
 					Name:      "pgp",
@@ -66,10 +73,16 @@ func Init(version *string, start time.Time) (app *cli.App) {
 			Subcommands: []cli.Command{
 				{
 					Name:      "aes",
-					Usage:     "decipher using AES",
+					Usage:     "decipher using an AES key",
 					ArgsUsage: "<value>",
 					Action:    command.Decipher,
 					Flags:     aesFlags,
+				},
+				{
+					Name:      "aws",
+					Usage:     "decipher using an AWS KMS key",
+					ArgsUsage: "<value>",
+					Action:    command.Decipher,
 				},
 				{
 					Name:      "pgp",
@@ -96,10 +109,17 @@ func Init(version *string, start time.Time) (app *cli.App) {
 			Subcommands: []cli.Command{
 				{
 					Name:      "aes",
-					Usage:     "render using AES",
+					Usage:     "render using an AES key",
 					ArgsUsage: "<value>",
 					Action:    command.Render,
 					Flags:     append(renderFlags, aesFlags...),
+				},
+				{
+					Name:      "aws",
+					Usage:     "render using an AWS KMS key",
+					ArgsUsage: "<value>",
+					Action:    command.Render,
+					Flags:     renderFlags,
 				},
 				{
 					Name:      "pgp",
