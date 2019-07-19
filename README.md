@@ -10,13 +10,15 @@
 
 ## Encryption backends supported
 
-- [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
-- [AWS](https://aws.amazon.com) - [KMS](https://aws.amazon.com/kms/)
-- [GCP](https://cloud.google.com) - [KMS](https://cloud.google.com/kms/)
-- [Hashicorp Vault](https://www.vaultproject.io) - [Transit secret engine](https://www.vaultproject.io/docs/secrets/transit/index.html)
-- [PGP](https://www.openpgp.org/)
+- [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) - [GCM](https://en.wikipedia.org/wiki/Galois/Counter_Mode) (using hexadecimal keys >= 128b) ([example usage](examples/aes-gcm.md))
+- [AWS](https://aws.amazon.com) - [KMS](https://aws.amazon.com/kms/) ([example usage](examples/aws-kms.md))
+- [GCP](https://cloud.google.com) - [KMS](https://cloud.google.com/kms/) ([example usage](examples/gcp-kms.md))
+- [Hashicorp Vault](https://www.vaultproject.io) - [Transit secret engine](https://www.vaultproject.io/docs/secrets/transit/index.html) ([example usage](examples/vault.md))
+- [PGP](https://www.openpgp.org/) ([example usage](examples/pgp.md))
 
 ## TL:DR
+
+Example using Vault as the encryption backend
 
 ```bash
 # Configure Vault
