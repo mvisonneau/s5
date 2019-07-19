@@ -144,7 +144,7 @@ func Render(ctx *cli.Context) error {
 		fi = os.Stdin
 	}
 
-	re := regexp.MustCompile("{{ (s5:[A-Za-z0-9+\\/=]*) }}")
+	re := regexp.MustCompile("{{ s5:([A-Za-z0-9+\\/=]*) }}")
 	in := bufio.NewScanner(fi)
 
 	var buf bytes.Buffer
