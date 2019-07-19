@@ -7,15 +7,20 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
-## FEATURES
-- Added support for PGP public/private keypair
+## Added
 
-## ENHANCEMENTS
+- Added support for PGP public/private keypair
+- Release `homebrew` packages
+- Release `scoop` packages
+- Release `freebsd` packages
+- Release `DEB` packages
+- Release `RPM` packages
 - Parameterized the cipher engine in order to not support only Vault
 
 ## [0.1.3] - 2019-07-03
 
-### ENHANCEMENTS
+### Added
+
 - Use Vault `0.11.3` in the dev container
 - Updated the `golang.org/x/lint/golint` path in the setup make rule
 - Upgraded to Go 1.12
@@ -26,24 +31,29 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [0.1.2] - 2018-08-22
 
-### FEATURES
+### Added
+
 - We can now pass text through `stdin` as well as an argument for all functions (`cipher`/`decipher`/`render`)
-### ENHANCEMENTS
 - Updated dependencies
 - Used `busybox` image instead of **scratch** for the container image
 - Use Vault `0.10.4` in the dev container
 
 ## [0.1.1] - 2018-07-10
-### FEATURES
+
+### Added
+
 - Replaced the `vault:v1` prefix on stored secrets with `s5`
 
-### BUGFIXES
+### Changed
+
 - Get the linux binaries working on `alpine` by disabling CGO
 - Fixed the Dockerfile
 - Fixed the `make dev-env` function
 
 ## [0.1.0] - 2018-07-09
-### FEATURES
+
+### Added
+
 - Working state of the app
 - cipher function
 - decipher function

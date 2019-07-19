@@ -69,21 +69,53 @@ GLOBAL OPTIONS:
 
 ## Install
 
-You can have a look at the [release page](https://github.com/mvisonneau/s5/releases) of the project, we currently build it for **Linux**, **Darwin** and **Windows** platforms.
+Have a look onto the [latest release page](https://github.com/mvisonneau/s5/releases/latest) and pick your flavor.
+
+### Go
 
 ```bash
-# Linux
-~$ wget https://github.com/mvisonneau/s5/releases/download/0.1.3/s5_linux_amd64 -O /usr/local/bin/s5; chmod +x /usr/local/bin/s5
-# MacOS
-~$ wget https://github.com/mvisonneau/s5/releases/download/0.1.3/s5_darwin_amd64 -O /usr/local/bin/s5; chmod +x /usr/local/bin/s5
-# Windows
-¯\_(ツ)_/¯
+~$ go get -u github.com/mvisonneau/s5
 ```
 
-You can also use the [docker version](https://hub.docker.com/r/mvisonneau/s5):
+### Homebrew
+
+```bash
+~$ brew install mvisonneau/tap/s5
+```
+
+### Docker
 
 ```bash
 ~$ docker run -it --rm mvisonneau/s5
+```
+
+### Scoop
+
+```bash
+~$ scoop bucket add https://github.com/mvisonneau/scoops
+~$ scoop install s5
+```
+
+### Binaries, DEB and RPM packages
+
+For the following ones, you need to know which version you want to install, to fetch the latest available :
+
+```bash
+~$ export S5_VERSION=$(curl -s "https://api.github.com/repos/mvisonneau/s5/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+```
+
+```bash
+# Binary (eg: freebsd/amd64)
+~$ wget https://github.com/mvisonneau/strongbox/releases/download/${S5_VERSION}/strongbox_${S5_VERSION}_freebsd_arm64.tar.gz
+~$ tar zxvf strongbox_${S5_VERSION}_freebsd_amd64.tar.gz -C /usr/local/bin
+
+# DEB package (eg: linux/386)
+~$ wget https://github.com/mvisonneau/strongbox/releases/download/${S5_VERSION}/strongbox_${S5_VERSION}_linux_386.deb
+~$ dpkg -i strongbox_${S5_VERSION}_linux_386.deb
+
+# RPM package (eg: linux/arm64)
+~$ wget https://github.com/mvisonneau/strongbox/releases/download/${S5_VERSION}/strongbox_${S5_VERSION}_linux_arm64.rpm
+~$ rpm -ivh strongbox_${S5_VERSION}_linux_arm64.rpm
 ```
 
 ## Examples

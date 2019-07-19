@@ -2,17 +2,18 @@
 # BUILD CONTAINER
 ##
 
-FROM golang:1.12.5 as builder
+FROM goreleaser/goreleaser:v0.112.2 as builder
 
 WORKDIR /build
 
 COPY Makefile .
 RUN \
+apk add --no-cache make ;\
 make setup
 
 COPY . .
 RUN \
-make build-docker
+make build
 
 ##
 # RELEASE CONTAINER
@@ -22,7 +23,8 @@ FROM busybox:1.31-glibc
 
 WORKDIR /
 
-COPY --from=builder /build/s5 /usr/local/bin/
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /build/dist/s5_linux_amd64/s5 /usr/local/bin/
 
 ENTRYPOINT ["/usr/local/bin/s5"]
 CMD [""]

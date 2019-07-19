@@ -12,8 +12,9 @@ steps:
     commands:
       - make test
   - name: build
-    image: golang:1.12
+    image: goreleaser/goreleaser:v0.112.2
     commands:
+      - apk add --no-cache make
       - make build
   - name: all_ok
     image: busybox
@@ -61,14 +62,14 @@ steps:
     commands:
       - git fetch --tags
 
-  - name: build
-    image: golang:1.12
+  - name: release
+    image: goreleaser/goreleaser:v0.112.2
     environment:
       GITHUB_TOKEN:
         from_secret: GITHUB_TOKEN
     commands:
-      - make build
-      - make publish-github
+      - apk add --no-cache make
+      - make release
 
 trigger:
   repo:
@@ -79,8 +80,9 @@ trigger:
 depends_on:
   - test
   - coverage
+
 ---
 kind: signature
-hmac: 565b991363b70d0222b66ac3e58c2544b599364e0e64c301b0c9416133d3a65f
+hmac: 023f8931ff8cbcbddc03df8a526dd7ed5a23dc3a64fd42a61dd9ad63c129a1fe
 
 ...
