@@ -58,6 +58,7 @@ func getCipherEngine(ctx *cli.Context) (Command, error) {
 	}
 }
 
+// Cipher is used for the cipher commands
 func Cipher(ctx *cli.Context) error {
 	cmd, err := getCipherEngine(ctx)
 	if err != nil {
@@ -84,6 +85,7 @@ func Cipher(ctx *cli.Context) error {
 	return exit(nil, 0)
 }
 
+// Decipher is used for the decipher commands
 func Decipher(ctx *cli.Context) error {
 	cmd, err := getCipherEngine(ctx)
 	if err != nil {
@@ -116,6 +118,7 @@ func Decipher(ctx *cli.Context) error {
 	return exit(nil, 0)
 }
 
+// Render is used for the render commands
 func Render(ctx *cli.Context) error {
 	cmd, err := getCipherEngine(ctx)
 	if err != nil {

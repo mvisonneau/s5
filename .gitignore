@@ -2,3 +2,4 @@ dist
 vendor
 s5
 **.key
+**.out
