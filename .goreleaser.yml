@@ -6,14 +6,17 @@ builds:
   - env:
       - CGO_ENABLED=0
     goos:
+      - aix
       - darwin
       - freebsd
       - linux
+      - solaris
       - windows
     goarch:
       - 386
       - amd64
       - arm64
+      - ppc64
 
 archives:
   - format_overrides:
