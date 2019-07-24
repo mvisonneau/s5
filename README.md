@@ -18,15 +18,14 @@
 
 ## TL:DR
 
-Example using Vault as the encryption backend
+Example using AES-GCM as the encryption backend
 
 ```bash
-# Configure Vault
-~$ export VAULT_ADDR=https://vault.rocks
-~$ export VAULT_TOKEN=f4262de2-4e07-5b85-98ea-7702e2c7cdb9
+# Generate and use a 128B random hexadecimal key
+~$ export S5_AES_KEY=$(openssl rand -hex 16)
 
 # Encrypt text
-~$ s5 cipher vault very_sensitive_value
+~$ s5 cipher aes very_sensitive_value
 {{ s5:sIPFWfAcBvOnOtVcs65QGh+S3af4Wo= }}
 
 # Store it anywhere in your files
@@ -37,16 +36,16 @@ var2: {{ s5:8tceTb9yc0CBgEqrpw== }}
 {{ s5:Glv1MRAuNOorI3oJA== }}: {{ s5:S4Lfavx2svWlSAD8sWHV }}
 
 # Render!
-~$ s5 render vault example.yml
+~$ s5 render aes example.yml
 ---
 var1: foo
 var2: bar
 secret_key: secret_value
 
 # s5 can also read from stdin
-~$ echo "foo" | s5 cipher vault | s5 decipher vault
+~$ echo "foo" | s5 cipher aes | s5 decipher aes
 foo
-~$ echo "foo: {{ s5:8tceTb9yc0CBgEqrpw== }}" | s5 render vault
+~$ echo "foo: {{ s5:8tceTb9yc0CBgEqrpw== }}" | s5 render aes
 foo: bar
 ```
 
@@ -132,7 +131,7 @@ For the following ones, you need to know which version you want to install, to f
 ~$ cat example.yml
 foo: {{ s5:8tceTb9yc0CBgEqrpw== }}
 
-~$ s5 render vault --in-place example.yml
+~$ s5 render aes --in-place example.yml
 
 ~$ cat example.yml
 foo: bar
@@ -144,7 +143,7 @@ foo: bar
 ~$ cat example.yml
 foo: {{ s5:8tceTb9yc0CBgEqrpw== }}
 
-~$ s5 render vault example.yml --output example-dec.yml
+~$ s5 render aes example.yml --output example-dec.yml
 
 ~$ cat example-dec.yml
 foo: bar
@@ -158,16 +157,14 @@ You can use the `--log-level debug` flag in order to troubleshoot
 ~$ cat example.yml
 foo: {{ s5:8tceTb9yc0CBgEqrpw== }}
 
-~$ s5 --log-level debug render example.yml
-s5 --log-level debug render vault secrets.yml
-DEBU[2018-07-09T15:06:49Z] Configuring Vault
-DEBU[2018-07-09T15:06:49Z] Executing function 'render'
-DEBU[2018-07-09T15:06:49Z] Opening input file : example.yml
-DEBU[2018-07-09T15:06:49Z] Starting deciphering
-DEBU[2018-07-09T15:06:49Z] found: s5:8tceTb9yc0CBgEqrpw==
-DEBU[2018-07-09T15:06:49Z] Outputing to stdout
+~$ s5 --log-level=debug render aes example.yml
+DEBU[2019-07-24T18:16:44+02:00] Opening input file : example.yml
+DEBU[2019-07-24T18:16:44+02:00] Starting deciphering
+DEBU[2019-07-24T18:16:44+02:00] found: 8tceTb9yc0CBgEqrpw
+DEBU[2019-07-24T18:16:44+02:00] Deciphering '8tceTb9yc0CBgEqrpw' using AES
+DEBU[2019-07-24T18:16:44+02:00] Outputing to stdout
 foo: bar
-DEBU[2018-07-09T15:06:49Z] Executed in 13.1337ms, exiting..
+DEBU[2019-07-24T18:16:44+02:00] Executed in 1.803305ms, exiting..
 ```
 
 ## Develop / Test
