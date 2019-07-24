@@ -7,6 +7,8 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+## [0.1.5] - 2019-07-24
+
 ### Added
 
 - By default, we will now trim input for `cipher` function from whitespaces and return carriages
