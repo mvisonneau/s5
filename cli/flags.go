@@ -28,6 +28,12 @@ var gcpFlags = []cli.Flag{
 	},
 }
 
+var noTrimFlag = cli.BoolFlag{
+	Name:   "no-trim",
+	EnvVar: "S5_NO_TRIM",
+	Usage:  "if set, will not trim the input string from whitespaces and return carriages",
+}
+
 var pgpPublicKeyPathFlag = cli.StringFlag{
 	Name:   "public-key",
 	EnvVar: "S5_PGP_PUBLIC_KEY_PATH",

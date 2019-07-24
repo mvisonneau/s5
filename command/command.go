@@ -75,6 +75,10 @@ func Cipher(ctx *cli.Context) error {
 		return exit(err, 1)
 	}
 
+	if !ctx.Bool("no-trim") {
+		input = strings.Trim(input, " \n")
+	}
+
 	ciphered, err := cmd.cipher(input)
 	if err != nil {
 		return exit(err, 1)
