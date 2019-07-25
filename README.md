@@ -1,4 +1,4 @@
-# mvisonneau/s5 - Safely Store Super Sensitive Stuff
+# 🔐 s5 - Safely Store Super Sensitive Stuff
 
 [![GoDoc](https://godoc.org/github.com/mvisonneau/s5?status.svg)](https://godoc.org/github.com/mvisonneau/s5)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mvisonneau/s5)](https://goreportcard.com/report/github.com/mvisonneau/s5)
