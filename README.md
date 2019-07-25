@@ -20,34 +20,7 @@
 
 Example using AES-GCM as the encryption backend
 
-```bash
-# Generate and use a 128B random hexadecimal key
-~$ export S5_AES_KEY=$(openssl rand -hex 16)
-
-# Encrypt text
-~$ s5 cipher aes very_sensitive_value
-{{ s5:sIPFWfAcBvOnOtVcs65QGh+S3af4Wo= }}
-
-# Store it anywhere in your files
-~$ cat example.yml
----
-var1: {{ s5:EtWnJ8ZyuwzRn8I3jw== }}
-var2: {{ s5:8tceTb9yc0CBgEqrpw== }}
-{{ s5:Glv1MRAuNOorI3oJA== }}: {{ s5:S4Lfavx2svWlSAD8sWHV }}
-
-# Render!
-~$ s5 render aes example.yml
----
-var1: foo
-var2: bar
-secret_key: secret_value
-
-# s5 can also read from stdin
-~$ echo "foo" | s5 cipher aes | s5 decipher aes
-foo
-~$ echo "foo: {{ s5:8tceTb9yc0CBgEqrpw== }}" | s5 render aes
-foo: bar
-```
+[![asciicast](https://asciinema.org/a/YbLlXGS9qpuNPijKcBEuwn4vi.svg)](https://asciinema.org/a/YbLlXGS9qpuNPijKcBEuwn4vi)
 
 ## Usage
 
