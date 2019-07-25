@@ -199,9 +199,12 @@ If you want to build and/or release your own version of `s5`, you need the follo
 ~$ make release
 ```
 
-## BONUS
+## IDEs
 
-If you are using [atom.io](https://atom.io) as you IDE. You can have a look onto a [module I have written that integrates s5 with it](https://github.com/mvisonneau/atom-s5).
+We have modules/extensions for both [atom.io](https://atom.io) and [vscode](https://code.visualstudio.com/)
+
+- [mvisonneau/vscode-s5](https://github.com/mvisonneau/vscode-s5)
+- [mvisonneau/atom-s5](https://github.com/mvisonneau/atom-s5)
 
 ## Contribute
 
