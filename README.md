@@ -20,7 +20,7 @@
 
 Example using AES-GCM as the encryption backend
 
-[![asciicast](https://asciinema.org/a/hVuY4Fg905W5G4AYNHWXmeu4x.svg)](https://asciinema.org/a/hVuY4Fg905W5G4AYNHWXmeu4x)
+[![asciicast](https://asciinema.org/a/gmKNYVb49Vzp3SFpeqiavvVe5.svg)](https://asciinema.org/a/gmKNYVb49Vzp3SFpeqiavvVe5)
 
 ## Usage
 
