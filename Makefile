@@ -74,6 +74,10 @@ dev-env: ## Build a local development environment using Docker
 	@docker kill vault
 	@docker rm vault -f
 
+.PHONY: is-git-dirty
+is-git-dirty: ## Tests if git is in a dirty state
+	@test $(shell git status --porcelain | grep -c .) -eq 0
+
 .PHONY: sign-drone
 sign-drone: ## Sign Drone CI configuration
 	drone sign $(REPOSITORY) --save

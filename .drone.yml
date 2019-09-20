@@ -16,6 +16,7 @@ steps:
     commands:
       - apk add --no-cache make
       - make build
+      - make is-git-dirty
   - name: all_ok
     image: busybox
     depends_on:
@@ -83,6 +84,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 023f8931ff8cbcbddc03df8a526dd7ed5a23dc3a64fd42a61dd9ad63c129a1fe
+hmac: 07df2607de9e4554b20b2246e03192baf3a7f500d1e95775796bd3e499ec7549
 
 ...
