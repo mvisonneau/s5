@@ -7,6 +7,8 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+## [0.1.6] - 2019-09-20
+
 ### Added
 
 - Release `aix/ppc64` binaries
@@ -88,7 +90,10 @@ and this project adheres to [0ver](https://0ver.org).
 - LICENSE
 - README
 
-[Unreleased]: https://github.com/mvisonneau/s5/compare/0.1.3...HEAD
+[Unreleased]: https://github.com/mvisonneau/s5/compare/0.1.6...HEAD
+[0.1.6]: https://github.com/mvisonneau/s5/tree/0.1.6
+[0.1.5]: https://github.com/mvisonneau/s5/tree/0.1.5
+[0.1.4]: https://github.com/mvisonneau/s5/tree/0.1.4
 [0.1.3]: https://github.com/mvisonneau/s5/tree/0.1.3
 [0.1.2]: https://github.com/mvisonneau/s5/tree/0.1.2
 [0.1.1]: https://github.com/mvisonneau/s5/tree/0.1.1
