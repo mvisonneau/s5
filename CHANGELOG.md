@@ -13,6 +13,10 @@ and this project adheres to [0ver](https://0ver.org).
 - Release `linux/ppc64` binaries
 - Release `solaris/amd64` binaries
 
+### Changed
+
+- Upgraded dependencies, go to 1.13 / goreleaser to 0.118.0
+
 ## [0.1.5] - 2019-07-24
 
 ### Added
