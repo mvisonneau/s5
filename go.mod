@@ -14,7 +14,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/pierrec/lz4 v2.3.0+incompatible // indirect
 	github.com/sirupsen/logrus v1.4.2
-	github.com/urfave/cli v1.22.1
+	github.com/urfave/cli v1.22.2
 	go.opencensus.io v0.22.1 // indirect
 	golang.org/x/crypto v0.0.0-20190911031432-227b76d455e7
 	golang.org/x/net v0.0.0-20190918130420-a8b05e9114ab // indirect
