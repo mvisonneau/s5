@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	cloud.google.com/go v0.46.3
-	github.com/aws/aws-sdk-go v1.24.2
+	github.com/aws/aws-sdk-go v1.26.4
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/frankban/quicktest v1.5.0 // indirect
 	github.com/hashicorp/go-retryablehttp v0.6.2 // indirect
