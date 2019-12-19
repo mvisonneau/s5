@@ -3,7 +3,7 @@ module github.com/mvisonneau/s5
 go 1.13
 
 require (
-	cloud.google.com/go v0.46.3
+	cloud.google.com/go v0.50.0
 	github.com/aws/aws-sdk-go v1.26.5
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/frankban/quicktest v1.5.0 // indirect
