@@ -7,6 +7,14 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+### Changed
+
+- Bumped dependencies
+
+### Removed
+
+- `aix/ppc64` binaries due to a limitation in the github.com/hashicorp/go-sockaddr library
+
 ## [0.1.6] - 2019-09-20
 
 ### Added
