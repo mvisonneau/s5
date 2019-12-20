@@ -37,6 +37,10 @@ install: ## Build and install locally the binary (dev purpose)
 build: setup ## Build the binaries
 	goreleaser release --snapshot --skip-publish --rm-dist
 
+.PHONY: build-linux-amd64
+build-linux-amd64: ## Build the binaries
+	goreleaser release --snapshot --skip-publish --rm-dist -f .goreleaser.linux-amd64.yml
+
 .PHONY: release
 release: setup ## Build & release the binaries
 	goreleaser release --rm-dist
