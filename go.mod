@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	cloud.google.com/go v0.50.0
-	github.com/aws/aws-sdk-go v1.27.3
+	github.com/aws/aws-sdk-go v1.28.9
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/frankban/quicktest v1.5.0 // indirect
 	github.com/golang/groupcache v0.0.0-20191027212112-611e8accdfc9 // indirect
