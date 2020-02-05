@@ -9,7 +9,8 @@ and this project adheres to [0ver](https://0ver.org).
 
 ### Changed
 
-- Fixed silly bugs on AWS and Vault ciphers introduced in latest release
+- Fixed silly bugs on `AWS` and `Vault` ciphers introduced in latest release
+- Use more coherent flags for `PGP` public and private key paths
 
 ## [0.1.7] - 2020-02-05
 

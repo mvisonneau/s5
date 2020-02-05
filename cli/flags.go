@@ -35,13 +35,13 @@ var noTrimFlag = cli.BoolFlag{
 }
 
 var pgpPublicKeyPathFlag = cli.StringFlag{
-	Name:   "public-key",
+	Name:   "public-key-path",
 	EnvVar: "S5_PGP_PUBLIC_KEY_PATH",
 	Usage:  "`path` to a readable public pgp key (armored)",
 }
 
 var pgpPrivateKeyPathFlag = cli.StringFlag{
-	Name:   "private-key",
+	Name:   "private-key-path",
 	EnvVar: "S5_PGP_PRIVATE_KEY_PATH",
 	Usage:  "`path` to a readable private pgp key (armored)",
 }

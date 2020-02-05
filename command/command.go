@@ -44,7 +44,7 @@ func getCipherEngine(ctx *cli.Context) (cipher.Engine, error) {
 	case "gcp":
 		return cipher.NewGCP(ctx.String("kms-key-name"))
 	case "pgp":
-		return cipher.NewPGP(ctx.String("public-key"), ctx.String("private-key"))
+		return cipher.NewPGP(ctx.String("public-key-path"), ctx.String("private-key-path"))
 	case "vault":
 		return cipher.NewVault(ctx.String("transit-key"))
 	default:
