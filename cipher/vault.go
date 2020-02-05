@@ -24,7 +24,7 @@ func NewVault(transitKey string) (*Vault, error) {
 	return &Vault{c}, nil
 }
 
-func (v *Vault) cipher(value string) (string, error) {
+func (v *Vault) Cipher(value string) (string, error) {
 	log.Debug("Ciphering using Vault transit key")
 	ciphered, err := v.client.Cipher(value)
 	if err != nil {

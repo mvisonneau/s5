@@ -40,13 +40,13 @@ func getCipherEngine(ctx *cli.Context) (cipher.Engine, error) {
 	case "aes":
 		return cipher.NewAES(ctx.String("key"))
 	case "aws":
-		return cipher.NewAES(ctx.String("kms-key-arn"))
+		return cipher.NewAWS(ctx.String("kms-key-arn"))
 	case "gcp":
 		return cipher.NewGCP(ctx.String("kms-key-name"))
 	case "pgp":
 		return cipher.NewPGP(ctx.String("public-key"), ctx.String("private-key"))
 	case "vault":
-		return cipher.NewGCP(ctx.String("transit-key"))
+		return cipher.NewVault(ctx.String("transit-key"))
 	default:
 		return nil, fmt.Errorf("Engine %v is not implemented yet", ctx.Command.FullName())
 	}

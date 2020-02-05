@@ -7,6 +7,10 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+### Changed
+
+- Fixed silly bugs on AWS and Vault ciphers introduced in latest release
+
 ## [0.1.7] - 2020-02-05
 
 ### Changed
