@@ -2,7 +2,7 @@ NAME          := s5
 VERSION       := $(shell git describe --tags --abbrev=1)
 FILES         := $(shell find * -type f ! -path 'vendor/*' -name '*.go')
 REPOSITORY    := mvisonneau/$(NAME)
-VAULT_VERSION := 0.11.3
+VAULT_VERSION := 0.13.2
 .DEFAULT_GOAL := help
 
 export GO111MODULE=on
