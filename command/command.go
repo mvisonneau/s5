@@ -19,10 +19,6 @@ import (
 
 var start time.Time
 
-const (
-	inputRegexp string = `{{\s?s5:([A-Za-z0-9+\\/=]*)\s?}}`
-)
-
 func configure(ctx *cli.Context) error {
 	start = ctx.App.Metadata["startTime"].(time.Time)
 
@@ -82,7 +78,7 @@ func Cipher(ctx *cli.Context) error {
 		return exit(err, 1)
 	}
 
-	fmt.Printf("{{s5:%s}}", ciphered)
+	fmt.Print(cipher.GenerateOutput(ciphered))
 
 	return exit(nil, 0)
 }
@@ -105,12 +101,12 @@ func Decipher(ctx *cli.Context) error {
 	}
 
 	log.Debug("Validating input string")
-	re := regexp.MustCompile(inputRegexp)
-	if !re.MatchString(input) {
-		return exit(fmt.Errorf("Invalid string format, should be '{{ s5:* }}'"), 1)
+	parsedInput, err := cipher.ParseInput(input)
+	if err != nil {
+		return exit(err, 1)
 	}
 
-	deciphered, err := cipherEngine.Decipher(re.FindStringSubmatch(input)[1])
+	deciphered, err := cipherEngine.Decipher(parsedInput)
 	if err != nil {
 		return exit(err, 1)
 	}
@@ -149,7 +145,7 @@ func Render(ctx *cli.Context) error {
 		fi = os.Stdin
 	}
 
-	re := regexp.MustCompile(inputRegexp)
+	re := regexp.MustCompile(cipher.InputRegexp)
 	in := bufio.NewScanner(fi)
 
 	var buf bytes.Buffer
