@@ -7,6 +7,8 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+## [0.1.8] - 2020-02-06
+
 ### Changed
 
 - Fixed silly bugs on `AWS` and `Vault` ciphers introduced in latest release
@@ -107,8 +109,9 @@ and this project adheres to [0ver](https://0ver.org).
 - LICENSE
 - README
 
-[Unreleased]: https://github.com/mvisonneau/s5/compare/0.1.7...HEAD
-[0.1.6]: https://github.com/mvisonneau/s5/tree/0.1.7
+[Unreleased]: https://github.com/mvisonneau/s5/compare/0.1.8...HEAD
+[0.1.8]: https://github.com/mvisonneau/s5/tree/0.1.8
+[0.1.7]: https://github.com/mvisonneau/s5/tree/0.1.7
 [0.1.6]: https://github.com/mvisonneau/s5/tree/0.1.6
 [0.1.5]: https://github.com/mvisonneau/s5/tree/0.1.5
 [0.1.4]: https://github.com/mvisonneau/s5/tree/0.1.4
