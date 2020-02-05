@@ -1,5 +1,4 @@
 NAME          := s5
-VERSION       := $(shell git describe --tags --abbrev=1)
 FILES         := $(shell find * -type f ! -path 'vendor/*' -name '*.go')
 REPOSITORY    := mvisonneau/$(NAME)
 VAULT_VERSION := 0.13.2
@@ -32,6 +31,10 @@ test: ## Run the tests against the codebase
 .PHONY: install
 install: ## Build and install locally the binary (dev purpose)
 	go install .
+
+.PHONY: build-local
+build-local: ## Build the binaries using local GOOS
+	go build .
 
 .PHONY: build
 build: setup ## Build the binaries
