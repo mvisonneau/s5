@@ -9,6 +9,7 @@ and this project adheres to [0ver](https://0ver.org).
 
 ### Changed
 
+- New input/output syntax : `{{s5:*}}` - retro compatible with the old one (`{{ s5:* }}`)
 - Refactored cipher engine implementation to be able to use it as a library
 - Bumped dependencies
 
