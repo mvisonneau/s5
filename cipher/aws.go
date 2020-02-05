@@ -1,26 +1,30 @@
-package command
+package cipher
 
 import (
 	cipherAWS "github.com/mvisonneau/s5/cipher/aws"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/urfave/cli"
 )
 
-type aws struct {
+type AWS struct {
 	client *cipherAWS.Client
 }
 
-func (a *aws) configure(ctx *cli.Context) (err error) {
-	a.client, err = cipherAWS.Init(
+func NewAWS(kmsKeyArn string) (*AWS, error) {
+	c, err := cipherAWS.Init(
 		&cipherAWS.Config{
-			KmsKeyArn: ctx.String("kms-key-arn"),
+			KmsKeyArn: kmsKeyArn,
 		},
 	)
-	return
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &AWS{c}, nil
 }
 
-func (a *aws) cipher(value string) (string, error) {
+func (a *AWS) Cipher(value string) (string, error) {
 	log.Debug("Ciphering using AWS KMS key")
 	ciphered, err := a.client.Cipher(value)
 	if err != nil {
@@ -29,7 +33,7 @@ func (a *aws) cipher(value string) (string, error) {
 	return ciphered, nil
 }
 
-func (a *aws) decipher(value string) (string, error) {
+func (a *AWS) Decipher(value string) (string, error) {
 	log.Debugf("Deciphering '%s' using AWS KMS key", value)
 	plain, err := a.client.Decipher(value)
 	if err != nil {

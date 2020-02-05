@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/mvisonneau/s5/cipher"
 	"github.com/mvisonneau/s5/logger"
 
 	log "github.com/sirupsen/logrus"
@@ -18,14 +19,7 @@ import (
 
 var start time.Time
 
-// Command is an interface of supported/required commands for each cipher engine
-type Command interface {
-	configure(*cli.Context) error
-	cipher(string) (string, error)
-	decipher(string) (string, error)
-}
-
-func configure(cmd Command, ctx *cli.Context) error {
+func configure(ctx *cli.Context) error {
 	start = ctx.App.Metadata["startTime"].(time.Time)
 
 	lc := &logger.Config{
@@ -37,22 +31,22 @@ func configure(cmd Command, ctx *cli.Context) error {
 		return err
 	}
 
-	return cmd.configure(ctx)
+	return nil
 }
 
-func getCipherEngine(ctx *cli.Context) (Command, error) {
+func getCipherEngine(ctx *cli.Context) (cipher.Engine, error) {
 	cmds := strings.Fields(ctx.Command.FullName())
 	switch cmds[len(cmds)-1] {
 	case "aes":
-		return &aes{}, nil
+		return cipher.NewAES(ctx.String("key"))
 	case "aws":
-		return &aws{}, nil
+		return cipher.NewAES(ctx.String("kms-key-arn"))
 	case "gcp":
-		return &gcp{}, nil
+		return cipher.NewGCP(ctx.String("kms-key-name"))
 	case "pgp":
-		return &pgp{}, nil
+		return cipher.NewPGP(ctx.String("public-key"), ctx.String("private-key"))
 	case "vault":
-		return &vault{}, nil
+		return cipher.NewGCP(ctx.String("transit-key"))
 	default:
 		return nil, fmt.Errorf("Engine %v is not implemented yet", ctx.Command.FullName())
 	}
@@ -60,12 +54,12 @@ func getCipherEngine(ctx *cli.Context) (Command, error) {
 
 // Cipher is used for the cipher commands
 func Cipher(ctx *cli.Context) error {
-	cmd, err := getCipherEngine(ctx)
+	cipherEngine, err := getCipherEngine(ctx)
 	if err != nil {
 		return cli.NewExitError(err, 1)
 	}
 
-	if err := configure(cmd, ctx); err != nil {
+	if err := configure(ctx); err != nil {
 		return cli.NewExitError(err, 1)
 	}
 
@@ -79,7 +73,7 @@ func Cipher(ctx *cli.Context) error {
 		input = strings.Trim(input, " \n")
 	}
 
-	ciphered, err := cmd.cipher(input)
+	ciphered, err := cipherEngine.Cipher(input)
 	if err != nil {
 		return exit(err, 1)
 	}
@@ -91,12 +85,12 @@ func Cipher(ctx *cli.Context) error {
 
 // Decipher is used for the decipher commands
 func Decipher(ctx *cli.Context) error {
-	cmd, err := getCipherEngine(ctx)
+	cipherEngine, err := getCipherEngine(ctx)
 	if err != nil {
 		return cli.NewExitError(err, 1)
 	}
 
-	if err := configure(cmd, ctx); err != nil {
+	if err := configure(ctx); err != nil {
 		return cli.NewExitError(err, 1)
 	}
 
@@ -112,7 +106,7 @@ func Decipher(ctx *cli.Context) error {
 		return exit(fmt.Errorf("Invalid string format, should be '{{ s5:* }}'"), 1)
 	}
 
-	deciphered, err := cmd.decipher(re.FindStringSubmatch(input)[1])
+	deciphered, err := cipherEngine.Decipher(re.FindStringSubmatch(input)[1])
 	if err != nil {
 		return exit(err, 1)
 	}
@@ -124,12 +118,12 @@ func Decipher(ctx *cli.Context) error {
 
 // Render is used for the render commands
 func Render(ctx *cli.Context) error {
-	cmd, err := getCipherEngine(ctx)
+	cipherEngine, err := getCipherEngine(ctx)
 	if err != nil {
 		return cli.NewExitError(err, 1)
 	}
 
-	if err := configure(cmd, ctx); err != nil {
+	if err := configure(ctx); err != nil {
 		return cli.NewExitError(err, 1)
 	}
 
@@ -161,7 +155,7 @@ func Render(ctx *cli.Context) error {
 		buf.WriteString(
 			re.ReplaceAllStringFunc(in.Text(), func(src string) string {
 				log.Debugf("found: %v", re.FindStringSubmatch(src)[1])
-				plain, err := cmd.decipher(re.FindStringSubmatch(src)[1])
+				plain, err := cipherEngine.Decipher(re.FindStringSubmatch(src)[1])
 				if err != nil {
 					panic(err)
 				}
