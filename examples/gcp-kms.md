@@ -50,7 +50,7 @@ Otherwise you will need to use the `--kms-key-name` flag on each of your command
 ```bash
 # Get GCP credentials and set the S5_GCP_KMS_KEY_NAME
 ~$ gcloud auth login
-~$ export S5_GCP_KMS_KEY_NAME="arn:gcp:kms:*:111111111111:key/mykey"
+~$ export S5_GCP_KMS_KEY_NAME="mykey"
 
 # Cipher text
 ~$ s5 cipher gcp foo
