@@ -9,6 +9,8 @@ import (
 
 	"github.com/hashicorp/vault/api"
 	"github.com/mitchellh/go-homedir"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // Config : Handles a Vault configuration
@@ -22,8 +24,8 @@ type Client struct {
 	Config *Config
 }
 
-// Init : Configure a Vault client and set a TransitKey to use
-func Init(config *Config) (*Client, error) {
+// NewClient configures a Vault client and set a TransitKey to use
+func NewClient(config *Config) (*Client, error) {
 	client, err := getClient()
 	if err != nil {
 		return nil, err
@@ -37,6 +39,7 @@ func Init(config *Config) (*Client, error) {
 
 // Cipher : Cipher a value using the TransitKey
 func (c *Client) Cipher(value string) (string, error) {
+	log.Debug("Ciphering using Vault transit key")
 	payload := make(map[string]interface{})
 	payload["plaintext"] = base64.StdEncoding.EncodeToString([]byte(value))
 
@@ -51,6 +54,7 @@ func (c *Client) Cipher(value string) (string, error) {
 
 // Decipher : Decipher a value using the TransitKey
 func (c *Client) Decipher(value string) (string, error) {
+	log.Debugf("Deciphering '%s' using Vault transit key", value)
 	payload := make(map[string]interface{})
 	payload["ciphertext"] = fmt.Sprintf("vault:v1:%s", value)
 

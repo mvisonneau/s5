@@ -7,6 +7,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/kms"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // Config handles necessary information for AES
@@ -21,8 +23,8 @@ type Client struct {
 	Config *Config
 }
 
-// Init : Configures a client for encryption purposes
-func Init(config *Config) (*Client, error) {
+// NewClient configures a client for encryption purposes
+func NewClient(config *Config) (*Client, error) {
 	sess, err := session.NewSession()
 	if err != nil {
 		return nil, err
@@ -34,8 +36,9 @@ func Init(config *Config) (*Client, error) {
 	}, nil
 }
 
-// Cipher : Cipher a value using the provided key
+// Cipher a value using the provided key
 func (c *Client) Cipher(value string) (string, error) {
+	log.Debug("Ciphering using AWS KMS key")
 	result, err := c.Encrypt(&kms.EncryptInput{
 		KeyId:     aws.String(c.Config.KmsKeyArn),
 		Plaintext: []byte(value),
@@ -48,8 +51,9 @@ func (c *Client) Cipher(value string) (string, error) {
 	return base64.StdEncoding.EncodeToString(result.CiphertextBlob), nil
 }
 
-// Decipher : Decipher a value using the TransitKey
+// Decipher a value using the provided KMS Key
 func (c *Client) Decipher(value string) (string, error) {
+	log.Debugf("Deciphering '%s' using AWS KMS key", value)
 	ciphertext, err := base64.StdEncoding.DecodeString(value)
 	if err != nil {
 		return "", fmt.Errorf("base64decode error : %s - value : %s", err, value)

@@ -21,10 +21,10 @@ type Client struct {
 	Entity *openpgp.Entity
 }
 
-// Init : Reads PGP key values and return a entity
-func Init(config *Config) (*Client, error) {
+// NewClient reads PGP key values and return a entity through a client object
+func NewClient(config *Config) (*Client, error) {
 	var err error
-	publicKey, privateKey := []byte{}, []byte{}
+	var publicKey, privateKey []byte
 
 	publicKey, err = ioutil.ReadFile(config.PublicKeyPath)
 	if err != nil {
@@ -51,6 +51,7 @@ func Init(config *Config) (*Client, error) {
 
 // Cipher a value using a Public pgp key
 func (c *Client) Cipher(value string) (string, error) {
+	log.Debug("Ciphering using pgp public key")
 	d, err := pgp.Encrypt(c.Entity, []byte(value))
 	if err != nil {
 		return "", fmt.Errorf("PGP error : %s", err)
@@ -61,6 +62,7 @@ func (c *Client) Cipher(value string) (string, error) {
 
 // Decipher a value using a Public and Private pgp keypair
 func (c *Client) Decipher(value string) (string, error) {
+	log.Debugf("Deciphering '%s' using pgp public/private keypair", value)
 	str, err := base64.StdEncoding.DecodeString(value)
 	if err != nil {
 		return "", fmt.Errorf("base64decode error : %s - value : %s", err, value)

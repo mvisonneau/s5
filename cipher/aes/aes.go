@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"io"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // Config handles necessary information for AES
@@ -22,8 +24,8 @@ type Client struct {
 	cipher.AEAD
 }
 
-// Init : Configures a client for encryption purposes
-func Init(config *Config) (*Client, error) {
+// NewClient configures a client for encryption purposes
+func NewClient(config *Config) (*Client, error) {
 	key, err := hex.DecodeString(config.Key)
 	if err != nil {
 		return nil, err
@@ -42,8 +44,9 @@ func Init(config *Config) (*Client, error) {
 	return &Client{aead}, nil
 }
 
-// Cipher : Cipher a value using the provided key
+// Cipher a value using the provided key
 func (c *Client) Cipher(value string) (string, error) {
+	log.Debug("Ciphering using AES")
 	plaintext := []byte(value)
 
 	nonce := make([]byte, 12)
@@ -55,8 +58,9 @@ func (c *Client) Cipher(value string) (string, error) {
 	return base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%x:%x", ciphertext, nonce))), nil
 }
 
-// Decipher : Decipher a value using the TransitKey
+// Decipher a value using the TransitKey
 func (c *Client) Decipher(value string) (string, error) {
+	log.Debugf("Deciphering '%s' using AES", value)
 	str, err := base64.StdEncoding.DecodeString(value)
 	if err != nil {
 		return "", fmt.Errorf("base64decode error : %s - value : %s", err, value)

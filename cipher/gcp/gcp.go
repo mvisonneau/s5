@@ -7,6 +7,8 @@ import (
 
 	cloudkms "cloud.google.com/go/kms/apiv1"
 	kmspb "google.golang.org/genproto/googleapis/cloud/kms/v1"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // Config handles necessary information for AES
@@ -21,8 +23,8 @@ type Client struct {
 	Config  *Config
 }
 
-// Init : Configures a client for encryption purposes
-func Init(config *Config) (*Client, error) {
+// NewClient configures a client for encryption purposes
+func NewClient(config *Config) (*Client, error) {
 	ctx := context.Background()
 	client, err := cloudkms.NewKeyManagementClient(ctx)
 	if err != nil {
@@ -38,6 +40,7 @@ func Init(config *Config) (*Client, error) {
 
 // Cipher : Cipher a value using the provided key
 func (c *Client) Cipher(value string) (string, error) {
+	log.Debug("Ciphering using a GCP KMS key")
 	req := &kmspb.EncryptRequest{
 		Name:      c.Config.KmsKeyName,
 		Plaintext: []byte(value),
@@ -53,6 +56,7 @@ func (c *Client) Cipher(value string) (string, error) {
 
 // Decipher : Decipher a value using the TransitKey
 func (c *Client) Decipher(value string) (string, error) {
+	log.Debugf("Deciphering '%s' using a GCP KMS key", value)
 	ciphertext, err := base64.StdEncoding.DecodeString(value)
 	if err != nil {
 		return "", fmt.Errorf("base64decode error : %s - value : %s", err, value)
