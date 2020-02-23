@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/mvisonneau/go-helpers/logger"
 	"github.com/mvisonneau/s5/cipher"
-	"github.com/mvisonneau/s5/logger"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli"

@@ -8,6 +8,7 @@ require (
 	github.com/hashicorp/vault/api v1.0.4
 	github.com/jchavannes/go-pgp v0.0.0-20200131171414-e5978e6d02b4
 	github.com/mitchellh/go-homedir v1.1.0
+	github.com/mvisonneau/go-helpers v0.0.0-20200220160437-6b16986a9c1a
 	github.com/sirupsen/logrus v1.4.2
 	github.com/urfave/cli v1.22.2
 	golang.org/x/crypto v0.0.0-20200204104054-c9f3fb736b72
