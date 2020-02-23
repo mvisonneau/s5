@@ -3,6 +3,12 @@ package cipher
 import (
 	"fmt"
 	"regexp"
+
+	"github.com/mvisonneau/s5/cipher/aes"
+	"github.com/mvisonneau/s5/cipher/aws"
+	"github.com/mvisonneau/s5/cipher/gcp"
+	"github.com/mvisonneau/s5/cipher/pgp"
+	"github.com/mvisonneau/s5/cipher/vault"
 )
 
 const (
@@ -14,6 +20,42 @@ const (
 type Engine interface {
 	Cipher(string) (string, error)
 	Decipher(string) (string, error)
+}
+
+// NewAESClient creates a AES client
+func NewAESClient(key string) (*aes.Client, error) {
+	return aes.NewClient(&aes.Config{
+		Key: key,
+	})
+}
+
+// NewAWSClient creates a AWS client
+func NewAWSClient(kmsKeyArn string) (*aws.Client, error) {
+	return aws.NewClient(&aws.Config{
+		KmsKeyArn: kmsKeyArn,
+	})
+}
+
+// NewGCPClient creates a GCP client
+func NewGCPClient(kmsKeyName string) (*gcp.Client, error) {
+	return gcp.NewClient(&gcp.Config{
+		KmsKeyName: kmsKeyName,
+	})
+}
+
+// NewPGPClient creates a PGP client
+func NewPGPClient(publicKeyPath, privateKeyPath string) (*pgp.Client, error) {
+	return pgp.NewClient(&pgp.Config{
+		PublicKeyPath:  publicKeyPath,
+		PrivateKeyPath: privateKeyPath,
+	})
+}
+
+// NewVaultClient creates a Vault client
+func NewVaultClient(key string) (*vault.Client, error) {
+	return vault.NewClient(&vault.Config{
+		Key: key,
+	})
 }
 
 // GenerateOutput return a ciphered string in a s5 format

@@ -12,11 +12,6 @@ import (
 
 	"github.com/mvisonneau/go-helpers/logger"
 	"github.com/mvisonneau/s5/cipher"
-	cipherAES "github.com/mvisonneau/s5/cipher/aes"
-	cipherAWS "github.com/mvisonneau/s5/cipher/aws"
-	cipherGCP "github.com/mvisonneau/s5/cipher/gcp"
-	cipherPGP "github.com/mvisonneau/s5/cipher/pgp"
-	cipherVault "github.com/mvisonneau/s5/cipher/vault"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
@@ -39,26 +34,15 @@ func getCipherEngine(ctx *cli.Context) (cipher.Engine, error) {
 	cmds := strings.Fields(ctx.Command.FullName())
 	switch cmds[len(cmds)-1] {
 	case "aes":
-		return cipherAES.NewClient(&cipherAES.Config{
-			Key: ctx.String("key"),
-		})
+		return cipher.NewAESClient(ctx.String("key"))
 	case "aws":
-		return cipherAWS.NewClient(&cipherAWS.Config{
-			KmsKeyArn: ctx.String("kms-key-arn"),
-		})
+		return cipher.NewAWSClient(ctx.String("kms-key-arn"))
 	case "gcp":
-		return cipherGCP.NewClient(&cipherGCP.Config{
-			KmsKeyName: ctx.String("kms-key-name"),
-		})
+		return cipher.NewGCPClient(ctx.String("kms-key-name"))
 	case "pgp":
-		return cipherPGP.NewClient(&cipherPGP.Config{
-			PublicKeyPath:  ctx.String("public-key-path"),
-			PrivateKeyPath: ctx.String("private-key-path"),
-		})
+		return cipher.NewPGPClient(ctx.String("public-key-path"), ctx.String("private-key-path"))
 	case "vault":
-		return cipherVault.NewClient(&cipherVault.Config{
-			Key: ctx.String("transit-key"),
-		})
+		return cipher.NewVaultClient(ctx.String("transit-key"))
 	default:
 		return nil, fmt.Errorf("Engine %v is not implemented yet", ctx.Command.FullName())
 	}
