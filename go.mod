@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	cloud.google.com/go v0.53.0
-	github.com/aws/aws-sdk-go v1.29.33
+	github.com/aws/aws-sdk-go v1.30.0
 	github.com/hashicorp/vault/api v1.0.4
 	github.com/jchavannes/go-pgp v0.0.0-20200131171414-e5978e6d02b4
 	github.com/mitchellh/go-homedir v1.1.0
