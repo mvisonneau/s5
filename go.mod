@@ -10,7 +10,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mvisonneau/go-helpers v0.0.0-20200220160437-6b16986a9c1a
 	github.com/sirupsen/logrus v1.5.0
-	github.com/urfave/cli v1.22.3
+	github.com/urfave/cli v1.22.4
 	golang.org/x/crypto v0.0.0-20200221231518-2aa609cf4a9d
 	google.golang.org/genproto v0.0.0-20200218151345-dad8c97a84f5
 )
