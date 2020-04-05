@@ -6,7 +6,7 @@
 [![Build Status](https://cloud.drone.io/api/badges/mvisonneau/s5/status.svg)](https://cloud.drone.io/mvisonneau/s5)
 [![Coverage Status](https://coveralls.io/repos/github/mvisonneau/s5/badge.svg?branch=master)](https://coveralls.io/github/mvisonneau/s5?branch=master)
 
-`s5` is a small binary (~5MB) that works on most platforms (`Linux`, `Mac OS X`, `Windows`, `Freebsd` and `Solaris`!) and allows you to easily cipher/decipher content within your files.
+`s5` allows you to easily cipher/decipher content within your files. It is a cli tool that works on most platforms (`Linux`, `Mac OS X`, `Windows`, `Freebsd` and `Solaris`!)
 
 ## Encryption backends supported
 
