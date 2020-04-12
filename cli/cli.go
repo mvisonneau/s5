@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/mvisonneau/s5/command"
+	"github.com/mvisonneau/s5/cmd"
 	"github.com/urfave/cli"
 )
 
@@ -45,28 +45,28 @@ func NewApp(version string, start time.Time) (app *cli.App) {
 					Name:      "aes",
 					Usage:     "cipher using an AES key",
 					ArgsUsage: "<value>",
-					Action:    command.Cipher,
+					Action:    cmd.ExecWrapper(cmd.Cipher),
 					Flags:     append(aesFlags, noTrimFlag),
 				},
 				{
 					Name:      "aws",
 					Usage:     "cipher using an AWS KMS key",
 					ArgsUsage: "<value>",
-					Action:    command.Cipher,
+					Action:    cmd.ExecWrapper(cmd.Cipher),
 					Flags:     append(awsFlags, noTrimFlag),
 				},
 				{
 					Name:      "gcp",
 					Usage:     "cipher using a GCP KMS key",
 					ArgsUsage: "<value>",
-					Action:    command.Cipher,
+					Action:    cmd.ExecWrapper(cmd.Cipher),
 					Flags:     append(gcpFlags, noTrimFlag),
 				},
 				{
 					Name:      "pgp",
 					Usage:     "cipher using a public pgp key",
 					ArgsUsage: "<value>",
-					Action:    command.Cipher,
+					Action:    cmd.ExecWrapper(cmd.Cipher),
 					Flags: []cli.Flag{
 						noTrimFlag,
 						pgpPublicKeyPathFlag,
@@ -76,7 +76,7 @@ func NewApp(version string, start time.Time) (app *cli.App) {
 					Name:      "vault",
 					Usage:     "cipher using a vault transit key",
 					ArgsUsage: "<value>",
-					Action:    command.Cipher,
+					Action:    cmd.ExecWrapper(cmd.Cipher),
 					Flags:     append(vaultFlags, noTrimFlag),
 				},
 			},
@@ -89,27 +89,27 @@ func NewApp(version string, start time.Time) (app *cli.App) {
 					Name:      "aes",
 					Usage:     "decipher using an AES key",
 					ArgsUsage: "<value>",
-					Action:    command.Decipher,
+					Action:    cmd.ExecWrapper(cmd.Decipher),
 					Flags:     aesFlags,
 				},
 				{
 					Name:      "aws",
 					Usage:     "decipher using an AWS KMS key",
 					ArgsUsage: "<value>",
-					Action:    command.Decipher,
+					Action:    cmd.ExecWrapper(cmd.Decipher),
 				},
 				{
 					Name:      "gcp",
 					Usage:     "decipher using a GCP key",
 					ArgsUsage: "<value>",
-					Action:    command.Decipher,
+					Action:    cmd.ExecWrapper(cmd.Decipher),
 					Flags:     gcpFlags,
 				},
 				{
 					Name:      "pgp",
 					Usage:     "decipher using a public/private pgp keypair",
 					ArgsUsage: "<value>",
-					Action:    command.Decipher,
+					Action:    cmd.ExecWrapper(cmd.Decipher),
 					Flags: []cli.Flag{
 						pgpPublicKeyPathFlag,
 						pgpPrivateKeyPathFlag,
@@ -119,7 +119,7 @@ func NewApp(version string, start time.Time) (app *cli.App) {
 					Name:      "vault",
 					Usage:     "decipher using a vault transit key",
 					ArgsUsage: "<value>",
-					Action:    command.Decipher,
+					Action:    cmd.ExecWrapper(cmd.Decipher),
 					Flags:     vaultFlags,
 				},
 			},
@@ -132,35 +132,35 @@ func NewApp(version string, start time.Time) (app *cli.App) {
 					Name:      "aes",
 					Usage:     "render using an AES key",
 					ArgsUsage: "<value>",
-					Action:    command.Render,
+					Action:    cmd.ExecWrapper(cmd.Render),
 					Flags:     append(renderFlags, aesFlags...),
 				},
 				{
 					Name:      "aws",
 					Usage:     "render using an AWS KMS key",
 					ArgsUsage: "<value>",
-					Action:    command.Render,
+					Action:    cmd.ExecWrapper(cmd.Render),
 					Flags:     renderFlags,
 				},
 				{
 					Name:      "gcp",
 					Usage:     "render using a GCP key",
 					ArgsUsage: "<value>",
-					Action:    command.Render,
+					Action:    cmd.ExecWrapper(cmd.Render),
 					Flags:     append(renderFlags, gcpFlags...),
 				},
 				{
 					Name:      "pgp",
 					Usage:     "render using a public/private pgp keypair",
 					ArgsUsage: "<value>",
-					Action:    command.Render,
+					Action:    cmd.ExecWrapper(cmd.Render),
 					Flags:     append(renderFlags, pgpPublicKeyPathFlag, pgpPrivateKeyPathFlag),
 				},
 				{
 					Name:      "vault",
 					Usage:     "render using a vault transit key",
 					ArgsUsage: "<filename> [--in-place] [--output <output_file>]",
-					Action:    command.Render,
+					Action:    cmd.ExecWrapper(cmd.Render),
 					Flags:     append(renderFlags, vaultFlags...),
 				},
 			},
