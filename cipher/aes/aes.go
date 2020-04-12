@@ -50,9 +50,7 @@ func (c *Client) Cipher(value string) (string, error) {
 	plaintext := []byte(value)
 
 	nonce := make([]byte, 12)
-	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
-		return "", err
-	}
+	io.ReadFull(rand.Reader, nonce)
 
 	ciphertext := c.Seal(nil, nonce, plaintext, nil)
 	return base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%x:%x", ciphertext, nonce))), nil
