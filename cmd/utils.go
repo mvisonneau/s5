@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/mvisonneau/go-helpers/logger"
@@ -28,7 +27,7 @@ func configure(ctx *cli.Context) error {
 }
 
 func getCipherEngine(ctx *cli.Context) (cipher.Engine, error) {
-	cmds := strings.Fields(ctx.Command.FullName())
+	cmds := ctx.Command.Names()
 	switch cmds[len(cmds)-1] {
 	case "aes":
 		return cipher.NewAESClient(ctx.String("key"))
