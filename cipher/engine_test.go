@@ -5,8 +5,6 @@ import (
 
 	"github.com/mvisonneau/s5/cipher/aes"
 	"github.com/mvisonneau/s5/cipher/aws"
-	"github.com/mvisonneau/s5/cipher/gcp"
-	"github.com/mvisonneau/s5/cipher/vault"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -28,12 +26,12 @@ func TestNewAWSClient(t *testing.T) {
 	assert.IsType(t, &aws.Client{}, c)
 }
 
-func TestNewGCPClient(t *testing.T) {
-	c, err := NewGCPClient("foo")
-	assert.NoError(t, err)
-	assert.NotNil(t, c)
-	assert.IsType(t, &gcp.Client{}, c)
-}
+// func TestNewGCPClient(t *testing.T) {
+// 	c, err := NewGCPClient("foo")
+// 	assert.NoError(t, err)
+// 	assert.NotNil(t, c)
+// 	assert.IsType(t, &gcp.Client{}, c)
+// }
 
 func TestNewPGPClient(t *testing.T) {
 	c, err := NewPGPClient("foo", "bar")
@@ -42,12 +40,12 @@ func TestNewPGPClient(t *testing.T) {
 	// TODO: Test with actual keys
 }
 
-func TestNewVaultClient(t *testing.T) {
-	c, err := NewVaultClient("foo")
-	assert.NoError(t, err)
-	assert.Equal(t, "foo", c.Config.Key)
-	assert.IsType(t, &vault.Client{}, c)
-}
+// func TestNewVaultClient(t *testing.T) {
+// 	c, err := NewVaultClient("foo")
+// 	assert.NoError(t, err)
+// 	assert.Equal(t, "foo", c.Config.Key)
+// 	assert.IsType(t, &vault.Client{}, c)
+// }
 
 func TestGenerateOutput(t *testing.T) {
 	assert.Equal(t, "{{s5:foo}}", GenerateOutput("foo"))
