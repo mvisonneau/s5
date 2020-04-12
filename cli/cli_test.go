@@ -3,16 +3,16 @@ package cli
 import (
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func TestRunCli(t *testing.T) {
-	version := "0.0.0"
-	app := Init(&version, time.Now())
-	if app.Name != "s5" {
-		t.Fatalf("Expected app.Name to be s5, got '%s'", app.Name)
-	}
+func TestRun(t *testing.T) {
+	assert.NotPanics(t, func() { Run("0.0.0") })
+}
 
-	if app.Version != "0.0.0" {
-		t.Fatalf("Expected app.Version to be 0.0.0, got '%s'", app.Version)
-	}
+func TestNewApp(t *testing.T) {
+	app := NewApp("0.0.0", time.Now())
+	assert.Equal(t, "s5", app.Name)
+	assert.Equal(t, "0.0.0", app.Version)
 }

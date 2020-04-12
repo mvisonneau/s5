@@ -1,17 +1,23 @@
 package cli
 
 import (
+	"os"
 	"time"
 
 	"github.com/mvisonneau/s5/command"
 	"github.com/urfave/cli"
 )
 
-// Init : Generates CLI configuration for the application
-func Init(version *string, start time.Time) (app *cli.App) {
+// Run handles the instanciation of the CLI application
+func Run(version string) {
+	NewApp(version, time.Now()).Run(os.Args)
+}
+
+// NewApp configures the CLI application
+func NewApp(version string, start time.Time) (app *cli.App) {
 	app = cli.NewApp()
 	app.Name = "s5"
-	app.Version = *version
+	app.Version = version
 	app.Usage = "cipher/decipher text within a file"
 	app.EnableBashCompletion = true
 
