@@ -7,6 +7,11 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+### Changed
+
+- Bumped to go `1.14`
+- Bumped all modules to their latest versions
+
 ## [0.1.8] - 2020-02-06
 
 ### Changed
