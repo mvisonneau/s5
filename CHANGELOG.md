@@ -7,6 +7,8 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+## [0.1.9] - 2020-10-22
+
 ### Added
 
 - mlock to ensure the memory of the process does not get swap
@@ -121,7 +123,8 @@ and this project adheres to [0ver](https://0ver.org).
 - LICENSE
 - README
 
-[Unreleased]: https://github.com/mvisonneau/s5/compare/0.1.8...HEAD
+[Unreleased]: https://github.com/mvisonneau/s5/compare/0.1.9...HEAD
+[0.1.9]: https://github.com/mvisonneau/s5/tree/0.1.9
 [0.1.8]: https://github.com/mvisonneau/s5/tree/0.1.8
 [0.1.7]: https://github.com/mvisonneau/s5/tree/0.1.7
 [0.1.6]: https://github.com/mvisonneau/s5/tree/0.1.6
