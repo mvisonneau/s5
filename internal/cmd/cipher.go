@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/mvisonneau/s5/cipher"
-	"github.com/urfave/cli"
+	"github.com/mvisonneau/s5/pkg/cipher"
+	"github.com/urfave/cli/v2"
 )
 
 // Cipher is used for the cipher commands
@@ -21,7 +21,9 @@ func Cipher(ctx *cli.Context) (int, error) {
 
 	input, err := readInput(ctx)
 	if err != nil {
-		cli.ShowSubcommandHelp(ctx)
+		if err = cli.ShowSubcommandHelp(ctx); err != nil {
+			return 1, err
+		}
 		return 1, err
 	}
 

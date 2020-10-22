@@ -7,10 +7,17 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+### Added
+
+- mlock to ensure the memory of the process does not get swap
+- gosec testing
+
 ### Changed
 
-- Bumped to go `1.14`
-- Bumped all modules to their latest versions
+- Bumped to go `1.15`
+- Bumped all dependencies to their most recent versions
+- Updated urfave/cli to v2
+- Refactored the codebase using golang standard structure
 
 ## [0.1.8] - 2020-02-06
 

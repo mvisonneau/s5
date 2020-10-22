@@ -7,9 +7,9 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/mvisonneau/s5/cipher"
+	"github.com/mvisonneau/s5/pkg/cipher"
 	log "github.com/sirupsen/logrus"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 // Render is used for the render commands
@@ -25,7 +25,9 @@ func Render(ctx *cli.Context) (int, error) {
 
 	if ctx.NArg() > 1 ||
 		(ctx.String("output") != "" && ctx.Bool("in-place")) {
-		cli.ShowSubcommandHelp(ctx)
+		if err = cli.ShowSubcommandHelp(ctx); err != nil {
+			return 1, err
+		}
 		return 1, fmt.Errorf("Invalid arguments")
 	}
 
@@ -59,9 +61,11 @@ func Render(ctx *cli.Context) (int, error) {
 			}) + "\n")
 	}
 
-	fi.Close()
+	if err = fi.Close(); err != nil {
+		return 1, err
+	}
 
-	if err := in.Err(); err != nil {
+	if err = in.Err(); err != nil {
 		return 1, err
 	}
 
@@ -72,14 +76,14 @@ func Render(ctx *cli.Context) (int, error) {
 		if err != nil {
 			return 1, err
 		}
-		defer fo.Close()
+		defer closeFile(fo)
 	} else if ctx.Bool("in-place") {
 		log.Debug("Updating the source file (in-place)")
 		fo, err = os.Create(ctx.Args().First())
 		if err != nil {
 			return 1, err
 		}
-		defer fo.Close()
+		defer closeFile(fo)
 	} else {
 		log.Debug("Outputing to stdout")
 		fo = os.Stdout
@@ -97,4 +101,10 @@ func Render(ctx *cli.Context) (int, error) {
 	}
 
 	return 0, nil
+}
+
+func closeFile(f *os.File) {
+	if err := f.Close(); err != nil {
+		log.Error("closing file")
+	}
 }

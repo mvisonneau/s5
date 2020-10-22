@@ -4,13 +4,13 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 func TestCipher(t *testing.T) {
 	// With a valid cipher engine
 	ctx, flags, _ := NewTestContext()
-	ctx.Command = cli.Command{
+	ctx.Command = &cli.Command{
 		Name: "aes",
 	}
 
@@ -22,7 +22,7 @@ func TestCipher(t *testing.T) {
 	assert.Equal(t, 0, exitCode)
 
 	// With a invalid cipher engine
-	ctx.Command = cli.Command{
+	ctx.Command = &cli.Command{
 		Name: "foo",
 	}
 	exitCode, err = Cipher(ctx)

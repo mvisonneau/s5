@@ -1,13 +1,17 @@
 NAME          := s5
-FILES         := $(shell find * -type f ! -path 'vendor/*' -name '*.go')
+VERSION       := $(shell git describe --tags --abbrev=1)
+FILES         := $(shell git ls-files */*.go)
 REPOSITORY    := mvisonneau/$(NAME)
-VAULT_VERSION := 0.13.2
+VAULT_VERSION := 1.5.3
 .DEFAULT_GOAL := help
+
+export GO111MODULE=on
 
 .PHONY: setup
 setup: ## Install required libraries/tools for build tasks
 	@command -v cover 2>&1 >/dev/null       || GO111MODULE=off go get -u -v golang.org/x/tools/cmd/cover
 	@command -v goimports 2>&1 >/dev/null   || GO111MODULE=off go get -u -v golang.org/x/tools/cmd/goimports
+	@command -v gosec 2>&1 >/dev/null       || GO111MODULE=off go get -u -v github.com/securego/gosec/cmd/gosec
 	@command -v goveralls 2>&1 >/dev/null   || GO111MODULE=off go get -u -v github.com/mattn/goveralls
 	@command -v ineffassign 2>&1 >/dev/null || GO111MODULE=off go get -u -v github.com/gordonklaus/ineffassign
 	@command -v misspell 2>&1 >/dev/null    || GO111MODULE=off go get -u -v github.com/client9/misspell/cmd/misspell
@@ -18,7 +22,7 @@ fmt: setup ## Format source code
 	goimports -w $(FILES)
 
 .PHONY: lint
-lint: revive vet goimports ineffassign misspell ## Run all lint related tests against the codebase
+lint: revive vet goimports ineffassign misspell gosec ## Run all lint related tests against the codebase
 
 .PHONY: revive
 revive: setup ## Test code syntax with revive
@@ -41,20 +45,24 @@ ineffassign: setup ## Test code syntax for ineffassign
 misspell: setup ## Test code with misspell
 	misspell -error $(FILES)
 
+.PHONY: gosec
+gosec: setup ## Test code for security vulnerabilities
+	gosec ./...
+
 .PHONY: test
 test: ## Run the tests against the codebase
-	go test -v ./...
+	go test -v -count=1 ./...
 
 .PHONY: install
 install: ## Build and install locally the binary (dev purpose)
-	go install .
+	go install ./cmd/$(NAME)
 
 .PHONY: build-local
 build-local: ## Build the binaries using local GOOS
-	go build .
+	go build ./cmd/$(NAME)
 
 .PHONY: build
-build: setup ## Build the binaries
+build: ## Build the binaries
 	goreleaser release --snapshot --skip-publish --rm-dist
 
 .PHONY: build-linux-amd64
@@ -62,7 +70,7 @@ build-linux-amd64: ## Build the binaries
 	goreleaser release --snapshot --skip-publish --rm-dist -f .goreleaser.linux-amd64.yml
 
 .PHONY: release
-release: setup ## Build & release the binaries
+release: ## Build & release the binaries
 	goreleaser release --rm-dist
 
 .PHONY: publish-coveralls
@@ -77,6 +85,10 @@ clean: ## Remove binary if it exists
 coverage: ## Generates coverage report
 	rm -rf *.out
 	go test -v ./... -coverpkg=./... -coverprofile=coverage.out
+
+.PHONY: coverage-html
+coverage-html: ## Generates coverage report and displays it in the browser
+	go tool cover -html=coverage.out
 
 .PHONY: dev-env
 dev-env: ## Build a local development environment using Docker
@@ -93,13 +105,14 @@ dev-env: ## Build a local development environment using Docker
 		-e VAULT_ADDR=http://$$(docker inspect vault | jq -r '.[0].NetworkSettings.IPAddress'):8200 \
 		-e VAULT_TOKEN=$$(docker logs vault 2>/dev/null | grep 'Root Token' | cut -d' ' -f3 | sed -E "s/[[:cntrl:]]\[[0-9]{1,3}m//g") \
 		-e S5_TRANSIT_KEY=foo \
-		goreleaser/goreleaser:v0.112.2 \
-		/bin/bash -c 'apk add --no-cache make; make setup; make deps; make install; bash'
+		goreleaser/goreleaser:v0.145.0 \
+		/bin/bash -c 'apk add --no-cache make; make setup; make install; bash'
 	@docker kill vault
 	@docker rm vault -f
 
 .PHONY: is-git-dirty
 is-git-dirty: ## Tests if git is in a dirty state
+	@git status --porcelain
 	@test $(shell git status --porcelain | grep -c .) -eq 0
 
 .PHONY: sign-drone

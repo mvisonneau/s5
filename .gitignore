@@ -3,3 +3,4 @@ vendor
 s5
 **.key
 **.out
+!cmd/s5

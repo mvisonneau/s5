@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/mvisonneau/s5/cipher/aes"
-	"github.com/mvisonneau/s5/cipher/aws"
-	"github.com/mvisonneau/s5/cipher/gcp"
-	"github.com/mvisonneau/s5/cipher/pgp"
-	"github.com/mvisonneau/s5/cipher/vault"
+	"github.com/mvisonneau/s5/pkg/cipher/aes"
+	"github.com/mvisonneau/s5/pkg/cipher/aws"
+	"github.com/mvisonneau/s5/pkg/cipher/gcp"
+	"github.com/mvisonneau/s5/pkg/cipher/pgp"
+	"github.com/mvisonneau/s5/pkg/cipher/vault"
 )
 
 const (

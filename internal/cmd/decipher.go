@@ -3,9 +3,9 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/mvisonneau/s5/cipher"
+	"github.com/mvisonneau/s5/pkg/cipher"
 	log "github.com/sirupsen/logrus"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 // Decipher is used for the decipher commands
@@ -21,7 +21,9 @@ func Decipher(ctx *cli.Context) (int, error) {
 
 	input, err := readInput(ctx)
 	if err != nil {
-		cli.ShowSubcommandHelp(ctx)
+		if err = cli.ShowSubcommandHelp(ctx); err != nil {
+			return 1, err
+		}
 		return 1, err
 	}
 

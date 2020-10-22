@@ -3,8 +3,8 @@ package cipher
 import (
 	"testing"
 
-	"github.com/mvisonneau/s5/cipher/aes"
-	"github.com/mvisonneau/s5/cipher/aws"
+	"github.com/mvisonneau/s5/pkg/cipher/aes"
+	"github.com/mvisonneau/s5/pkg/cipher/aws"
 	"github.com/stretchr/testify/assert"
 )
 

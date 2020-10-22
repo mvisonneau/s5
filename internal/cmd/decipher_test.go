@@ -4,13 +4,13 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 func TestDecipher(t *testing.T) {
 	// Valid cipher engine with valid input
 	ctx, flags, _ := NewTestContext()
-	ctx.Command = cli.Command{
+	ctx.Command = &cli.Command{
 		Name: "aes",
 	}
 	flags.String("key", "cc6af4c2bf251c1cce0aebdbd39dc91d", "")
@@ -27,7 +27,7 @@ func TestDecipher(t *testing.T) {
 	assert.Equal(t, 1, exitCode)
 
 	// With a invalid cipher engine
-	ctx.Command = cli.Command{
+	ctx.Command = &cli.Command{
 		Name: "foo",
 	}
 	exitCode, err = Decipher(ctx)

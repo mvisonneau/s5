@@ -2,7 +2,7 @@
 # BUILD CONTAINER
 ##
 
-FROM goreleaser/goreleaser:v0.131.1 as builder
+FROM goreleaser/goreleaser:v0.145.0 as builder
 
 WORKDIR /build
 
@@ -15,7 +15,7 @@ make build-linux-amd64
 # RELEASE CONTAINER
 ##
 
-FROM busybox:1.31-glibc
+FROM busybox:1.32-glibc
 
 WORKDIR /
 

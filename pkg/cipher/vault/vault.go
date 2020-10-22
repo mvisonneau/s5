@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"regexp"
 
 	"github.com/hashicorp/vault/api"
@@ -78,12 +79,14 @@ func getClient() (*api.Client, error) {
 		return nil, fmt.Errorf("VAULT_ADDR env is not defined")
 	}
 
-	c.SetAddress(os.Getenv("VAULT_ADDR"))
+	if err = c.SetAddress(os.Getenv("VAULT_ADDR")); err != nil {
+		return nil, err
+	}
 
 	token := os.Getenv("VAULT_TOKEN")
 	if len(token) == 0 {
 		home, _ := homedir.Dir()
-		f, err := ioutil.ReadFile(home + "/.vault-token")
+		f, err := ioutil.ReadFile(filepath.Clean(home + "/.vault-token"))
 		if err != nil {
 			return nil, fmt.Errorf("Vault token is not defined (VAULT_TOKEN or ~/.vault-token)")
 		}

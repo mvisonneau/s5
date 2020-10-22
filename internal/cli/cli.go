@@ -1,16 +1,21 @@
 package cli
 
 import (
+	"fmt"
 	"os"
 	"time"
 
-	"github.com/mvisonneau/s5/cmd"
-	"github.com/urfave/cli"
+	"github.com/mvisonneau/s5/internal/cmd"
+	"github.com/urfave/cli/v2"
 )
 
 // Run handles the instanciation of the CLI application
-func Run(version string) {
-	NewApp(version, time.Now()).Run(os.Args)
+func Run(version string, args []string) {
+	err := NewApp(version, time.Now()).Run(args)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
 
 // NewApp configures the CLI application
@@ -21,26 +26,26 @@ func NewApp(version string, start time.Time) (app *cli.App) {
 	app.Usage = "cipher/decipher text within a file"
 	app.EnableBashCompletion = true
 
-	app.Flags = []cli.Flag{
-		cli.StringFlag{
-			Name:   "log-level",
-			EnvVar: "S5_LOG_LEVEL",
-			Usage:  "log `level` (debug,info,warn,fatal,panic)",
-			Value:  "info",
+	app.Flags = cli.FlagsByName{
+		&cli.StringFlag{
+			Name:    "log-level",
+			EnvVars: []string{"S5_LOG_LEVEL"},
+			Usage:   "log `level` (debug,info,warn,fatal,panic)",
+			Value:   "info",
 		},
-		cli.StringFlag{
-			Name:   "log-format",
-			EnvVar: "S5_LOG_FORMAT",
-			Usage:  "log `format` (json,text)",
-			Value:  "text",
+		&cli.StringFlag{
+			Name:    "log-format",
+			EnvVars: []string{"S5_LOG_FORMAT"},
+			Usage:   "log `format` (json,text)",
+			Value:   "text",
 		},
 	}
 
-	app.Commands = []cli.Command{
+	app.Commands = cli.CommandsByName{
 		{
 			Name:  "cipher",
 			Usage: "return an encrypted s5 pattern that can be included in any file",
-			Subcommands: []cli.Command{
+			Subcommands: cli.CommandsByName{
 				{
 					Name:      "aes",
 					Usage:     "cipher using an AES key",
@@ -67,7 +72,7 @@ func NewApp(version string, start time.Time) (app *cli.App) {
 					Usage:     "cipher using a public pgp key",
 					ArgsUsage: "<value>",
 					Action:    cmd.ExecWrapper(cmd.Cipher),
-					Flags: []cli.Flag{
+					Flags: cli.FlagsByName{
 						noTrimFlag,
 						pgpPublicKeyPathFlag,
 					},
@@ -84,7 +89,7 @@ func NewApp(version string, start time.Time) (app *cli.App) {
 		{
 			Name:  "decipher",
 			Usage: "return an unencrypted s5 value from a given pattern",
-			Subcommands: []cli.Command{
+			Subcommands: cli.CommandsByName{
 				{
 					Name:      "aes",
 					Usage:     "decipher using an AES key",
@@ -110,7 +115,7 @@ func NewApp(version string, start time.Time) (app *cli.App) {
 					Usage:     "decipher using a public/private pgp keypair",
 					ArgsUsage: "<value>",
 					Action:    cmd.ExecWrapper(cmd.Decipher),
-					Flags: []cli.Flag{
+					Flags: cli.FlagsByName{
 						pgpPublicKeyPathFlag,
 						pgpPrivateKeyPathFlag,
 					},
@@ -127,7 +132,7 @@ func NewApp(version string, start time.Time) (app *cli.App) {
 		{
 			Name:  "render",
 			Usage: "render a file that (may) contain s5 encrypted patterns",
-			Subcommands: []cli.Command{
+			Subcommands: cli.CommandsByName{
 				{
 					Name:      "aes",
 					Usage:     "render using an AES key",
