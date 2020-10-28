@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	cloud.google.com/go v0.70.0
-	github.com/aws/aws-sdk-go v1.35.13
+	github.com/aws/aws-sdk-go v1.35.16
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/go-sql-driver/mysql v1.5.0 // indirect
 	github.com/golang/snappy v0.0.2 // indirect
