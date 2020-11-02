@@ -11,7 +11,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mvisonneau/go-helpers v0.0.0-20201013090751-e69b7251ab02
 	github.com/sirupsen/logrus v1.7.0
-	github.com/urfave/cli/v2 v2.2.0
+	github.com/urfave/cli/v2 v2.3.0
 	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897
 	google.golang.org/genproto v0.0.0-20201029200359-8ce4113da6f7
 )
