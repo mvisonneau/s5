@@ -3,7 +3,7 @@ module github.com/mvisonneau/s5
 go 1.15
 
 require (
-	cloud.google.com/go v0.70.0
+	cloud.google.com/go v0.72.0
 	github.com/aws/aws-sdk-go v1.35.18
 	github.com/hashicorp/vault/api v1.0.4
 	github.com/hashicorp/vault/sdk v0.1.13
@@ -13,5 +13,5 @@ require (
 	github.com/sirupsen/logrus v1.7.0
 	github.com/urfave/cli/v2 v2.3.0
 	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897
-	google.golang.org/genproto v0.0.0-20201029200359-8ce4113da6f7
+	google.golang.org/genproto v0.0.0-20201109203340-2640f1f9cdfb
 )
