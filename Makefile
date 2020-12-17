@@ -1,8 +1,7 @@
 NAME          := s5
-VERSION       := $(shell git describe --tags --abbrev=1)
 FILES         := $(shell git ls-files */*.go)
 REPOSITORY    := mvisonneau/$(NAME)
-VAULT_VERSION := 1.5.3
+VAULT_VERSION := 1.6.0
 .DEFAULT_GOAL := help
 
 export GO111MODULE=on
@@ -51,7 +50,7 @@ gosec: setup ## Test code for security vulnerabilities
 
 .PHONY: test
 test: ## Run the tests against the codebase
-	go test -v -count=1 ./...
+	go test -v -count=1 -race ./...
 
 .PHONY: install
 install: ## Build and install locally the binary (dev purpose)
@@ -65,17 +64,9 @@ build-local: ## Build the binaries using local GOOS
 build: ## Build the binaries
 	goreleaser release --snapshot --skip-publish --rm-dist
 
-.PHONY: build-linux-amd64
-build-linux-amd64: ## Build the binaries
-	goreleaser release --snapshot --skip-publish --rm-dist -f .goreleaser.linux-amd64.yml
-
 .PHONY: release
 release: ## Build & release the binaries
 	goreleaser release --rm-dist
-
-.PHONY: publish-coveralls
-publish-coveralls: setup ## Publish coverage results on coveralls
-	goveralls -service drone.io -coverprofile=coverage.out
 
 .PHONY: clean
 clean: ## Remove binary if it exists
@@ -105,7 +96,7 @@ dev-env: ## Build a local development environment using Docker
 		-e VAULT_ADDR=http://$$(docker inspect vault | jq -r '.[0].NetworkSettings.IPAddress'):8200 \
 		-e VAULT_TOKEN=$$(docker logs vault 2>/dev/null | grep 'Root Token' | cut -d' ' -f3 | sed -E "s/[[:cntrl:]]\[[0-9]{1,3}m//g") \
 		-e S5_TRANSIT_KEY=foo \
-		goreleaser/goreleaser:v0.145.0 \
+		goreleaser/goreleaser:v0.149.0 \
 		/bin/bash -c 'apk add --no-cache make; make setup; make install; bash'
 	@docker kill vault
 	@docker rm vault -f
@@ -114,10 +105,6 @@ dev-env: ## Build a local development environment using Docker
 is-git-dirty: ## Tests if git is in a dirty state
 	@git status --porcelain
 	@test $(shell git status --porcelain | grep -c .) -eq 0
-
-.PHONY: sign-drone
-sign-drone: ## Sign Drone CI configuration
-	drone sign $(REPOSITORY) --save
 
 .PHONY: all
 all: lint test build coverage ## Test, builds and ship package for all supported platforms

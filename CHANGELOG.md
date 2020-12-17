@@ -7,6 +7,18 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+### Added
+
+- Release GitHub container registry based images: [ghcr.io/mvisonneau/s5](https://github.com/users/mvisonneau/packages/container/package/s5)
+- Release `arm64v8` based container images as part of docker manifests in both **docker.io** and **ghcr.io**
+- GPG sign released artifacts checksums
+
+### Changed
+
+- Migrated CI from Drone to GitHub actions
+- Prefix new releases with `^v` to make `pkg.go.dev` happy
+- Bumped all dependencies to their most recent versions
+
 ## [0.1.9] - 2020-10-22
 
 ### Added

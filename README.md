@@ -1,9 +1,9 @@
 # 🔐 s5 - Safely Store Super Sensitive Stuff
 
-[![GoDoc](https://godoc.org/github.com/mvisonneau/s5?status.svg)](https://godoc.org/github.com/mvisonneau/s5)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/mvisonneau/s5)](https://pkg.go.dev/mod/github.com/mvisonneau/s5)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mvisonneau/s5)](https://goreportcard.com/report/github.com/mvisonneau/s5)
 [![Docker Pulls](https://img.shields.io/docker/pulls/mvisonneau/s5.svg)](https://hub.docker.com/r/mvisonneau/s5/)
-[![Build Status](https://cloud.drone.io/api/badges/mvisonneau/s5/status.svg)](https://cloud.drone.io/mvisonneau/s5)
+[![Build Status](https://github.com/mvisonneau/s5/workflows/test/badge.svg?branch=main)](https://github.com/mvisonneau/s5/actions)
 [![Coverage Status](https://coveralls.io/repos/github/mvisonneau/s5/badge.svg?branch=master)](https://coveralls.io/github/mvisonneau/s5?branch=master)
 
 `s5` allows you to easily cipher/decipher content within your files. It is a cli tool that works on most platforms (`Linux`, `Mac OS X`, `Windows`, `Freebsd` and `Solaris`!)
@@ -49,6 +49,8 @@ GLOBAL OPTIONS:
 
 Have a look onto the [latest release page](https://github.com/mvisonneau/s5/releases/latest) and pick your flavor.
 
+Checksums are signed with the [following GPG key](https://keybase.io/mvisonneau/pgp_keys.asc): `C09C A9F7 1C5C 988E 65E3  E5FC ADEA 38ED C46F 25BE`
+
 ### Go
 
 ```bash
@@ -64,7 +66,9 @@ Have a look onto the [latest release page](https://github.com/mvisonneau/s5/rele
 ### Docker
 
 ```bash
-~$ docker run -it --rm mvisonneau/s5
+~$ docker run -it --rm docker.io/mvisonneau/s5
+or
+~$ docker run -it --rm ghcr.io/mvisonneau/s5
 ```
 
 ### Scoop
