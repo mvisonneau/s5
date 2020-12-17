@@ -7,6 +7,8 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+## [v0.1.10] - 2020-12-17
+
 ### Added
 
 - Release GitHub container registry based images: [ghcr.io/mvisonneau/s5](https://github.com/users/mvisonneau/packages/container/package/s5)
