@@ -137,7 +137,8 @@ and this project adheres to [0ver](https://0ver.org).
 - LICENSE
 - README
 
-[Unreleased]: https://github.com/mvisonneau/s5/compare/0.1.9...HEAD
+[Unreleased]: https://github.com/mvisonneau/s5/compare/v0.1.10...HEAD
+[v0.1.10]: https://github.com/mvisonneau/s5/tree/v0.1.10
 [0.1.9]: https://github.com/mvisonneau/s5/tree/0.1.9
 [0.1.8]: https://github.com/mvisonneau/s5/tree/0.1.8
 [0.1.7]: https://github.com/mvisonneau/s5/tree/0.1.7
