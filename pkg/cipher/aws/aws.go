@@ -43,7 +43,6 @@ func (c *Client) Cipher(value string) (string, error) {
 		KeyId:     aws.String(c.Config.KmsKeyArn),
 		Plaintext: []byte(value),
 	})
-
 	if err != nil {
 		return "", err
 	}
@@ -60,7 +59,6 @@ func (c *Client) Decipher(value string) (string, error) {
 	}
 
 	result, err := c.Decrypt(&kms.DecryptInput{CiphertextBlob: ciphertext})
-
 	if err != nil {
 		return "", err
 	}
