@@ -111,11 +111,12 @@ docker_manifests:
 
   - name_template: ghcr.io/mvisonneau/s5:latest
     image_templates:
-      - ghcr.io/mvisonneau/s5:latest-amd64
-      - ghcr.io/mvisonneau/s5:latest-arm64v8
+      # It doesn't work if we point it to the latest tags..
+      - ghcr.io/mvisonneau/s5:{{ .Tag }}-amd64
+      - ghcr.io/mvisonneau/s5:{{ .Tag }}-arm64v8
 
 checksum:
-  name_template: '{{ .ProjectName }}_{{ .Tag }}_SHA512SUMS.txt'
+  name_template: '{{ .ProjectName }}_{{ .Tag }}_sha512sums.txt'
   algorithm: sha512
 
 signs:
