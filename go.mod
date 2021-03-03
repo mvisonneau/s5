@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	cloud.google.com/go v0.78.0
-	github.com/aws/aws-sdk-go v1.36.10
+	github.com/aws/aws-sdk-go v1.37.22
 	github.com/hashicorp/vault/api v1.0.4
 	github.com/hashicorp/vault/sdk v0.1.13
 	github.com/jchavannes/go-pgp v0.0.0-20200131171414-e5978e6d02b4
