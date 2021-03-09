@@ -56,7 +56,8 @@ scoop:
     name: scoops
 
 snapcrafts:
-  - summary: *description
+  - name: mvisonneau-s5
+    summary: *description
     description: Cipher/Decipher arbitrary text in any file type
     license: *license
     grade: stable

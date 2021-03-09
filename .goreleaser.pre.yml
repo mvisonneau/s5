@@ -30,7 +30,8 @@ release:
   disable: true
 
 snapcrafts:
-  - summary: Safely Store Super Sensitive Stuff
+  - name: mvisonneau-s5
+    summary: Safely Store Super Sensitive Stuff
     description: Cipher/Decipher arbitrary text in any file type
     license: Apache-2.0
     confinement: strict
