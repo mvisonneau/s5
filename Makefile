@@ -56,17 +56,23 @@ test: ## Run the tests against the codebase
 install: ## Build and install locally the binary (dev purpose)
 	go install ./cmd/$(NAME)
 
-.PHONY: build-local
-build-local: ## Build the binaries using local GOOS
+.PHONY: build
+build: ## Build the binaries using local GOOS
 	go build ./cmd/$(NAME)
 
-.PHONY: build
-build: ## Build the binaries
-	goreleaser release --snapshot --skip-publish --rm-dist
-
 .PHONY: release
-release: ## Build & release the binaries
+release: ## Build & release the binaries (stable)
+	git tag -d edge
 	goreleaser release --rm-dist
+	find dist -type f -name "*.snap" -exec snapcraft upload --release stable,edge '{}' \;
+
+.PHONY: prerelease
+prerelease: setup ## Build & prerelease the binaries (edge)
+	@\
+		REPOSITORY=$(REPOSITORY) \
+    	NAME=$(NAME) \
+    	GITHUB_TOKEN=$(GITHUB_TOKEN) \
+    	.github/prerelease.sh
 
 .PHONY: clean
 clean: ## Remove binary if it exists

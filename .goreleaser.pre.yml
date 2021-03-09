@@ -8,9 +8,7 @@ builds:
       - CGO_ENABLED=0
     goos:
       - darwin
-      - freebsd
       - linux
-      - solaris
       - windows
     goarch:
       - 386
@@ -23,51 +21,28 @@ builds:
         goarch: 386
 
 archives:
-  - name_template: '{{ .ProjectName }}_{{ .Tag }}_{{ .Os }}_{{ .Arch }}'
+  - name_template: '{{ .ProjectName }}_edge_{{ .Os }}_{{ .Arch }}'
     format_overrides:
       - goos: windows
         format: zip
 
-nfpms:
-  - maintainer: &author Maxime VISONNEAU <maxime.visonneau@gmail.com>
-    description: &description Safely Store Super Sensitive Stuff
-    license: &license Apache-2.0
-    homepage: &homepage https://github.com/mvisonneau/s5
-    vendor: *author
-    file_name_template: '{{ .ProjectName }}_{{ .Tag }}_{{ .Os }}_{{ .Arch }}'
-    formats:
-      - deb
-      - rpm
-
-brews:
-  - description: *description
-    homepage: *homepage
-    folder: Formula
-    tap:
-      owner: mvisonneau
-      name: homebrew-tap
-
-scoop:
-  description: *description
-  homepage: *homepage
-  license: *license
-  bucket:
-    owner: mvisonneau
-    name: scoops
+release:
+  disable: true
 
 snapcrafts:
-  - summary: *description
+  - summary: Safely Store Super Sensitive Stuff
     description: Cipher/Decipher arbitrary text in any file type
-    license: *license
-    grade: stable
+    license: Apache-2.0
+    confinement: strict
+    grade: devel
     apps:
       s5:
         plugs: [home, network]
 
 dockers:
   - image_templates:
-      - 'docker.io/mvisonneau/s5:{{ .Tag }}-amd64'
-      - 'ghcr.io/mvisonneau/s5:{{ .Tag }}-amd64'
+      - 'docker.io/mvisonneau/s5:latest-amd64'
+      - 'ghcr.io/mvisonneau/s5:latest-amd64'
     ids: [s5]
     goarch: amd64
     use_buildx: true
@@ -83,8 +58,8 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/mvisonneau/s5:{{ .Tag }}-arm64v8'
-      - 'ghcr.io/mvisonneau/s5:{{ .Tag }}-arm64v8'
+      - 'docker.io/mvisonneau/s5:latest-arm64v8'
+      - 'ghcr.io/mvisonneau/s5:latest-arm64v8'
     ids: [s5]
     goarch: arm64
     use_buildx: true
@@ -100,19 +75,15 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
 docker_manifests:
-  - name_template: docker.io/mvisonneau/s5:{{ .Tag }}
+  - name_template: docker.io/mvisonneau/s5:latest
     image_templates:
-      - docker.io/mvisonneau/s5:{{ .Tag }}-amd64
-      - docker.io/mvisonneau/s5:{{ .Tag }}-arm64v8
+      - docker.io/mvisonneau/s5:latest-amd64
+      - docker.io/mvisonneau/s5:latest-arm64v8
 
-  - name_template: ghcr.io/mvisonneau/s5:{{ .Tag }}
+  - name_template: ghcr.io/mvisonneau/s5:latest
     image_templates:
-      - ghcr.io/mvisonneau/s5:{{ .Tag }}-amd64
-      - ghcr.io/mvisonneau/s5:{{ .Tag }}-arm64v8
-
-checksum:
-  name_template: '{{ .ProjectName }}_{{ .Tag }}_sha512sums.txt'
-  algorithm: sha512
+      - ghcr.io/mvisonneau/s5:latest-amd64
+      - ghcr.io/mvisonneau/s5:latest-arm64v8
 
 signs:
   - artifacts: checksum
@@ -125,6 +96,10 @@ signs:
         '--detach-sign',
         '${artifact}',
       ]
+
+checksum:
+  name_template: '{{ .ProjectName }}_edge_sha512sums.txt'
+  algorithm: sha512
 
 changelog:
   skip: true

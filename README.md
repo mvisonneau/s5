@@ -2,9 +2,10 @@
 
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/mvisonneau/s5)](https://pkg.go.dev/mod/github.com/mvisonneau/s5)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mvisonneau/s5)](https://goreportcard.com/report/github.com/mvisonneau/s5)
-[![Docker Pulls](https://img.shields.io/docker/pulls/mvisonneau/s5.svg)](https://hub.docker.com/r/mvisonneau/s5/)
-[![Build Status](https://github.com/mvisonneau/s5/workflows/test/badge.svg?branch=main)](https://github.com/mvisonneau/s5/actions)
-[![Coverage Status](https://coveralls.io/repos/github/mvisonneau/s5/badge.svg?branch=master)](https://coveralls.io/github/mvisonneau/s5?branch=master)
+[![test](https://github.com/mvisonneau/s5/actions/workflows/test.yml/badge.svg)](https://github.com/mvisonneau/s5/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/mvisonneau/s5/badge.svg?branch=main)](https://coveralls.io/github/mvisonneau/s5?branch=main)
+[![release](https://github.com/mvisonneau/s5/actions/workflows/release.yml/badge.svg)](https://github.com/mvisonneau/s5/actions/workflows/release.yml)
+[![s5](https://snapcraft.io/mvisonneau-s5/badge.svg)](https://snapcraft.io/mvisonneau-s5)
 
 `s5` allows you to easily cipher/decipher content within your files. It is a cli tool that works on most platforms (`Linux`, `Mac OS X`, `Windows`, `Freebsd` and `Solaris`!)
 
@@ -55,6 +56,12 @@ Checksums are signed with the [following GPG key](https://keybase.io/mvisonneau/
 
 ```bash
 ~$ go get -u github.com/mvisonneau/s5
+```
+
+### Snapcraft
+
+```bash
+~$ snap install mvisonneau-s5
 ```
 
 ### Homebrew
