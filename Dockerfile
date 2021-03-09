@@ -1,10 +1,8 @@
-ARG ARCH
-
 ##
 # BUILD CONTAINER
 ##
 
-FROM alpine:3.13.2 as builder
+FROM alpine:3.13 as certs
 
 RUN \
 apk add --no-cache ca-certificates
@@ -13,11 +11,11 @@ apk add --no-cache ca-certificates
 # RELEASE CONTAINER
 ##
 
-FROM ${ARCH}/busybox:1.32-glibc
+FROM busybox:1.32-glibc
 
 WORKDIR /
 
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY s5 /usr/local/bin/
 
 # Run as nobody user
