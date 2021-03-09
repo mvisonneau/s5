@@ -15,6 +15,7 @@ and this project adheres to [0ver](https://0ver.org).
 ### Changed
 
 - Upgraded golang to 1.16
+- Upgraded all dependencies to their latest versions
 
 ## [v0.1.10] - 2020-12-17
 
