@@ -77,7 +77,7 @@ func exit(exitCode int, err error) cli.ExitCoder {
 func ExecWrapper(f func(ctx *cli.Context) (int, error)) cli.ActionFunc {
 	return func(ctx *cli.Context) error {
 		if err := mlock.LockMemory(); err != nil {
-			return exit(1, fmt.Errorf("error locking s5 memory: %w", err))
+			log.WithError(err).Warn("s5 requires the IPC_LOCK capability in order to secure its memory")
 		}
 		return exit(f(ctx))
 	}

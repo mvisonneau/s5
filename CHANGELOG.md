@@ -16,6 +16,7 @@ and this project adheres to [0ver](https://0ver.org).
 
 - Upgraded golang to 1.16
 - Upgraded all dependencies to their latest versions
+- Do not fail on missing IPC_LOCK capability, solely warn the user
 
 ## [v0.1.10] - 2020-12-17
 
