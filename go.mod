@@ -3,7 +3,7 @@ module github.com/mvisonneau/s5
 go 1.15
 
 require (
-	cloud.google.com/go v0.78.0
+	cloud.google.com/go v0.79.0
 	github.com/aws/aws-sdk-go v1.37.26
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/frankban/quicktest v1.11.3 // indirect
@@ -31,7 +31,7 @@ require (
 	golang.org/x/oauth2 v0.0.0-20210220000619-9bb904979d93 // indirect
 	golang.org/x/sys v0.0.0-20210309074719-68d13333faf2 // indirect
 	golang.org/x/time v0.0.0-20210220033141-f8bda1e9f3ba // indirect
-	google.golang.org/genproto v0.0.0-20210303154014-9728d6b83eeb
+	google.golang.org/genproto v0.0.0-20210310155132-4ce2db91004e
 	google.golang.org/grpc v1.36.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.5.1 // indirect
 )
