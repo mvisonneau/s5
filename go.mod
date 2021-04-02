@@ -7,6 +7,7 @@ require (
 	github.com/aws/aws-sdk-go v1.37.26
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/frankban/quicktest v1.11.3 // indirect
+	github.com/go-ldap/ldap v3.0.2+incompatible // indirect
 	github.com/golang/snappy v0.0.3 // indirect
 	github.com/google/go-cmp v0.5.5 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
@@ -14,8 +15,9 @@ require (
 	github.com/hashicorp/go-multierror v1.1.0 // indirect
 	github.com/hashicorp/go-retryablehttp v0.6.8 // indirect
 	github.com/hashicorp/go-rootcerts v1.0.2 // indirect
-	github.com/hashicorp/vault/api v1.0.4
-	github.com/hashicorp/vault/sdk v0.1.13
+	github.com/hashicorp/vault/api v1.1.0
+	github.com/hashicorp/vault/sdk v0.1.14-0.20200519221838-e0cfd64bc267
+	github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d // indirect
 	github.com/jchavannes/go-pgp v0.0.0-20200131171414-e5978e6d02b4
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
@@ -33,5 +35,6 @@ require (
 	golang.org/x/time v0.0.0-20210220033141-f8bda1e9f3ba // indirect
 	google.golang.org/genproto v0.0.0-20210303154014-9728d6b83eeb
 	google.golang.org/grpc v1.36.0 // indirect
+	gopkg.in/asn1-ber.v1 v1.0.0-20181015200546-f715ec2f112d // indirect
 	gopkg.in/square/go-jose.v2 v2.5.1 // indirect
 )
