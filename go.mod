@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	cloud.google.com/go v0.78.0
-	github.com/aws/aws-sdk-go v1.37.26
+	github.com/aws/aws-sdk-go v1.38.54
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/frankban/quicktest v1.11.3 // indirect
 	github.com/golang/snappy v0.0.3 // indirect
