@@ -1,7 +1,7 @@
 NAME          := s5
 FILES         := $(shell git ls-files */*.go)
 REPOSITORY    := mvisonneau/$(NAME)
-VAULT_VERSION := 1.6.0
+VAULT_VERSION := 1.8.1
 .DEFAULT_GOAL := help
 
 export GO111MODULE=on
@@ -102,7 +102,7 @@ dev-env: ## Build a local development environment using Docker
 		-e VAULT_ADDR=http://$$(docker inspect vault | jq -r '.[0].NetworkSettings.IPAddress'):8200 \
 		-e VAULT_TOKEN=$$(docker logs vault 2>/dev/null | grep 'Root Token' | cut -d' ' -f3 | sed -E "s/[[:cntrl:]]\[[0-9]{1,3}m//g") \
 		-e S5_TRANSIT_KEY=foo \
-		goreleaser/goreleaser:v0.149.0 \
+		goreleaser/goreleaser:v0.175.0 \
 		/bin/bash -c 'apk add --no-cache make; make setup; make install; bash'
 	@docker kill vault
 	@docker rm vault -f

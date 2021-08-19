@@ -2,16 +2,16 @@
 # BUILD CONTAINER
 ##
 
-FROM alpine:3.13 as certs
+FROM alpine:3.14 as certs
 
 RUN \
-apk add --no-cache ca-certificates
+  apk add --no-cache ca-certificates
 
 ##
 # RELEASE CONTAINER
 ##
 
-FROM busybox:1.32-glibc
+FROM busybox:1.33-glibc
 
 WORKDIR /
 
