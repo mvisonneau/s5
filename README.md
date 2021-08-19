@@ -95,16 +95,16 @@ For the following ones, you need to know which version you want to install, to f
 
 ```bash
 # Binary (eg: freebsd/amd64)
-~$ wget https://github.com/mvisonneau/strongbox/releases/download/${S5_VERSION}/strongbox_${S5_VERSION}_freebsd_amd64.tar.gz
-~$ tar zxvf strongbox_${S5_VERSION}_freebsd_amd64.tar.gz -C /usr/local/bin
+~$ wget https://github.com/mvisonneau/s5/releases/download/${S5_VERSION}/s5_${S5_VERSION}_freebsd_amd64.tar.gz
+~$ tar zxvf s5_${S5_VERSION}_freebsd_amd64.tar.gz -C /usr/local/bin
 
 # DEB package (eg: linux/386)
-~$ wget https://github.com/mvisonneau/strongbox/releases/download/${S5_VERSION}/strongbox_${S5_VERSION}_linux_386.deb
-~$ dpkg -i strongbox_${S5_VERSION}_linux_386.deb
+~$ wget https://github.com/mvisonneau/s5/releases/download/${S5_VERSION}/s5_${S5_VERSION}_linux_386.deb
+~$ dpkg -i s5_${S5_VERSION}_linux_386.deb
 
 # RPM package (eg: linux/arm64)
-~$ wget https://github.com/mvisonneau/strongbox/releases/download/${S5_VERSION}/strongbox_${S5_VERSION}_linux_arm64.rpm
-~$ rpm -ivh strongbox_${S5_VERSION}_linux_arm64.rpm
+~$ wget https://github.com/mvisonneau/s5/releases/download/${S5_VERSION}/s5_${S5_VERSION}_linux_arm64.rpm
+~$ rpm -ivh s5_${S5_VERSION}_linux_arm64.rpm
 ```
 
 ## Examples
@@ -174,7 +174,7 @@ If you want to build and/or release your own version of `s5`, you need the follo
 - [goreleaser](https://goreleaser.com/)
 
 ```bash
-~$ git clone git@github.com:mvisonneau/strongbox.git && cd strongbox
+~$ git clone git@github.com:mvisonneau/s5.git && cd s5
 
 # Build the binaries locally
 ~$ make build

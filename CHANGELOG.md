@@ -7,6 +7,8 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+## [v0.1.11] - 2021-08-19
+
 ### Added
 
 - snapcraft releases
