@@ -55,7 +55,7 @@ Checksums are signed with the [following GPG key](https://keybase.io/mvisonneau/
 ### Go
 
 ```bash
-~$ go get -u github.com/mvisonneau/s5
+~$ go install github.com/mvisonneau/s5/cmd/s5@latest
 ```
 
 ### Snapcraft
