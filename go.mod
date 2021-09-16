@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	cloud.google.com/go/kms v0.1.0
-	github.com/aws/aws-sdk-go v1.40.25
+	github.com/aws/aws-sdk-go v1.40.41
 	github.com/hashicorp/vault/api v1.1.1
 	github.com/hashicorp/vault/sdk v0.2.1
 	github.com/jchavannes/go-pgp v0.0.0-20200131171414-e5978e6d02b4
