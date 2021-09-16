@@ -3,7 +3,7 @@ module github.com/mvisonneau/s5
 go 1.17
 
 require (
-	cloud.google.com/go/kms v0.1.0
+	cloud.google.com/go/kms v0.2.0
 	github.com/aws/aws-sdk-go v1.40.41
 	github.com/hashicorp/vault/api v1.1.1
 	github.com/hashicorp/vault/sdk v0.2.1
@@ -14,7 +14,7 @@ require (
 	github.com/stretchr/testify v1.7.0
 	github.com/urfave/cli/v2 v2.3.0
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83
-	google.golang.org/genproto v0.0.0-20210818220304-27ea9cc85d9f
+	google.golang.org/genproto v0.0.0-20210830153122-0bac4d21c8ea
 )
 
 require (
