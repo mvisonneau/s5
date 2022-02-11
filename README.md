@@ -74,8 +74,8 @@ Checksums are signed with the [following GPG key](https://keybase.io/mvisonneau/
 
 ```bash
 ~$ docker run -it --rm docker.io/mvisonneau/s5
-or
 ~$ docker run -it --rm ghcr.io/mvisonneau/s5
+~$ docker run -it --rm quay.io/mvisonneau/s5
 ```
 
 ### Scoop

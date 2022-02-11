@@ -48,7 +48,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.QUAY_TOKEN }}
 
-     - name: Snapcraft config
+      - name: Snapcraft config
         uses: samuelmeuli/action-snapcraft@v1
         with:
           snapcraft_token: ${{ secrets.SNAPCRAFT_TOKEN }}
