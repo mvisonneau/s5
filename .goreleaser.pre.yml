@@ -87,7 +87,7 @@ dockers:
       - docker.io/mvisonneau/s5:latest-armv6
       - ghcr.io/mvisonneau/s5:latest-armv6
       - quay.io/mvisonneau/s5:latest-armv6
-    ids: [gitlab-ci-pipelines-exporter]
+    ids: [s5]
     goarch: arm
     goarm: 6
     use: buildx
@@ -106,7 +106,7 @@ dockers:
       - docker.io/mvisonneau/s5:latest-armv7
       - ghcr.io/mvisonneau/s5:latest-armv7
       - quay.io/mvisonneau/s5:latest-armv7
-    ids: [gitlab-ci-pipelines-exporter]
+    ids: [s5]
     goarch: arm
     goarm: 7
     use: buildx
