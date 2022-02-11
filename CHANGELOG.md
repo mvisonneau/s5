@@ -7,6 +7,15 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+### Added
+
+- `linux/arm/v6` & `linux/arm/v7` releases
+- `quay.io` releases
+
+### Changed
+
+- Bumped dependencies to their latest versions
+
 ## [v0.1.11] - 2021-08-19
 
 ### Added
