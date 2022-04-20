@@ -13,15 +13,16 @@ func TestDecipher(t *testing.T) {
 	ctx.Command = &cli.Command{
 		Name: "aes",
 	}
+
 	flags.String("key", "cc6af4c2bf251c1cce0aebdbd39dc91d", "")
-	flags.Parse([]string{"{{s5:MmZmZTI0NDI1NjY3YTdhNjZhZjFmMGZjMzdkZjM0OTBiZGY0MDc6YTEzNzdlOGJkMTc2ZDg5NjE2ZTJlNjll}}"})
+	_ = flags.Parse([]string{"{{s5:MmZmZTI0NDI1NjY3YTdhNjZhZjFmMGZjMzdkZjM0OTBiZGY0MDc6YTEzNzdlOGJkMTc2ZDg5NjE2ZTJlNjll}}"})
 
 	exitCode, err := Decipher(ctx)
 	assert.NoError(t, err)
 	assert.Equal(t, 0, exitCode)
 
 	// Valid cipher engine with invalid input
-	flags.Parse([]string{"{{s5:bar}}"})
+	_ = flags.Parse([]string{"{{s5:bar}}"})
 	exitCode, err = Decipher(ctx)
 	assert.Error(t, err)
 	assert.Equal(t, 1, exitCode)

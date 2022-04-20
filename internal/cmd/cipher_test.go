@@ -15,7 +15,7 @@ func TestCipher(t *testing.T) {
 	}
 
 	flags.String("key", "cc6af4c2bf251c1cce0aebdbd39dc91d", "")
-	flags.Parse([]string{"foo"})
+	_ = flags.Parse([]string{"foo"})
 
 	exitCode, err := Cipher(ctx)
 	assert.NoError(t, err)

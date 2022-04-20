@@ -9,65 +9,92 @@ import (
 	"github.com/mvisonneau/s5/pkg/cipher/gcp"
 	"github.com/mvisonneau/s5/pkg/cipher/pgp"
 	"github.com/mvisonneau/s5/pkg/cipher/vault"
+	"github.com/pkg/errors"
 )
 
 const (
-	// InputRegexp is defining the syntax of an s5 input variable
+	// InputRegexp is defining the syntax of an s5 input variable.
 	InputRegexp string = `{{\s?s5:([A-Za-z0-9+\\/=]*)\s?}}`
 )
 
-// Engine is an interface of supported/required commands for each cipher engine
+// Engine is an interface of supported/required commands for each cipher engine.
 type Engine interface {
 	Cipher(string) (string, error)
 	Decipher(string) (string, error)
 }
 
-// NewAESClient creates a AES client
+// NewAESClient creates a AES client.
 func NewAESClient(key string) (*aes.Client, error) {
-	return aes.NewClient(&aes.Config{
+	c, err := aes.NewClient(&aes.Config{
 		Key: key,
 	})
+	if err != nil {
+		return c, errors.Wrap(err, "creating new AES engine client")
+	}
+
+	return c, nil
 }
 
-// NewAWSClient creates a AWS client
+// NewAWSClient creates a AWS client.
 func NewAWSClient(kmsKeyArn string) (*aws.Client, error) {
-	return aws.NewClient(&aws.Config{
+	c, err := aws.NewClient(&aws.Config{
 		KmsKeyArn: kmsKeyArn,
 	})
+	if err != nil {
+		return c, errors.Wrap(err, "creating new AWS engine client")
+	}
+
+	return c, nil
 }
 
-// NewGCPClient creates a GCP client
+// NewGCPClient creates a GCP client.
 func NewGCPClient(kmsKeyName string) (*gcp.Client, error) {
-	return gcp.NewClient(&gcp.Config{
+	c, err := gcp.NewClient(&gcp.Config{
 		KmsKeyName: kmsKeyName,
 	})
+	if err != nil {
+		return c, errors.Wrap(err, "creating new GCP engine client")
+	}
+
+	return c, nil
 }
 
-// NewPGPClient creates a PGP client
+// NewPGPClient creates a PGP client.
 func NewPGPClient(publicKeyPath, privateKeyPath string) (*pgp.Client, error) {
-	return pgp.NewClient(&pgp.Config{
+	c, err := pgp.NewClient(&pgp.Config{
 		PublicKeyPath:  publicKeyPath,
 		PrivateKeyPath: privateKeyPath,
 	})
+	if err != nil {
+		return c, errors.Wrap(err, "creating new PGP engine client")
+	}
+
+	return c, nil
 }
 
-// NewVaultClient creates a Vault client
+// NewVaultClient creates a Vault client.
 func NewVaultClient(key string) (*vault.Client, error) {
-	return vault.NewClient(&vault.Config{
+	c, err := vault.NewClient(&vault.Config{
 		Key: key,
 	})
+	if err != nil {
+		return c, errors.Wrap(err, "creating new Vault engine client")
+	}
+
+	return c, nil
 }
 
-// GenerateOutput return a ciphered string in a s5 format
+// GenerateOutput return a ciphered string in a s5 format.
 func GenerateOutput(value string) string {
 	return fmt.Sprintf("{{s5:%s}}", value)
 }
 
-// ParseInput retrieves ciphered value from a string in the s5 format
+// ParseInput retrieves ciphered value from a string in the s5 format.
 func ParseInput(value string) (string, error) {
 	re := regexp.MustCompile(InputRegexp)
 	if !re.MatchString(value) {
-		return "", fmt.Errorf("Invalid string format, should be '{{s5:*}}'")
+		return "", errors.New("invalid string format, should be '{{s5:*}}'")
 	}
+
 	return re.FindStringSubmatch(value)[1], nil
 }

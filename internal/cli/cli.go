@@ -9,16 +9,16 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-// Run handles the instanciation of the CLI application
+// Run handles the instanciation of the CLI application.
 func Run(version string, args []string) {
 	err := NewApp(version, time.Now()).Run(args)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(err) //nolint
 		os.Exit(1)
 	}
 }
 
-// NewApp configures the CLI application
+// NewApp configures the CLI application.
 func NewApp(version string, start time.Time) (app *cli.App) {
 	app = cli.NewApp()
 	app.Name = "s5"

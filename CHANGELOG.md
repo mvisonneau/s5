@@ -7,6 +7,9 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+- Implemented `golangci`
+- Bumped golang to `v1.18`
+
 ## [v0.1.12] - 2022-02-11
 
 ### Added

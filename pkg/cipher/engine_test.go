@@ -33,11 +33,11 @@ func TestNewAWSClient(t *testing.T) {
 // 	assert.IsType(t, &gcp.Client{}, c)
 // }
 
+// TODO: Test with actual keys.
 func TestNewPGPClient(t *testing.T) {
 	c, err := NewPGPClient("foo", "bar")
 	assert.Error(t, err)
 	assert.Nil(t, c)
-	// TODO: Test with actual keys
 }
 
 // func TestNewVaultClient(t *testing.T) {

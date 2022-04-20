@@ -10,77 +10,85 @@ import (
 	"io"
 	"strings"
 
+	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 )
 
-// Config handles necessary information for AES
+const (
+	nonceByteLength = 12
+)
+
+// Config handles necessary information for AES.
 type Config struct {
 	// Key in a string format, usually passed from a CLI flag
 	Key string
 }
 
-// Client is an handler for encryption functions
+// Client is an handler for encryption functions.
 type Client struct {
 	cipher.AEAD
 }
 
-// NewClient configures a client for encryption purposes
+// NewClient configures a client for encryption purposes.
 func NewClient(config *Config) (*Client, error) {
 	key, err := hex.DecodeString(config.Key)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "decoding hex value")
 	}
 
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "initializing aes engine")
 	}
 
 	aead, err := cipher.NewGCM(block)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "initializing gcm cipher engine")
 	}
 
 	return &Client{aead}, nil
 }
 
-// Cipher a value using the provided key
+// Cipher a value using the provided key.
 func (c *Client) Cipher(value string) (string, error) {
 	log.Debug("Ciphering using AES")
+
 	plaintext := []byte(value)
 
-	nonce := make([]byte, 12)
+	nonce := make([]byte, nonceByteLength)
 	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
-		return "", err
+		return "", errors.Wrap(err, "generating nonce")
 	}
 
 	ciphertext := c.Seal(nil, nonce, plaintext, nil)
+
 	return base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%x:%x", ciphertext, nonce))), nil
 }
 
-// Decipher a value using the TransitKey
+// Decipher a value using the TransitKey.
 func (c *Client) Decipher(value string) (string, error) {
 	log.Debugf("Deciphering '%s' using AES", value)
+
 	str, err := base64.StdEncoding.DecodeString(value)
 	if err != nil {
-		return "", fmt.Errorf("base64decode error : %s - value : %s", err, value)
+		return "", errors.Wrap(err, fmt.Sprintf("base64decode - input: '%s'", value))
 	}
 
-	s := strings.Split(string(str), ":")
+	splittedStr := strings.Split(string(str), ":")
 
-	ciphertext, err := hex.DecodeString(s[0])
+	ciphertext, err := hex.DecodeString(splittedStr[0])
 	if err != nil {
-		return "", err
+		return "", errors.Wrap(err, "decoding ciphered string")
 	}
 
-	nonce, err := hex.DecodeString(s[1])
+	nonce, err := hex.DecodeString(splittedStr[1])
 	if err != nil {
-		return "", err
+		return "", errors.Wrap(err, "decoding nonce from ciphered string")
 	}
 
 	plaintext, err := c.Open(nil, nonce, ciphertext, nil)
 	if err != nil {
-		return "", err
+		return "", errors.Wrap(err, "deciphering string with AES")
 	}
 
 	return string(plaintext), nil

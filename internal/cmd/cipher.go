@@ -5,10 +5,11 @@ import (
 	"strings"
 
 	"github.com/mvisonneau/s5/pkg/cipher"
+	"github.com/pkg/errors"
 	"github.com/urfave/cli/v2"
 )
 
-// Cipher is used for the cipher commands
+// Cipher is used for the cipher commands.
 func Cipher(ctx *cli.Context) (int, error) {
 	cipherEngine, err := getCipherEngine(ctx)
 	if err != nil {
@@ -21,9 +22,10 @@ func Cipher(ctx *cli.Context) (int, error) {
 
 	input, err := readInput(ctx)
 	if err != nil {
-		if err = cli.ShowSubcommandHelp(ctx); err != nil {
-			return 1, err
+		if err := cli.ShowSubcommandHelp(ctx); err != nil {
+			return 1, errors.Wrap(err, "rendering subcommand help")
 		}
+
 		return 1, err
 	}
 
@@ -33,10 +35,10 @@ func Cipher(ctx *cli.Context) (int, error) {
 
 	ciphered, err := cipherEngine.Cipher(input)
 	if err != nil {
-		return 1, err
+		return 1, errors.Wrap(err, "ciphering input")
 	}
 
-	fmt.Print(cipher.GenerateOutput(ciphered))
+	fmt.Print(cipher.GenerateOutput(ciphered)) //nolint
 
 	return 0, nil
 }

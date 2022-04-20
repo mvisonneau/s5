@@ -1,3 +1,3 @@
-package vault
+package vault_test
 
 // TODO: Implement!
