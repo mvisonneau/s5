@@ -14,7 +14,7 @@ fmt: setup ## Format source code
 	gofumpt -w $(FILES)
 
 .PHONY: lint
-lint:  ## Run all lint related tests upon the codebase
+lint: setup ## Run all lint related tests upon the codebase
 	golangci-lint run -v --fast
 
 .PHONY: test
