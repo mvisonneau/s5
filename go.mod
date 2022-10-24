@@ -12,7 +12,7 @@ require (
 	github.com/mvisonneau/go-helpers v0.0.1
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.8.1
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.8.1
 	github.com/urfave/cli/v2 v2.4.0
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
 	google.golang.org/genproto v0.0.0-20220414192740-2d67ff6cf2b4
@@ -74,5 +74,5 @@ require (
 	google.golang.org/grpc v1.45.0 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
