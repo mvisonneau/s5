@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/pkg/errors"
+
 	"github.com/mvisonneau/s5/pkg/cipher/aes"
 	"github.com/mvisonneau/s5/pkg/cipher/aws"
 	"github.com/mvisonneau/s5/pkg/cipher/gcp"
 	"github.com/mvisonneau/s5/pkg/cipher/pgp"
 	"github.com/mvisonneau/s5/pkg/cipher/vault"
-	"github.com/pkg/errors"
 )
 
 const (
@@ -19,8 +20,8 @@ const (
 
 // Engine is an interface of supported/required commands for each cipher engine.
 type Engine interface {
-	Cipher(string) (string, error)
-	Decipher(string) (string, error)
+	Cipher(value string) (string, error)
+	Decipher(value string) (string, error)
 }
 
 // NewAESClient creates a AES client.

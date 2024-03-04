@@ -8,7 +8,8 @@ and this project adheres to [0ver](https://0ver.org).
 ## [Unreleased]
 
 - Implemented `golangci`
-- Bumped golang to `v1.18`
+- Bumped golang to `v1.22`
+- Updated most dependencies to their latest available versions
 
 ## [v0.1.12] - 2022-02-11
 
@@ -66,7 +67,7 @@ and this project adheres to [0ver](https://0ver.org).
 
 ### Changed
 
-- Fixed silly bugs on `AWS` and `Vault` ciphers introduced in latest release
+- Fixed silly bugs on `AWS` and `Vault` ciphers introduced in the latest release
 - Use more coherent flags for `PGP` public and private key paths
 
 ## [0.1.7] - 2020-02-05

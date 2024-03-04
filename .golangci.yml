@@ -6,8 +6,11 @@ linters:
     - interfacer
     - maligned
     - scopelint
+    - ifshort
+    - nosnakecase
 
     # We don't want these ones
+    - depguard
     - exhaustivestruct
     - forcetypeassert
     - gochecknoglobals
@@ -31,3 +34,9 @@ linters-settings:
 
   lll:
     line-length: 130
+
+  gci:
+    sections:
+      - standard
+      - default
+      - prefix(github.com/mvisonneau)

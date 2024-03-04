@@ -5,15 +5,16 @@ import (
 	"os"
 	"time"
 
-	"github.com/mvisonneau/s5/internal/cmd"
 	"github.com/urfave/cli/v2"
+
+	"github.com/mvisonneau/s5/internal/cmd"
 )
 
 // Run handles the instanciation of the CLI application.
 func Run(version string, args []string) {
 	err := NewApp(version, time.Now()).Run(args)
 	if err != nil {
-		fmt.Println(err) //nolint
+		fmt.Println(err)
 		os.Exit(1)
 	}
 }

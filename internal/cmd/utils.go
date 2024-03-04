@@ -7,11 +7,12 @@ import (
 	"time"
 
 	"github.com/hashicorp/vault/sdk/helper/mlock"
-	"github.com/mvisonneau/go-helpers/logger"
-	"github.com/mvisonneau/s5/pkg/cipher"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+
+	"github.com/mvisonneau/go-helpers/logger"
+	"github.com/mvisonneau/s5/pkg/cipher"
 )
 
 var start time.Time

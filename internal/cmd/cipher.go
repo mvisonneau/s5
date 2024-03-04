@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/mvisonneau/s5/pkg/cipher"
 	"github.com/pkg/errors"
 	"github.com/urfave/cli/v2"
+
+	"github.com/mvisonneau/s5/pkg/cipher"
 )
 
 // Cipher is used for the cipher commands.
@@ -38,7 +39,7 @@ func Cipher(ctx *cli.Context) (int, error) {
 		return 1, errors.Wrap(err, "ciphering input")
 	}
 
-	fmt.Print(cipher.GenerateOutput(ciphered)) //nolint
+	fmt.Print(cipher.GenerateOutput(ciphered))
 
 	return 0, nil
 }

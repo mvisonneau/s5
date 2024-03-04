@@ -1,25 +1,27 @@
 NAME          := s5
 FILES         := $(shell git ls-files */*.go)
+COVERAGE_FILE := coverage.out
 REPOSITORY    := mvisonneau/$(NAME)
-VAULT_VERSION := 1.8.1
 .DEFAULT_GOAL := help
 
-.PHONY: setup
-setup: ## Install required libraries/tools for build tasks
-	@command -v gofumpt 2>&1 >/dev/null       || go install mvdan.cc/gofumpt@v0.3.1
-	@command -v golangci-lint 2>&1 >/dev/null || go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2
-
 .PHONY: fmt
-fmt: setup ## Format source code
-	gofumpt -w $(FILES)
+fmt: ## Format source code
+	go run mvdan.cc/gofumpt@v0.6.0 -w $(shell git ls-files **/*.go)
+	go run github.com/daixiang0/gci@v0.13.0 write -s standard -s default -s "prefix(github.com/mvisonneau)" .
 
 .PHONY: lint
-lint: setup ## Run all lint related tests upon the codebase
-	golangci-lint run -v --fast
+lint: ## Run all lint related tests upon the codebase
+	go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.56.2 run -v --fast
 
 .PHONY: test
 test: ## Run the tests against the codebase
-	go test -v -count=1 -race ./...
+	@rm -rf $(COVERAGE_FILE)
+	go test -v -count=1 -race ./... -coverprofile=$(COVERAGE_FILE)
+	@go tool cover -func $(COVERAGE_FILE) | awk '/^total/ {print "coverage: " $$3}'
+
+.PHONY: coverage
+coverage: ## Prints coverage report
+	go tool cover -func $(COVERAGE_FILE)
 
 .PHONY: install
 install: ## Build and install locally the binary (dev purpose)
@@ -31,26 +33,32 @@ build: ## Build the binaries using local GOOS
 
 .PHONY: release
 release: ## Build & release the binaries (stable)
+	mkdir -p ${HOME}/.cache/snapcraft/download
+	mkdir -p ${HOME}/.cache/snapcraft/stage-packages
 	git tag -d edge
-	goreleaser release --rm-dist
+	goreleaser release --clean
 	find dist -type f -name "*.snap" -exec snapcraft upload --release stable,edge '{}' \;
 
+.PHONY: protoc
+protoc: ## Generate golang from .proto files
+	@command -v protoc 2>&1 >/dev/null        || (echo "protoc needs to be available in PATH: https://github.com/protocolbuffers/protobuf/releases"; false)
+	@command -v protoc-gen-go 2>&1 >/dev/null || go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.3.0
+	protoc \
+		--go_out=. --go_opt=paths=source_relative \
+		--go-grpc_out=. --go-grpc_opt=paths=source_relative \
+		pkg/monitor/protobuf/monitor.proto
+
 .PHONY: prerelease
-prerelease: setup ## Build & prerelease the binaries (edge)
+prerelease: ## Build & prerelease the binaries (edge)
 	@\
 		REPOSITORY=$(REPOSITORY) \
-    	NAME=$(NAME) \
-    	GITHUB_TOKEN=$(GITHUB_TOKEN) \
-    	.github/prerelease.sh
+		NAME=$(NAME) \
+		GITHUB_TOKEN=$(GITHUB_TOKEN) \
+		.github/prerelease.sh
 
 .PHONY: clean
 clean: ## Remove binary if it exists
 	rm -f $(NAME)
-
-.PHONY: coverage
-coverage: ## Generates coverage report
-	rm -rf *.out
-	go test -v ./... -coverpkg=./... -coverprofile=coverage.out
 
 .PHONY: coverage-html
 coverage-html: ## Generates coverage report and displays it in the browser
@@ -71,7 +79,7 @@ dev-env: ## Build a local development environment using Docker
 		-e VAULT_ADDR=http://$$(docker inspect vault | jq -r '.[0].NetworkSettings.IPAddress'):8200 \
 		-e VAULT_TOKEN=$$(docker logs vault 2>/dev/null | grep 'Root Token' | cut -d' ' -f3 | sed -E "s/[[:cntrl:]]\[[0-9]{1,3}m//g") \
 		-e S5_TRANSIT_KEY=foo \
-		goreleaser/goreleaser:v1.8.2 \
+		goreleaser/goreleaser:v1.24.0 \
 		/bin/bash -c 'apk add --no-cache make; make setup; make install; bash'
 	@docker kill vault
 	@docker rm vault -f
@@ -80,6 +88,19 @@ dev-env: ## Build a local development environment using Docker
 is-git-dirty: ## Tests if git is in a dirty state
 	@git status --porcelain
 	@test $(shell git status --porcelain | grep -c .) -eq 0
+
+.PHONY: man-pages
+man-pages: ## Generates man pages
+	rm -rf helpers/manpages
+	mkdir -p helpers/manpages
+	go run ./cmd/tools/man | gzip -c -9 >helpers/manpages/$(NAME).1.gz
+
+.PHONY: autocomplete-scripts
+autocomplete-scripts: ## Download CLI autocompletion scripts
+	rm -rf helpers/autocomplete
+	mkdir -p helpers/autocomplete
+	curl -sL https://raw.githubusercontent.com/urfave/cli/v2.27.1/autocomplete/bash_autocomplete > helpers/autocomplete/bash
+	curl -sL https://raw.githubusercontent.com/urfave/cli/v2.27.1/autocomplete/zsh_autocomplete > helpers/autocomplete/zsh
 
 .PHONY: all
 all: lint test build coverage ## Test, builds and ship package for all supported platforms

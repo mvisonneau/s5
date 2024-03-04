@@ -6,10 +6,11 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/mvisonneau/s5/pkg/cipher"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+
+	"github.com/mvisonneau/s5/pkg/cipher"
 )
 
 // Render is used for the render commands.
@@ -43,6 +44,7 @@ func Render(ctx *cli.Context) (int, error) {
 		}
 	} else {
 		log.Debug("Reading from stdin")
+
 		fi = os.Stdin
 	}
 

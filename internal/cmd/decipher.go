@@ -3,10 +3,11 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/mvisonneau/s5/pkg/cipher"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+
+	"github.com/mvisonneau/s5/pkg/cipher"
 )
 
 // Decipher is used for the decipher commands.
@@ -41,7 +42,7 @@ func Decipher(ctx *cli.Context) (int, error) {
 		return 1, errors.Wrap(err, "deciphering input")
 	}
 
-	fmt.Print(deciphered) //nolint
+	fmt.Print(deciphered)
 
 	return 0, nil
 }
