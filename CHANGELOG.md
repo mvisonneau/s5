@@ -7,6 +7,8 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+## [v0.1.13] - 2024-03-04
+
 - Implemented `golangci`
 - Bumped golang to `v1.22`
 - Updated most dependencies to their latest available versions
@@ -165,7 +167,8 @@ and this project adheres to [0ver](https://0ver.org).
 - LICENSE
 - README
 
-[Unreleased]: https://github.com/mvisonneau/s5/compare/v0.1.12...HEAD
+[Unreleased]: https://github.com/mvisonneau/s5/compare/v0.1.13...HEAD
+[v0.1.13]: https://github.com/mvisonneau/s5/tree/v0.1.13
 [v0.1.12]: https://github.com/mvisonneau/s5/tree/v0.1.12
 [v0.1.11]: https://github.com/mvisonneau/s5/tree/v0.1.11
 [v0.1.10]: https://github.com/mvisonneau/s5/tree/v0.1.10
