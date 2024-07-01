@@ -7,7 +7,7 @@ REPOSITORY    := mvisonneau/$(NAME)
 .PHONY: fmt
 fmt: ## Format source code
 	go run mvdan.cc/gofumpt@v0.6.0 -w $(shell git ls-files **/*.go)
-	go run github.com/daixiang0/gci@v0.13.0 write -s standard -s default -s "prefix(github.com/mvisonneau)" .
+	go run github.com/daixiang0/gci@v0.13.4 write -s standard -s default -s "prefix(github.com/mvisonneau)" .
 
 .PHONY: lint
 lint: ## Run all lint related tests upon the codebase
