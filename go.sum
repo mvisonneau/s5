@@ -28,6 +28,8 @@ cloud.google.com/go/longrunning v0.5.8/go.mod h1:oJDErR/mm5h44gzsfjQlxd6jyjFvuBP
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/aws/aws-sdk-go v1.50.30 h1:2OelKH1eayeaH7OuL1Y9Ombfw4HK+/k0fEnJNWjyLts=
 github.com/aws/aws-sdk-go v1.50.30/go.mod h1:LF8svs817+Nz+DmiMQKTO3ubZ/6IaTpq3TjupRn3Eqk=
+github.com/aws/aws-sdk-go v1.54.11 h1:Zxuv/R+IVS0B66yz4uezhxH9FN9/G2nbxejYqAMFjxk=
+github.com/aws/aws-sdk-go v1.54.11/go.mod h1:eRwEWoyTWFMVYVQzKMNHWP5/RV4xIUGMQfXQHfHkpNU=
 github.com/cenkalti/backoff/v3 v3.2.2 h1:cfUAAO3yvKMYKPrvhDuHSwQnhZNk/RMHKdZqKTxfm6M=
 github.com/cenkalti/backoff/v3 v3.2.2/go.mod h1:cIeZDE3IrqwwJl6VUwCN6trj1oXrTS4rc0ij+ULvLYs=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
