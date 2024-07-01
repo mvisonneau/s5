@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/kms v1.18.1
 	github.com/aws/aws-sdk-go v1.54.11
 	github.com/hashicorp/vault/api v1.12.0
-	github.com/hashicorp/vault/sdk v0.11.0
+	github.com/hashicorp/vault/sdk v0.13.0
 	github.com/jchavannes/go-pgp v0.0.0-20200131171414-e5978e6d02b4
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mvisonneau/go-helpers v0.0.1
