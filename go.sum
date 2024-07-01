@@ -128,6 +128,8 @@ github.com/hashicorp/vault/api v1.12.0 h1:meCpJSesvzQyao8FCOgk2fGdoADAnbDu2WPJN1
 github.com/hashicorp/vault/api v1.12.0/go.mod h1:si+lJCYO7oGkIoNPAN8j3azBLTn9SjMGS+jFaHd1Cck=
 github.com/hashicorp/vault/sdk v0.11.0 h1:KP/tBUywaVcvOebAfMPNCCiXKeCNEbm3JauYmrZd7RI=
 github.com/hashicorp/vault/sdk v0.11.0/go.mod h1:cG0OZ7Ebq09Xn2N7OWtHbVqq6LpYP6fkyWo0PIvkLsA=
+github.com/hashicorp/vault/sdk v0.13.0 h1:UmcLF+7r70gy1igU44Suflgio30P2GOL4MkHPhJuiP8=
+github.com/hashicorp/vault/sdk v0.13.0/go.mod h1:LxhNTWRG99mXg9xijBCnCnIus+brLC5uFsQUQ4zgOnU=
 github.com/jchavannes/go-pgp v0.0.0-20200131171414-e5978e6d02b4 h1:AfTUqDjVFyY40SghT85bXRhpj34DOuIUQLB4DwExzkQ=
 github.com/jchavannes/go-pgp v0.0.0-20200131171414-e5978e6d02b4/go.mod h1:dtFptCZ3M/9AWU38htm1xFvWqaJr5ZvkiOiozne99Ps=
 github.com/jmespath/go-jmespath v0.4.0 h1:BEgLn5cpjn8UN1mAw4NjwDrS35OdebyEtFe+9YPoQUg=
