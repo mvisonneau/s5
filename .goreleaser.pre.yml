@@ -1,3 +1,4 @@
+version: 2
 before:
   hooks:
     - make man-pages
@@ -31,7 +32,7 @@ universal_binaries:
   - {}
 
 archives:
-  - name_template: '{{ .ProjectName }}_edge_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+  - name_template: "{{ .ProjectName }}_edge_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
     format_overrides:
       - goos: windows
         format: zip
@@ -46,7 +47,7 @@ nfpms:
     license: Apache-2.0
     homepage: https://github.com/mvisonneau/s5
     vendor: *author
-    file_name_template: '{{ .ProjectName }}_edge_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    file_name_template: "{{ .ProjectName }}_edge_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
     bindir: /usr/local/bin
     formats:
       - apk
@@ -58,7 +59,7 @@ nfpms:
         file_info:
           mode: 0644
       - src: ./helpers/autocomplete/zsh
-        dst:  /usr/share/zsh/vendor-completions/_{{ .ProjectName }}
+        dst: /usr/share/zsh/vendor-completions/_{{ .ProjectName }}
         file_info:
           mode: 0644
       - src: ./helpers/manpages/{{ .ProjectName }}.1.gz
@@ -86,9 +87,9 @@ snapcrafts:
 
 dockers:
   - image_templates:
-      - 'docker.io/mvisonneau/s5:latest-amd64'
-      - 'ghcr.io/mvisonneau/s5:latest-amd64'
-      - 'quay.io/mvisonneau/s5:latest-amd64'
+      - "docker.io/mvisonneau/s5:latest-amd64"
+      - "ghcr.io/mvisonneau/s5:latest-amd64"
+      - "quay.io/mvisonneau/s5:latest-amd64"
     ids: [s5]
     goarch: amd64
     use: buildx
@@ -104,9 +105,9 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/mvisonneau/s5:latest-arm64'
-      - 'ghcr.io/mvisonneau/s5:latest-arm64'
-      - 'quay.io/mvisonneau/s5:latest-arm64'
+      - "docker.io/mvisonneau/s5:latest-arm64"
+      - "ghcr.io/mvisonneau/s5:latest-arm64"
+      - "quay.io/mvisonneau/s5:latest-arm64"
     ids: [s5]
     goarch: arm64
     use: buildx
@@ -122,9 +123,9 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/mvisonneau/s5:latest-armv6'
-      - 'ghcr.io/mvisonneau/s5:latest-armv6'
-      - 'quay.io/mvisonneau/s5:latest-armv6'
+      - "docker.io/mvisonneau/s5:latest-armv6"
+      - "ghcr.io/mvisonneau/s5:latest-armv6"
+      - "quay.io/mvisonneau/s5:latest-armv6"
     ids: [s5]
     goarch: arm
     goarm: 6
@@ -141,9 +142,9 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/mvisonneau/s5:latest-armv7'
-      - 'ghcr.io/mvisonneau/s5:latest-armv7'
-      - 'quay.io/mvisonneau/s5:latest-armv7'
+      - "docker.io/mvisonneau/s5:latest-armv7"
+      - "ghcr.io/mvisonneau/s5:latest-armv7"
+      - "quay.io/mvisonneau/s5:latest-armv7"
     ids: [s5]
     goarch: arm
     goarm: 7
@@ -185,16 +186,16 @@ signs:
   - artifacts: checksum
     args:
       [
-        '-u',
-        'C09CA9F71C5C988E65E3E5FCADEA38EDC46F25BE',
-        '--output',
-        '${signature}',
-        '--detach-sign',
-        '${artifact}',
+        "-u",
+        "C09CA9F71C5C988E65E3E5FCADEA38EDC46F25BE",
+        "--output",
+        "${signature}",
+        "--detach-sign",
+        "${artifact}",
       ]
 
 checksum:
-  name_template: '{{ .ProjectName }}_edge_sha512sums.txt'
+  name_template: "{{ .ProjectName }}_edge_sha512sums.txt"
   algorithm: sha512
 
 changelog:
