@@ -4,7 +4,7 @@ name: release
 on:
   push:
     tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
+      - 'v[0-9]+.[0-9]+.[0-9]+'
     branches:
       - main
 
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     env:
-      DOCKER_CLI_EXPERIMENTAL: "enabled"
+      DOCKER_CLI_EXPERIMENTAL: 'enabled'
 
     steps:
       - name: Checkout
@@ -54,7 +54,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
         with:
-          go-version: "1.22"
+          go-version: '1.22'
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@01dd5d3ca463c7f10f7f4f7b4f177225ac661ee4 # v6
