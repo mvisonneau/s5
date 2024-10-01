@@ -62,6 +62,12 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: Install goreleaser
+        uses: goreleaser/goreleaser-action@286f3b13b1b49da4ac219696163fb8c1c93e1200 # v6.0.0
+        with:
+          version: v2.3.2
+          install-only: true
+
       - name: Run goreleaser
         run: make ${{ github.ref == 'refs/heads/main' && 'pre' || '' }}release
         env:
