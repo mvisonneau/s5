@@ -4,14 +4,18 @@ COVERAGE_FILE := coverage.out
 REPOSITORY    := mvisonneau/$(NAME)
 .DEFAULT_GOAL := help
 
+.PHONY: install-tools
+install-tools: ## Install required tools
+	@cd tools; grep _ tools.go | awk -F'"' '{print $$2}' | xargs -tI % go install %
+
 .PHONY: fmt
 fmt: ## Format source code
-	go run mvdan.cc/gofumpt@v0.6.0 -w $(shell git ls-files **/*.go)
-	go run github.com/daixiang0/gci@v0.13.4 write -s standard -s default -s "prefix(github.com/mvisonneau)" .
+	gofumpt -w $(shell git ls-files **/*.go)
+	gci write -s standard -s default -s "prefix(github.com/mvisonneau)" .
 
 .PHONY: lint
 lint: ## Run all lint related tests upon the codebase
-	go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.59.1 run -v --fast
+	golangci-lint run -v --fast
 
 .PHONY: test
 test: ## Run the tests against the codebase
