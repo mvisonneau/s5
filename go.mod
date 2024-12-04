@@ -3,7 +3,7 @@ module github.com/mvisonneau/s5
 go 1.22
 
 require (
-	cloud.google.com/go/kms v1.20.1
+	cloud.google.com/go/kms v1.20.2
 	github.com/aws/aws-sdk-go v1.55.5
 	github.com/hashicorp/vault/api v1.15.0
 	github.com/hashicorp/vault/sdk v0.14.0
@@ -14,7 +14,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.10.0
 	github.com/urfave/cli/v2 v2.27.5
-	golang.org/x/crypto v0.29.0
+	golang.org/x/crypto v0.30.0
 	google.golang.org/genproto v0.0.0-20241202173237-19429a94021a
 )
 
@@ -61,9 +61,9 @@ require (
 	go.opentelemetry.io/otel/trace v1.29.0 // indirect
 	golang.org/x/net v0.30.0 // indirect
 	golang.org/x/oauth2 v0.23.0 // indirect
-	golang.org/x/sync v0.9.0 // indirect
-	golang.org/x/sys v0.27.0 // indirect
-	golang.org/x/text v0.20.0 // indirect
+	golang.org/x/sync v0.10.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 	golang.org/x/time v0.7.0 // indirect
 	google.golang.org/api v0.203.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241118233622-e639e219e697 // indirect
