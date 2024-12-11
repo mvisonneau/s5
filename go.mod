@@ -14,7 +14,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.10.0
 	github.com/urfave/cli/v2 v2.27.5
-	golang.org/x/crypto v0.30.0
+	golang.org/x/crypto v0.31.0
 	google.golang.org/genproto v0.0.0-20241209162323-e6fa225c2576
 )
 
