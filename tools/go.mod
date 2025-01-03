@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/daixiang0/gci v0.13.5
-	github.com/golangci/golangci-lint v1.63.3
+	github.com/golangci/golangci-lint v1.63.4
 	github.com/goreleaser/goreleaser/v2 v2.5.1
 	mvdan.cc/gofumpt v0.7.0
 )
