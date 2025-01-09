@@ -3,7 +3,7 @@ module github.com/mvisonneau/s5
 go 1.22
 
 require (
-	cloud.google.com/go/kms v1.20.4
+	cloud.google.com/go/kms v1.20.5
 	github.com/aws/aws-sdk-go v1.55.5
 	github.com/hashicorp/vault/api v1.15.0
 	github.com/hashicorp/vault/sdk v0.14.0
