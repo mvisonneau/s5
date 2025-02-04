@@ -2,7 +2,7 @@ module github.com/mvisonneau/s5/tools
 
 go 1.23.4
 
-toolchain go1.23.5
+toolchain go1.23.6
 
 require (
 	github.com/daixiang0/gci v0.13.5

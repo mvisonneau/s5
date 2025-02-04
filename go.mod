@@ -2,7 +2,7 @@ module github.com/mvisonneau/s5
 
 go 1.23.3
 
-toolchain go1.23.5
+toolchain go1.23.6
 
 require (
 	cloud.google.com/go/kms v1.20.5
@@ -17,7 +17,7 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/urfave/cli/v2 v2.27.5
 	golang.org/x/crypto v0.32.0
-	google.golang.org/genproto v0.0.0-20250127172529-29210b9bc287
+	google.golang.org/genproto v0.0.0-20250204164813-702378808489
 )
 
 require (
