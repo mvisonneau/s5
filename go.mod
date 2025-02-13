@@ -17,7 +17,7 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/urfave/cli/v2 v2.27.5
 	golang.org/x/crypto v0.33.0
-	google.golang.org/genproto v0.0.0-20250207221924-e9438ea467c6
+	google.golang.org/genproto v0.0.0-20250212204824-5a70512c5d8b
 )
 
 require (
