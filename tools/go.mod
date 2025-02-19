@@ -6,7 +6,7 @@ toolchain go1.24.0
 
 require (
 	github.com/daixiang0/gci v0.13.5
-	github.com/golangci/golangci-lint v1.64.4
+	github.com/golangci/golangci-lint v1.64.5
 	github.com/goreleaser/goreleaser/v2 v2.7.0
 	mvdan.cc/gofumpt v0.7.0
 )
