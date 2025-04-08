@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/urfave/cli/v2"
 )
 
@@ -18,13 +19,13 @@ func TestDecipher(t *testing.T) {
 	_ = flags.Parse([]string{"{{s5:MmZmZTI0NDI1NjY3YTdhNjZhZjFmMGZjMzdkZjM0OTBiZGY0MDc6YTEzNzdlOGJkMTc2ZDg5NjE2ZTJlNjll}}"})
 
 	exitCode, err := Decipher(ctx)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, 0, exitCode)
 
 	// Valid cipher engine with invalid input
 	_ = flags.Parse([]string{"{{s5:bar}}"})
 	exitCode, err = Decipher(ctx)
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.Equal(t, 1, exitCode)
 
 	// With a invalid cipher engine
@@ -32,6 +33,6 @@ func TestDecipher(t *testing.T) {
 		Name: "foo",
 	}
 	exitCode, err = Decipher(ctx)
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.Equal(t, 1, exitCode)
 }

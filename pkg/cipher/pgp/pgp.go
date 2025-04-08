@@ -1,14 +1,14 @@
 package pgp
 
 import (
-	"encoding/base64"
-	"fmt"
-	"io/ioutil"
+	"bytes"
+	"io"
+	"os"
+	"strings"
 
-	"github.com/jchavannes/go-pgp/pgp"
+	"github.com/ProtonMail/go-crypto/openpgp"
+	"github.com/ProtonMail/go-crypto/openpgp/armor"
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
-	"golang.org/x/crypto/openpgp"
 )
 
 // Config handles necessary information for PGP.
@@ -29,56 +29,74 @@ func NewClient(config *Config) (*Client, error) {
 		publicKey, privateKey []byte
 	)
 
-	publicKey, err = ioutil.ReadFile(config.PublicKeyPath)
+	publicKey, err = os.ReadFile(config.PublicKeyPath)
 	if err != nil {
 		return nil, errors.New("reading the public-key file")
 	}
 
+	var entity *openpgp.Entity
 	if len(config.PrivateKeyPath) > 0 {
-		privateKey, err = ioutil.ReadFile(config.PrivateKeyPath)
+		privateKey, err = os.ReadFile(config.PrivateKeyPath)
 		if err != nil {
 			return nil, errors.New("reading the private-key file")
 		}
+
+		entityList, err := openpgp.ReadArmoredKeyRing(bytes.NewReader(privateKey))
+		if err != nil || len(entityList) == 0 {
+			return nil, errors.New("parsing the private key")
+		}
+		entity = entityList[0]
+	} else {
+		entityList, err := openpgp.ReadArmoredKeyRing(bytes.NewReader(publicKey))
+		if err != nil || len(entityList) == 0 {
+			return nil, errors.New("parsing the public key")
+		}
+		entity = entityList[0]
 	}
 
-	var pgpEntity *openpgp.Entity
-
-	pgpEntity, err = pgp.GetEntity(publicKey, privateKey)
-	if err != nil {
-		log.Debugf("PUBLIC KEY:\n%s", string(publicKey))
-		log.Debugf("PRIVATE KEY:\n%s", string(privateKey))
-
-		return nil, errors.New("creating the PGP entity from the key(s)")
-	}
-
-	return &Client{Entity: pgpEntity}, nil
+	return &Client{Entity: entity}, nil
 }
 
 // Cipher a value using a Public pgp key.
 func (c *Client) Cipher(value string) (string, error) {
-	log.Debug("Ciphering using pgp public key")
-
-	d, err := pgp.Encrypt(c.Entity, []byte(value))
+	var buf bytes.Buffer
+	w, err := armor.Encode(&buf, "PGP MESSAGE", nil)
 	if err != nil {
-		return "", errors.Wrap(err, "ciphering using PGP")
+		return "", errors.Wrap(err, "armor encode")
 	}
 
-	return base64.StdEncoding.EncodeToString(d), nil
+	plaintextWriter, err := openpgp.Encrypt(w, []*openpgp.Entity{c.Entity}, nil, nil, nil)
+	if err != nil {
+		return "", errors.Wrap(err, "encrypt")
+	}
+
+	_, err = plaintextWriter.Write([]byte(value))
+	if err != nil {
+		return "", errors.Wrap(err, "write to plaintext writer")
+	}
+
+	_ = plaintextWriter.Close()
+	_ = w.Close()
+
+	return buf.String(), nil
 }
 
 // Decipher a value using a Public and Private pgp keypair.
 func (c *Client) Decipher(value string) (string, error) {
-	log.Debugf("Deciphering '%s' using pgp public/private keypair", value)
-
-	str, err := base64.StdEncoding.DecodeString(value)
+	block, err := armor.Decode(strings.NewReader(value))
 	if err != nil {
-		return "", errors.Wrap(err, fmt.Sprintf("base64decode - value : '%s'", value))
+		return "", errors.Wrap(err, "armor decode")
 	}
 
-	d, err := pgp.Decrypt(c.Entity, str)
+	md, err := openpgp.ReadMessage(block.Body, openpgp.EntityList{c.Entity}, nil, nil)
 	if err != nil {
-		return "", errors.Wrap(err, "deciphering using PGP")
+		return "", errors.Wrap(err, "read message")
 	}
 
-	return string(d), nil
+	decryptedBytes, err := io.ReadAll(md.UnverifiedBody)
+	if err != nil {
+		return "", errors.Wrap(err, "read decrypted body")
+	}
+
+	return string(decryptedBytes), nil
 }

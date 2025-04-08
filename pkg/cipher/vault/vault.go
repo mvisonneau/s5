@@ -2,8 +2,6 @@ package vault
 
 import (
 	"encoding/base64"
-	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -60,7 +58,7 @@ func (c *Client) Decipher(value string) (string, error) {
 	log.Debugf("Deciphering '%s' using Vault transit key", value)
 
 	payload := make(map[string]interface{})
-	payload["ciphertext"] = fmt.Sprintf("vault:v1:%s", value)
+	payload["ciphertext"] = "vault:v1:" + value
 
 	d, err := c.Logical().Write("transit/decrypt/"+c.Config.Key, payload)
 	if err != nil {
@@ -80,7 +78,7 @@ func getClient() (*api.Client, error) {
 	}
 
 	if len(os.Getenv("VAULT_ADDR")) == 0 {
-		return nil, fmt.Errorf("VAULT_ADDR env is not defined")
+		return nil, errors.New("VAULT_ADDR env is not defined")
 	}
 
 	if err = c.SetAddress(os.Getenv("VAULT_ADDR")); err != nil {
@@ -91,7 +89,7 @@ func getClient() (*api.Client, error) {
 	if len(token) == 0 {
 		home, _ := homedir.Dir()
 
-		f, err := ioutil.ReadFile(filepath.Clean(home + "/.vault-token"))
+		f, err := os.ReadFile(filepath.Clean(home + "/.vault-token"))
 		if err != nil {
 			return nil, errors.New("vault token is not defined (VAULT_TOKEN or ~/.vault-token)")
 		}

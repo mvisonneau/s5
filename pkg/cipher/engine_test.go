@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/mvisonneau/s5/pkg/cipher/aes"
 	"github.com/mvisonneau/s5/pkg/cipher/aws"
@@ -11,18 +12,18 @@ import (
 
 func TestNewAESClient(t *testing.T) {
 	c, err := NewAESClient("cc6af4c2bf251c1cce0aebdbd39dc91d")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, c)
 	assert.IsType(t, &aes.Client{}, c)
 
 	c, err = NewAESClient("foo")
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.Nil(t, c)
 }
 
 func TestNewAWSClient(t *testing.T) {
 	c, err := NewAWSClient("arn::kms::foo")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, c)
 	assert.IsType(t, &aws.Client{}, c)
 }
@@ -37,7 +38,7 @@ func TestNewAWSClient(t *testing.T) {
 // TODO: Test with actual keys.
 func TestNewPGPClient(t *testing.T) {
 	c, err := NewPGPClient("foo", "bar")
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.Nil(t, c)
 }
 
@@ -55,14 +56,14 @@ func TestGenerateOutput(t *testing.T) {
 
 func TestParseInput(t *testing.T) {
 	v, err := ParseInput("{{s5:abc}}")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, "abc", v)
 
 	v, err = ParseInput("{{ s5:abc }}")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, "abc", v)
 
 	v, err = ParseInput("{s5:abc}")
-	assert.Error(t, err)
-	assert.Equal(t, "", v)
+	require.Error(t, err)
+	assert.Empty(t, v)
 }

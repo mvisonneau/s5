@@ -2,20 +2,19 @@ NAME          := s5
 FILES         := $(shell git ls-files */*.go)
 COVERAGE_FILE := coverage.out
 REPOSITORY    := mvisonneau/$(NAME)
-.DEFAULT_GOAL := help
 
-.PHONY: install-tools
-install-tools: ## Install required tools
-	@cd tools; grep _ tools.go | awk -F'"' '{print $$2}' | xargs -tI % go install %
+GOLANGCI_LINT := go tool github.com/golangci/golangci-lint/v2/cmd/golangci-lint
+GORELEASER    := go tool github.com/goreleaser/goreleaser/v2
+
+.DEFAULT_GOAL := help
 
 .PHONY: fmt
 fmt: ## Format source code
-	gofumpt -w $(shell git ls-files **/*.go)
-	gci write -s standard -s default -s "prefix(github.com/mvisonneau)" .
+	$(GOLANGCI_LINT) fmt -v
 
 .PHONY: lint
 lint: ## Run all lint related tests upon the codebase
-	golangci-lint run -v --fast
+	$(GOLANGCI_LINT) run -v
 
 .PHONY: test
 test: ## Run the tests against the codebase
@@ -40,17 +39,8 @@ release: ## Build & release the binaries (stable)
 	mkdir -p ${HOME}/.cache/snapcraft/download
 	mkdir -p ${HOME}/.cache/snapcraft/stage-packages
 	git tag -d edge
-	goreleaser release --clean
+	$(GORELEASER) release --clean
 	find dist -type f -name "*.snap" -exec snapcraft upload --release stable,edge '{}' \;
-
-.PHONY: protoc
-protoc: ## Generate golang from .proto files
-	@command -v protoc 2>&1 >/dev/null        || (echo "protoc needs to be available in PATH: https://github.com/protocolbuffers/protobuf/releases"; false)
-	@command -v protoc-gen-go 2>&1 >/dev/null || go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.3.0
-	protoc \
-		--go_out=. --go_opt=paths=source_relative \
-		--go-grpc_out=. --go-grpc_opt=paths=source_relative \
-		pkg/monitor/protobuf/monitor.proto
 
 .PHONY: prerelease
 prerelease: ## Build & prerelease the binaries (edge)

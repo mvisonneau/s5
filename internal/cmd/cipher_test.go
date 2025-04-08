@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/urfave/cli/v2"
 )
 
@@ -18,7 +19,7 @@ func TestCipher(t *testing.T) {
 	_ = flags.Parse([]string{"foo"})
 
 	exitCode, err := Cipher(ctx)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, 0, exitCode)
 
 	// With a invalid cipher engine
@@ -26,6 +27,6 @@ func TestCipher(t *testing.T) {
 		Name: "foo",
 	}
 	exitCode, err = Cipher(ctx)
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.Equal(t, 1, exitCode)
 }

@@ -6,9 +6,9 @@ import (
 	"fmt"
 
 	cloudkms "cloud.google.com/go/kms/apiv1"
+	"cloud.google.com/go/kms/apiv1/kmspb"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
-	kmspb "google.golang.org/genproto/googleapis/cloud/kms/v1"
 )
 
 // Config handles necessary information for AES.
@@ -53,7 +53,7 @@ func (c *Client) Cipher(value string) (string, error) {
 		return "", errors.Wrap(err, "ciphering value")
 	}
 
-	return base64.StdEncoding.EncodeToString(resp.Ciphertext), nil
+	return base64.StdEncoding.EncodeToString(resp.GetCiphertext()), nil
 }
 
 // Decipher : Decipher a value using the TransitKey.
@@ -75,5 +75,5 @@ func (c *Client) Decipher(value string) (string, error) {
 		return "", errors.Wrap(err, "deciphering value")
 	}
 
-	return string(resp.Plaintext), nil
+	return string(resp.GetPlaintext()), nil
 }

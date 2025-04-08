@@ -1,0 +1,35 @@
+linters:
+  enable-all: true
+  disable:
+    # Deprecated
+    - gomnd
+
+    # We don't want these ones
+    - depguard
+    - forcetypeassert
+    - gochecknoglobals
+    - godox
+    - ireturn
+    - nakedret
+    - testpackage
+    - varnamelen
+
+    # To assess later on
+    - paralleltest
+
+linters-settings:
+  funlen:
+    lines: -1 # (disabled)
+    statements: 60
+
+  cyclop:
+    max-complexity: 20
+
+  lll:
+    line-length: 130
+
+  gci:
+    sections:
+      - standard
+      - default
+      - prefix(github.com/mvisonneau)

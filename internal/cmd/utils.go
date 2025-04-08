@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"time"
 
@@ -57,7 +57,7 @@ func getCipherEngine(ctx *cli.Context) (engine cipher.Engine, err error) {
 func readInput(ctx *cli.Context) (input string, err error) {
 	switch ctx.NArg() {
 	case 0:
-		read, err := ioutil.ReadAll(os.Stdin)
+		read, err := io.ReadAll(os.Stdin)
 		if err != nil {
 			return "", errors.Wrap(err, "reading from stdin")
 		}
@@ -75,6 +75,7 @@ func readInput(ctx *cli.Context) (input string, err error) {
 func exit(exitCode int, err error) cli.ExitCoder {
 	defer log.WithFields(
 		log.Fields{
+			//nolint: govet
 			"execution-time": time.Since(start),
 		},
 	).Debug("exited..")

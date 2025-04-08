@@ -1,35 +1,45 @@
-linters:
-  enable-all: true
-  disable:
-    # Deprecated
-    - gomnd
+version: "2"
 
-    # We don't want these ones
+linters:
+  default: all
+  disable:
     - depguard
     - forcetypeassert
     - gochecknoglobals
     - godox
     - ireturn
+    - mnd
     - nakedret
+    - paralleltest
     - testpackage
     - varnamelen
+    - exhaustruct
+    - revive
+    - err113
+    - wsl
+    - nonamedreturns
+    - nolintlint
+    - forbidigo
 
-    # To assess later on
-    - paralleltest
+  settings:
+    cyclop:
+      max-complexity: 20
+    funlen:
+      lines: -1
+      statements: 60
+    lll:
+      line-length: 130
 
-linters-settings:
-  funlen:
-    lines: -1 # (disabled)
-    statements: 60
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - goimports
 
-  cyclop:
-    max-complexity: 20
-
-  lll:
-    line-length: 130
-
-  gci:
-    sections:
-      - standard
-      - default
-      - prefix(github.com/mvisonneau)
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/mvisonneau)

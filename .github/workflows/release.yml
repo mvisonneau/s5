@@ -54,10 +54,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@f111f3307d8850f501ac008e886eec1fd1932a34 # v5
         with:
-          go-version: '1.23'
-
-      - name: Install tools
-        run: make install-tools
+          go-version: '1.24'
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@cb9bde2e2525e640591a934b1fd28eef1dcaf5e5 # v6

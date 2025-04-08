@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"flag"
-	"fmt"
 	"testing"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/urfave/cli/v2"
 )
@@ -31,7 +31,7 @@ func NewTestContext() (ctx *cli.Context, flags, globalFlags *flag.FlagSet) {
 }
 
 func TestExit(t *testing.T) {
-	err := exit(20, fmt.Errorf("test"))
-	assert.Equal(t, "", err.Error())
+	err := exit(20, errors.New("test"))
+	assert.Empty(t, err.Error())
 	assert.Equal(t, 20, err.ExitCode())
 }
