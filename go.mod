@@ -7,7 +7,7 @@ toolchain go1.24.2
 require (
 	cloud.google.com/go/kms v1.21.2
 	github.com/ProtonMail/go-crypto v1.2.0
-	github.com/aws/aws-sdk-go v1.55.6
+	github.com/aws/aws-sdk-go v1.55.7
 	github.com/hashicorp/vault/api v1.16.0
 	github.com/hashicorp/vault/sdk v0.15.2
 	github.com/mitchellh/go-homedir v1.1.0
