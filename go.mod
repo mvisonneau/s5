@@ -2,7 +2,7 @@ module github.com/mvisonneau/s5
 
 go 1.24
 
-toolchain go1.24.2
+toolchain go1.24.3
 
 require (
 	cloud.google.com/go/kms v1.21.2
