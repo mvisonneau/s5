@@ -11,7 +11,7 @@ RUN \
 # RELEASE CONTAINER
 ##
 
-FROM busybox:1.37.0-glibc@sha256:facb103d02c3e0fcf34e272264b7d7deea98e1b2861075d2c9c4dd329d4c1c0d
+FROM busybox:1.37.0-glibc@sha256:443b7b6cd5fa475ed1f6b0a17bb1dc44f1a9a3b119cdac413744d42849594dbc
 
 WORKDIR /
 
