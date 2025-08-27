@@ -14,7 +14,7 @@ require (
 	github.com/mvisonneau/go-helpers v0.0.1
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.3
-	github.com/stretchr/testify v1.11.0
+	github.com/stretchr/testify v1.11.1
 	github.com/urfave/cli/v2 v2.27.7
 )
 
