@@ -12,13 +12,9 @@ import (
 )
 
 // Cipher is used for the cipher commands.
-func Cipher(_ context.Context, cmd *cli.Command) error {
-	cipherEngine, err := getCipherEngine(cmd)
+func Cipher(ctx context.Context, cmd *cli.Command) error {
+	cipherEngine, err := getCipherEngine(ctx, cmd)
 	if err != nil {
-		return err
-	}
-
-	if err = configure(cmd); err != nil {
 		return err
 	}
 
@@ -35,7 +31,7 @@ func Cipher(_ context.Context, cmd *cli.Command) error {
 		input = strings.Trim(input, " \n")
 	}
 
-	ciphered, err := cipherEngine.Cipher(input)
+	ciphered, err := cipherEngine.Cipher(ctx, input)
 	if err != nil {
 		return errors.Wrap(err, "ciphering input")
 	}

@@ -2,6 +2,7 @@ package pgp
 
 import (
 	"bytes"
+	"context"
 	"io"
 	"os"
 	"strings"
@@ -9,6 +10,8 @@ import (
 	"github.com/ProtonMail/go-crypto/openpgp"
 	"github.com/ProtonMail/go-crypto/openpgp/armor"
 	"github.com/pkg/errors"
+
+	"github.com/mvisonneau/s5/internal/logs"
 )
 
 // Config handles necessary information for PGP.
@@ -58,7 +61,8 @@ func NewClient(config *Config) (*Client, error) {
 }
 
 // Cipher a value using a Public pgp key.
-func (c *Client) Cipher(value string) (string, error) {
+func (c *Client) Cipher(ctx context.Context, value string) (string, error) {
+	logs.LoggerFromContext(ctx).Debug("ciphering using a public pgp key")
 	var buf bytes.Buffer
 	w, err := armor.Encode(&buf, "PGP MESSAGE", nil)
 	if err != nil {
@@ -82,7 +86,8 @@ func (c *Client) Cipher(value string) (string, error) {
 }
 
 // Decipher a value using a Public and Private pgp keypair.
-func (c *Client) Decipher(value string) (string, error) {
+func (c *Client) Decipher(ctx context.Context, value string) (string, error) {
+	logs.LoggerFromContext(ctx).Debug("deciphering using a public pgp key")
 	block, err := armor.Decode(strings.NewReader(value))
 	if err != nil {
 		return "", errors.Wrap(err, "armor decode")

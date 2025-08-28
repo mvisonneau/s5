@@ -8,20 +8,18 @@ import (
 	"regexp"
 
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v3"
+	"go.uber.org/zap"
 
+	"github.com/mvisonneau/s5/internal/logs"
 	"github.com/mvisonneau/s5/pkg/cipher"
 )
 
 // Render is used for the render commands.
-func Render(_ context.Context, cmd *cli.Command) error {
-	cipherEngine, err := getCipherEngine(cmd)
+func Render(ctx context.Context, cmd *cli.Command) error {
+	logger := logs.LoggerFromContext(ctx)
+	cipherEngine, err := getCipherEngine(ctx, cmd)
 	if err != nil {
-		return err
-	}
-
-	if err := configure(cmd); err != nil {
 		return err
 	}
 
@@ -37,14 +35,14 @@ func Render(_ context.Context, cmd *cli.Command) error {
 	var fi *os.File
 
 	if cmd.NArg() == 1 {
-		log.Debugf("Opening input file : %s", cmd.Args().First())
+		logger.Debug("opening input file", zap.String("file", cmd.Args().First()))
 
 		fi, err = os.Open(cmd.Args().First())
 		if err != nil {
 			return errors.Wrap(err, "opening input file")
 		}
 	} else {
-		log.Debug("Reading from stdin")
+		logger.Debug("reading from stdin")
 
 		fi = os.Stdin
 	}
@@ -54,14 +52,14 @@ func Render(_ context.Context, cmd *cli.Command) error {
 
 	var buf bytes.Buffer
 
-	log.Debug("Starting deciphering")
+	logger.Debug("starting deciphering")
 
 	for in.Scan() {
 		buf.WriteString(
 			re.ReplaceAllStringFunc(in.Text(), func(src string) string {
-				log.Debugf("found: %v", re.FindStringSubmatch(src)[1])
+				logger.Debug("found content to decipher", zap.String("content", re.FindStringSubmatch(src)[1]))
 
-				plain, err := cipherEngine.Decipher(re.FindStringSubmatch(src)[1])
+				plain, err := cipherEngine.Decipher(ctx, re.FindStringSubmatch(src)[1])
 				if err != nil {
 					panic(err)
 				}
@@ -82,25 +80,25 @@ func Render(_ context.Context, cmd *cli.Command) error {
 
 	switch {
 	case cmd.String("output") != "":
-		log.Debugf("Creating and outputing to file : %s", cmd.String("output"))
+		logger.Debug("creating and saving to file", zap.String("file", cmd.String("output")))
 
 		fo, err = os.Create(cmd.String("output"))
 		if err != nil {
 			return errors.Wrap(err, "creating output file")
 		}
 
-		defer closeFile(fo)
+		defer closeFile(ctx, fo)
 	case cmd.Bool("in-place"):
-		log.Debug("Updating the source file (in-place)")
+		logger.Debug("updating the source file (in-place)")
 
 		fo, err = os.Create(cmd.Args().First())
 		if err != nil {
 			return errors.Wrap(err, "writing output file")
 		}
 
-		defer closeFile(fo)
+		defer closeFile(ctx, fo)
 	default:
-		log.Debug("Outputing to stdout")
+		logger.Debug("writing to stdout")
 
 		fo = os.Stdout
 	}
@@ -118,8 +116,8 @@ func Render(_ context.Context, cmd *cli.Command) error {
 	return nil
 }
 
-func closeFile(f *os.File) {
+func closeFile(ctx context.Context, f *os.File) {
 	if err := f.Close(); err != nil {
-		log.Error("closing file")
+		logs.LoggerFromContext(ctx).Error("closing file")
 	}
 }

@@ -1,6 +1,7 @@
 package cipher
 
 import (
+	"context"
 	"fmt"
 	"regexp"
 
@@ -20,11 +21,11 @@ const (
 
 // Engine is an interface of supported/required commands for each cipher engine.
 type Engine interface {
-	Cipher(value string) (string, error)
-	Decipher(value string) (string, error)
+	Cipher(ctx context.Context, value string) (string, error)
+	Decipher(ctx context.Context, value string) (string, error)
 }
 
-// NewAESClient creates a AES client.
+// NewAESClient creates an AES client.
 func NewAESClient(key string) (*aes.Client, error) {
 	c, err := aes.NewClient(&aes.Config{
 		Key: key,

@@ -1,6 +1,7 @@
 package aws
 
 import (
+	"context"
 	"encoding/base64"
 	"fmt"
 
@@ -8,7 +9,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/kms"
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
+
+	"github.com/mvisonneau/s5/internal/logs"
 )
 
 // Config handles necessary information for AES.
@@ -38,8 +40,8 @@ func NewClient(config *Config) (*Client, error) {
 }
 
 // Cipher a value using the provided key.
-func (c *Client) Cipher(value string) (string, error) {
-	log.Debug("Ciphering using AWS KMS key")
+func (c *Client) Cipher(ctx context.Context, value string) (string, error) {
+	logs.LoggerFromContext(ctx).Debug("ciphering using AWS KMS key")
 
 	result, err := c.Encrypt(&kms.EncryptInput{
 		KeyId:     aws.String(c.Config.KmsKeyArn),
@@ -53,8 +55,8 @@ func (c *Client) Cipher(value string) (string, error) {
 }
 
 // Decipher a value using the provided KMS Key.
-func (c *Client) Decipher(value string) (string, error) {
-	log.Debugf("Deciphering '%s' using AWS KMS key", value)
+func (c *Client) Decipher(ctx context.Context, value string) (string, error) {
+	logs.LoggerFromContext(ctx).Debug("deciphering using AWS KMS key")
 
 	ciphertext, err := base64.StdEncoding.DecodeString(value)
 	if err != nil {
