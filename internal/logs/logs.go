@@ -56,21 +56,24 @@ func NewLogger(level, format string) (*zap.Logger, string, error) {
 func StoreLoggerInContext(ctx context.Context, l *zap.Logger, loggerEncoding string) context.Context {
 	ctx = context.WithValue(ctx, loggerKey{}, l)
 	ctx = context.WithValue(ctx, loggerEncodingKey{}, loggerEncoding)
+
 	return ctx
 }
 
-// LoggerFromContext returns logs from context
+// LoggerFromContext returns logs from context.
 func LoggerFromContext(ctx context.Context) *zap.Logger {
 	if l, ok := ctx.Value(loggerKey{}).(*zap.Logger); ok {
 		return l
 	}
+
 	return zap.L()
 }
 
-// LoggerEncodingFromContext returns logs's encoding from context
+// LoggerEncodingFromContext returns logs's encoding from context.
 func LoggerEncodingFromContext(ctx context.Context) string {
 	if encoding, ok := ctx.Value(loggerEncodingKey{}).(string); ok {
 		return encoding
 	}
+
 	return "console"
 }

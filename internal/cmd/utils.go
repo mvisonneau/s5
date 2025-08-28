@@ -32,15 +32,15 @@ func configure(ctx context.Context, cmd *cli.Command) (context.Context, error) {
 	return ctx, nil
 }
 
-func getCipherEngine(_ context.Context, cmd *cli.Command) (engine cipher.Engine, err error) {
+func getCipherEngine(ctx context.Context, cmd *cli.Command) (engine cipher.Engine, err error) {
 	cmds := cmd.Names()
 	switch cmds[len(cmds)-1] {
 	case "aes":
 		engine, err = cipher.NewAESClient(cmd.String("key"))
 	case "aws":
-		engine, err = cipher.NewAWSClient(cmd.String("kms-key-arn"))
+		engine, err = cipher.NewAWSClient(ctx, cmd.String("kms-key-arn"))
 	case "gcp":
-		engine, err = cipher.NewGCPClient(cmd.String("kms-key-name"))
+		engine, err = cipher.NewGCPClient(ctx, cmd.String("kms-key-name"))
 	case "pgp":
 		engine, err = cipher.NewPGPClient(cmd.String("public-key-path"), cmd.String("private-key-path"))
 	case "vault":

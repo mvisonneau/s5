@@ -37,9 +37,9 @@ func NewAESClient(key string) (*aes.Client, error) {
 	return c, nil
 }
 
-// NewAWSClient creates a AWS client.
-func NewAWSClient(kmsKeyArn string) (*aws.Client, error) {
-	c, err := aws.NewClient(&aws.Config{
+// NewAWSClient creates an AWS client.
+func NewAWSClient(ctx context.Context, kmsKeyArn string) (*aws.Client, error) {
+	c, err := aws.NewClient(ctx, &aws.Config{
 		KmsKeyArn: kmsKeyArn,
 	})
 	if err != nil {
@@ -50,8 +50,8 @@ func NewAWSClient(kmsKeyArn string) (*aws.Client, error) {
 }
 
 // NewGCPClient creates a GCP client.
-func NewGCPClient(kmsKeyName string) (*gcp.Client, error) {
-	c, err := gcp.NewClient(&gcp.Config{
+func NewGCPClient(ctx context.Context, kmsKeyName string) (*gcp.Client, error) {
+	c, err := gcp.NewClient(ctx, &gcp.Config{
 		KmsKeyName: kmsKeyName,
 	})
 	if err != nil {

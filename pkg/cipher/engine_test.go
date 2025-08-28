@@ -1,6 +1,7 @@
 package cipher
 
 import (
+	"context"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -22,7 +23,7 @@ func TestNewAESClient(t *testing.T) {
 }
 
 func TestNewAWSClient(t *testing.T) {
-	c, err := NewAWSClient("arn::kms::foo")
+	c, err := NewAWSClient(context.TODO(), "arn::kms::foo")
 	require.NoError(t, err)
 	assert.NotNil(t, c)
 	assert.IsType(t, &aws.Client{}, c)
