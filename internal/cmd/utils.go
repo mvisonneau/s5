@@ -8,25 +8,31 @@ import (
 
 	"github.com/hashicorp/vault/sdk/helper/mlock"
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v3"
+	"go.uber.org/zap"
 
-	"github.com/mvisonneau/go-helpers/logger"
+	"github.com/mvisonneau/s5/internal/logs"
 	"github.com/mvisonneau/s5/pkg/cipher"
 )
 
-func configure(cmd *cli.Command) error {
-	if err := logger.Configure(logger.Config{
-		Level:  cmd.String("log-level"),
-		Format: cmd.String("log-format"),
-	}); err != nil {
-		return errors.Wrap(err, "configuring logger")
+func configure(ctx context.Context, cmd *cli.Command) (context.Context, error) {
+	var (
+		logger   *zap.Logger
+		encoding string
+		err      error
+	)
+
+	logger, encoding, err = logs.NewLogger(cmd.String("log-level"), cmd.String("log-format"))
+	if err != nil {
+		return ctx, err
 	}
 
-	return nil
+	ctx = logs.StoreLoggerInContext(ctx, logger, encoding)
+
+	return ctx, nil
 }
 
-func getCipherEngine(cmd *cli.Command) (engine cipher.Engine, err error) {
+func getCipherEngine(_ context.Context, cmd *cli.Command) (engine cipher.Engine, err error) {
 	cmds := cmd.Names()
 	switch cmds[len(cmds)-1] {
 	case "aes":
@@ -71,8 +77,14 @@ func readInput(cmd *cli.Command) (input string, err error) {
 // Execute gracefully logs and exits our `run` functions.
 func Execute(f func(ctx context.Context, cmd *cli.Command) error) func(context.Context, *cli.Command) error {
 	return func(ctx context.Context, cmd *cli.Command) error {
-		if err := mlock.LockMemory(); err != nil {
-			log.WithError(err).Warn("s5 requires the IPC_LOCK capability in order to secure its memory")
+		var err error
+
+		if ctx, err = configure(ctx, cmd); err != nil {
+			logs.LoggerFromContext(ctx).Fatal("failed to configure", zap.Error(err))
+		}
+
+		if err = mlock.LockMemory(); err != nil {
+			logs.LoggerFromContext(ctx).Fatal("s5 requires the IPC_LOCK capability in order to secure its memory", zap.Error(err))
 		}
 
 		return f(ctx, cmd)

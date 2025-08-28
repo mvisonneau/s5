@@ -1,6 +1,7 @@
 package aes
 
 import (
+	"context"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
@@ -11,7 +12,8 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
+
+	"github.com/mvisonneau/s5/internal/logs"
 )
 
 const (
@@ -50,8 +52,8 @@ func NewClient(config *Config) (*Client, error) {
 }
 
 // Cipher a value using the provided key.
-func (c *Client) Cipher(value string) (string, error) {
-	log.Debug("Ciphering using AES")
+func (c *Client) Cipher(ctx context.Context, value string) (string, error) {
+	logs.LoggerFromContext(ctx).Debug("ciphering using AES")
 
 	plaintext := []byte(value)
 
@@ -66,8 +68,8 @@ func (c *Client) Cipher(value string) (string, error) {
 }
 
 // Decipher a value using the TransitKey.
-func (c *Client) Decipher(value string) (string, error) {
-	log.Debugf("Deciphering '%s' using AES", value)
+func (c *Client) Decipher(ctx context.Context, value string) (string, error) {
+	logs.LoggerFromContext(ctx).Debug("deciphering using AES")
 
 	str, err := base64.StdEncoding.DecodeString(value)
 	if err != nil {

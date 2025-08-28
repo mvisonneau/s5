@@ -1,6 +1,7 @@
 package vault
 
 import (
+	"context"
 	"encoding/base64"
 	"os"
 	"path/filepath"
@@ -9,7 +10,8 @@ import (
 	"github.com/hashicorp/vault/api"
 	"github.com/mitchellh/go-homedir"
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
+
+	"github.com/mvisonneau/s5/internal/logs"
 )
 
 // Config : Handles a Vault configuration.
@@ -38,8 +40,8 @@ func NewClient(config *Config) (*Client, error) {
 }
 
 // Cipher : Cipher a value using the TransitKey.
-func (c *Client) Cipher(value string) (string, error) {
-	log.Debug("Ciphering using Vault transit key")
+func (c *Client) Cipher(ctx context.Context, value string) (string, error) {
+	logs.LoggerFromContext(ctx).Debug("ciphering using a Vault transit key")
 
 	payload := make(map[string]interface{})
 	payload["plaintext"] = base64.StdEncoding.EncodeToString([]byte(value))
@@ -55,8 +57,8 @@ func (c *Client) Cipher(value string) (string, error) {
 }
 
 // Decipher : Decipher a value using the TransitKey.
-func (c *Client) Decipher(value string) (string, error) {
-	log.Debugf("Deciphering '%s' using Vault transit key", value)
+func (c *Client) Decipher(ctx context.Context, value string) (string, error) {
+	logs.LoggerFromContext(ctx).Debug("deciphering using a Vault transit key")
 
 	payload := make(map[string]interface{})
 	payload["ciphertext"] = "vault:v1:" + value

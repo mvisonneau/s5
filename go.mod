@@ -9,11 +9,10 @@ require (
 	github.com/hashicorp/vault/api v1.20.0
 	github.com/hashicorp/vault/sdk v0.18.0
 	github.com/mitchellh/go-homedir v1.1.0
-	github.com/mvisonneau/go-helpers v0.0.1
 	github.com/pkg/errors v0.9.1
-	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.11.1
 	github.com/urfave/cli/v3 v3.4.1
+	go.uber.org/zap v1.27.0
 )
 
 require (
@@ -406,6 +405,7 @@ require (
 	github.com/sigstore/sigstore v1.9.3 // indirect
 	github.com/sigstore/sigstore-go v0.7.1 // indirect
 	github.com/sigstore/timestamp-authority v1.2.5 // indirect
+	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sivchari/containedctx v1.0.3 // indirect
 	github.com/skeema/knownhosts v1.3.1 // indirect
 	github.com/slack-go/slack v0.17.3 // indirect
@@ -473,7 +473,6 @@ require (
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/automaxprocs v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	go.uber.org/zap v1.27.0 // indirect
 	gocloud.dev v0.42.0 // indirect
 	golang.org/x/crypto v0.41.0 // indirect
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0 // indirect
