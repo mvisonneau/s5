@@ -5,11 +5,14 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/kms"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/kms"
+	"github.com/aws/smithy-go/logging"
 	"github.com/pkg/errors"
+	"go.uber.org/zap"
 
+	"github.com/mvisonneau/s5/internal/app"
 	"github.com/mvisonneau/s5/internal/logs"
 )
 
@@ -19,23 +22,33 @@ type Config struct {
 	KmsKeyArn string
 }
 
-// Client is an handler for encryption functions.
+// Client is a handler for encryption functions.
 type Client struct {
-	*kms.KMS
+	*kms.Client
 
 	Config *Config
 }
 
 // NewClient configures a client for encryption purposes.
-func NewClient(config *Config) (*Client, error) {
-	sess, err := session.NewSession()
+func NewClient(ctx context.Context, cfg *Config) (*Client, error) {
+	logger := logging.LoggerFunc(func(_ logging.Classification, _ string, entries ...interface{}) {
+		for _, entry := range entries {
+			logs.LoggerFromContext(ctx).Debug("", zap.Any("event", entry))
+		}
+	})
+
+	awsConfig, err := config.LoadDefaultConfig(
+		ctx,
+		config.WithLogger(logger),
+		config.WithAppID(app.Name),
+	)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating new AWS session")
+		return nil, err
 	}
 
 	return &Client{
-		kms.New(sess),
-		config,
+		kms.NewFromConfig(awsConfig),
+		cfg,
 	}, nil
 }
 
@@ -43,7 +56,7 @@ func NewClient(config *Config) (*Client, error) {
 func (c *Client) Cipher(ctx context.Context, value string) (string, error) {
 	logs.LoggerFromContext(ctx).Debug("ciphering using AWS KMS key")
 
-	result, err := c.Encrypt(&kms.EncryptInput{
+	result, err := c.Encrypt(ctx, &kms.EncryptInput{
 		KeyId:     aws.String(c.Config.KmsKeyArn),
 		Plaintext: []byte(value),
 	})
@@ -63,7 +76,7 @@ func (c *Client) Decipher(ctx context.Context, value string) (string, error) {
 		return "", errors.Wrap(err, fmt.Sprintf("base64decode - input: '%s'", value))
 	}
 
-	result, err := c.Decrypt(&kms.DecryptInput{CiphertextBlob: ciphertext})
+	result, err := c.Decrypt(ctx, &kms.DecryptInput{CiphertextBlob: ciphertext})
 	if err != nil {
 		return "", errors.Wrap(err, "deciphering using AWS KMS key")
 	}

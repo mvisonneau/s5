@@ -17,7 +17,7 @@ type Config struct {
 	KmsKeyName string
 }
 
-// Client is an handler for encryption functions.
+// Client is a handler for encryption functions.
 type Client struct {
 	*cloudkms.KeyManagementClient
 
@@ -26,9 +26,7 @@ type Client struct {
 }
 
 // NewClient configures a client for encryption purposes.
-func NewClient(config *Config) (*Client, error) {
-	ctx := context.Background()
-
+func NewClient(ctx context.Context, config *Config) (*Client, error) {
 	client, err := cloudkms.NewKeyManagementClient(ctx)
 	if err != nil {
 		return nil, errors.Wrap(err, "creating new client")
@@ -50,7 +48,7 @@ func (c *Client) Cipher(ctx context.Context, value string) (string, error) {
 		Plaintext: []byte(value),
 	}
 
-	resp, err := c.Encrypt(*c.Context, req)
+	resp, err := c.Encrypt(ctx, req)
 	if err != nil {
 		return "", errors.Wrap(err, "ciphering value")
 	}
@@ -72,7 +70,7 @@ func (c *Client) Decipher(ctx context.Context, value string) (string, error) {
 		Ciphertext: ciphertext,
 	}
 
-	resp, err := c.Decrypt(*c.Context, req)
+	resp, err := c.Decrypt(ctx, req)
 	if err != nil {
 		return "", errors.Wrap(err, "deciphering value")
 	}
