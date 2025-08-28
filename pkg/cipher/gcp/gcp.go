@@ -19,6 +19,7 @@ type Config struct {
 // Client is an handler for encryption functions.
 type Client struct {
 	*cloudkms.KeyManagementClient
+
 	Context *context.Context
 	Config  *Config
 }

@@ -17,9 +17,12 @@ linters:
     - revive
     - err113
     - wsl
+    - wsl_v5
     - nonamedreturns
     - nolintlint
+    - noinlineerr
     - forbidigo
+    - wrapcheck
 
   settings:
     cyclop:

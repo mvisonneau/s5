@@ -1,28 +1,24 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"os"
-	"time"
 
 	"github.com/hashicorp/vault/sdk/helper/mlock"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 
 	"github.com/mvisonneau/go-helpers/logger"
 	"github.com/mvisonneau/s5/pkg/cipher"
 )
 
-var start time.Time
-
-func configure(ctx *cli.Context) error {
-	start = ctx.App.Metadata["startTime"].(time.Time)
-
+func configure(cmd *cli.Command) error {
 	if err := logger.Configure(logger.Config{
-		Level:  ctx.String("log-level"),
-		Format: ctx.String("log-format"),
+		Level:  cmd.String("log-level"),
+		Format: cmd.String("log-format"),
 	}); err != nil {
 		return errors.Wrap(err, "configuring logger")
 	}
@@ -30,21 +26,21 @@ func configure(ctx *cli.Context) error {
 	return nil
 }
 
-func getCipherEngine(ctx *cli.Context) (engine cipher.Engine, err error) {
-	cmds := ctx.Command.Names()
+func getCipherEngine(cmd *cli.Command) (engine cipher.Engine, err error) {
+	cmds := cmd.Names()
 	switch cmds[len(cmds)-1] {
 	case "aes":
-		engine, err = cipher.NewAESClient(ctx.String("key"))
+		engine, err = cipher.NewAESClient(cmd.String("key"))
 	case "aws":
-		engine, err = cipher.NewAWSClient(ctx.String("kms-key-arn"))
+		engine, err = cipher.NewAWSClient(cmd.String("kms-key-arn"))
 	case "gcp":
-		engine, err = cipher.NewGCPClient(ctx.String("kms-key-name"))
+		engine, err = cipher.NewGCPClient(cmd.String("kms-key-name"))
 	case "pgp":
-		engine, err = cipher.NewPGPClient(ctx.String("public-key-path"), ctx.String("private-key-path"))
+		engine, err = cipher.NewPGPClient(cmd.String("public-key-path"), cmd.String("private-key-path"))
 	case "vault":
-		engine, err = cipher.NewVaultClient(ctx.String("transit-key"))
+		engine, err = cipher.NewVaultClient(cmd.String("transit-key"))
 	default:
-		err = fmt.Errorf("engine %v is not implemented yet", ctx.Command.FullName())
+		err = fmt.Errorf("engine %v is not implemented yet", cmd.FullName())
 	}
 
 	if err != nil {
@@ -54,8 +50,8 @@ func getCipherEngine(ctx *cli.Context) (engine cipher.Engine, err error) {
 	return
 }
 
-func readInput(ctx *cli.Context) (input string, err error) {
-	switch ctx.NArg() {
+func readInput(cmd *cli.Command) (input string, err error) {
+	switch cmd.NArg() {
 	case 0:
 		read, err := io.ReadAll(os.Stdin)
 		if err != nil {
@@ -64,7 +60,7 @@ func readInput(ctx *cli.Context) (input string, err error) {
 
 		input = string(read)
 	case 1:
-		input = ctx.Args().First()
+		input = cmd.Args().First()
 	default:
 		return "", errors.New("too many arguments provided")
 	}
@@ -72,28 +68,13 @@ func readInput(ctx *cli.Context) (input string, err error) {
 	return
 }
 
-func exit(exitCode int, err error) cli.ExitCoder {
-	defer log.WithFields(
-		log.Fields{
-			//nolint: govet
-			"execution-time": time.Since(start),
-		},
-	).Debug("exited..")
-
-	if err != nil {
-		log.Error(err.Error())
-	}
-
-	return cli.Exit("", exitCode)
-}
-
-// ExecWrapper gracefully logs and exits our `run` functions.
-func ExecWrapper(f func(ctx *cli.Context) (int, error)) cli.ActionFunc {
-	return func(ctx *cli.Context) error {
+// Execute gracefully logs and exits our `run` functions.
+func Execute(f func(ctx context.Context, cmd *cli.Command) error) func(context.Context, *cli.Command) error {
+	return func(ctx context.Context, cmd *cli.Command) error {
 		if err := mlock.LockMemory(); err != nil {
 			log.WithError(err).Warn("s5 requires the IPC_LOCK capability in order to secure its memory")
 		}
 
-		return exit(f(ctx))
+		return f(ctx, cmd)
 	}
 }
