@@ -20,6 +20,7 @@ type Config struct {
 // Client is a Vault API client pointer.
 type Client struct {
 	*api.Client
+
 	Config *Config
 }
 

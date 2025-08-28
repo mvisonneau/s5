@@ -20,6 +20,7 @@ type Config struct {
 // Client is an handler for encryption functions.
 type Client struct {
 	*kms.KMS
+
 	Config *Config
 }
 

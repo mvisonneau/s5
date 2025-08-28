@@ -83,18 +83,14 @@ is-git-dirty: ## Tests if git is in a dirty state
 	@git status --porcelain
 	@test $(shell git status --porcelain | grep -c .) -eq 0
 
-.PHONY: man-pages
-man-pages: ## Generates man pages
-	rm -rf helpers/manpages
-	mkdir -p helpers/manpages
-	go run ./cmd/tools/man | gzip -c -9 >helpers/manpages/$(NAME).1.gz
-
 .PHONY: autocomplete-scripts
 autocomplete-scripts: ## Download CLI autocompletion scripts
 	rm -rf helpers/autocomplete
 	mkdir -p helpers/autocomplete
-	curl -sL https://raw.githubusercontent.com/urfave/cli/v2.27.1/autocomplete/bash_autocomplete > helpers/autocomplete/bash
-	curl -sL https://raw.githubusercontent.com/urfave/cli/v2.27.1/autocomplete/zsh_autocomplete > helpers/autocomplete/zsh
+	go run ./cmd/s5 completion bash > helpers/autocomplete/bash
+	go run ./cmd/s5 completion fish > helpers/autocomplete/fish
+	go run ./cmd/s5 completion pwsh > helpers/autocomplete/pwsh
+	go run ./cmd/s5 completion zsh > helpers/autocomplete/zsh
 
 .PHONY: all
 all: lint test build coverage ## Test, builds and ship package for all supported platforms

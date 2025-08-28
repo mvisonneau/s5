@@ -1,45 +1,46 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 
 	"github.com/mvisonneau/s5/pkg/cipher"
 )
 
 // Cipher is used for the cipher commands.
-func Cipher(ctx *cli.Context) (int, error) {
-	cipherEngine, err := getCipherEngine(ctx)
+func Cipher(_ context.Context, cmd *cli.Command) error {
+	cipherEngine, err := getCipherEngine(cmd)
 	if err != nil {
-		return 1, err
+		return err
 	}
 
-	if err := configure(ctx); err != nil {
-		return 1, err
+	if err = configure(cmd); err != nil {
+		return err
 	}
 
-	input, err := readInput(ctx)
+	input, err := readInput(cmd)
 	if err != nil {
-		if err := cli.ShowSubcommandHelp(ctx); err != nil {
-			return 1, errors.Wrap(err, "rendering subcommand help")
+		if err = cli.ShowSubcommandHelp(cmd); err != nil {
+			return errors.Wrap(err, "rendering subcommand help")
 		}
 
-		return 1, err
+		return err
 	}
 
-	if !ctx.Bool("no-trim") {
+	if !cmd.Bool("no-trim") {
 		input = strings.Trim(input, " \n")
 	}
 
 	ciphered, err := cipherEngine.Cipher(input)
 	if err != nil {
-		return 1, errors.Wrap(err, "ciphering input")
+		return errors.Wrap(err, "ciphering input")
 	}
 
 	fmt.Print(cipher.GenerateOutput(ciphered))
 
-	return 0, nil
+	return nil
 }
