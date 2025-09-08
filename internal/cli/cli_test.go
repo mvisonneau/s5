@@ -59,10 +59,8 @@ func TestCipher(t *testing.T) {
 			err := app.Run(context.Background(), os.Args)
 			if tt.expectErr != "" {
 				require.ErrorContains(t, err, tt.expectErr)
-			} else {
-				if !errors.Is(err, errors.New("s5 requires the IPC_LOCK capability in order to secure its memory")) {
-					require.NoError(t, err)
-				}
+			} else if !errors.Is(err, errors.New("s5 requires the IPC_LOCK capability in order to secure its memory")) {
+				require.NoError(t, err)
 			}
 		})
 	}
@@ -98,10 +96,8 @@ func TestDecipher(t *testing.T) {
 			err := app.Run(context.Background(), os.Args)
 			if tt.expectErr != "" {
 				require.ErrorContains(t, err, tt.expectErr)
-			} else {
-				if !errors.Is(err, errors.New("s5 requires the IPC_LOCK capability in order to secure its memory")) {
-					require.NoError(t, err)
-				}
+			} else if !errors.Is(err, errors.New("s5 requires the IPC_LOCK capability in order to secure its memory")) {
+				require.NoError(t, err)
 			}
 		})
 	}
