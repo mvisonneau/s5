@@ -6,6 +6,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/urfave/cli/v3"
@@ -59,7 +60,9 @@ func TestCipher(t *testing.T) {
 			if tt.expectErr != "" {
 				require.ErrorContains(t, err, tt.expectErr)
 			} else {
-				require.NoError(t, err)
+				if !errors.Is(err, errors.New("s5 requires the IPC_LOCK capability in order to secure its memory")) {
+					require.NoError(t, err)
+				}
 			}
 		})
 	}
@@ -96,7 +99,9 @@ func TestDecipher(t *testing.T) {
 			if tt.expectErr != "" {
 				require.ErrorContains(t, err, tt.expectErr)
 			} else {
-				require.NoError(t, err)
+				if !errors.Is(err, errors.New("s5 requires the IPC_LOCK capability in order to secure its memory")) {
+					require.NoError(t, err)
+				}
 			}
 		})
 	}
