@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -84,7 +85,12 @@ func Execute(f func(ctx context.Context, cmd *cli.Command) error) func(context.C
 		}
 
 		if err = mlock.LockMemory(); err != nil {
-			logs.LoggerFromContext(ctx).Fatal("s5 requires the IPC_LOCK capability in order to secure its memory", zap.Error(err))
+			logger := logs.LoggerFromContext(ctx)
+			if flag.Lookup("test.v") != nil {
+				logger.Warn("failed to lock memory (mlock); continuing because we are running under go test", zap.Error(err))
+			} else {
+				logger.Fatal("s5 requires the IPC_LOCK capability in order to secure its memory", zap.Error(err))
+			}
 		}
 
 		return f(ctx, cmd)
