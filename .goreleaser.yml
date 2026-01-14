@@ -27,7 +27,6 @@ builds:
       - { goos: darwin, goarch: 386 }
       - { goos: darwin, goarch: arm }
       - { goos: windows, goarch: arm }
-      - { goos: windows, goarch: arm64 }
 
 universal_binaries:
   - {}
@@ -36,7 +35,7 @@ archives:
   - name_template: '{{ .ProjectName }}_{{ .Tag }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
     format_overrides:
       - goos: windows
-        format: zip
+        formats: [ 'zip' ]
     files:
       - README.md
       - LICENSE
@@ -98,102 +97,28 @@ snapcrafts:
       s5:
         plugs: [home, network]
 
-dockers:
-  - image_templates:
-      - 'docker.io/mvisonneau/s5:{{ .Tag }}-amd64'
-      - 'ghcr.io/mvisonneau/s5:{{ .Tag }}-amd64'
-      - 'quay.io/mvisonneau/s5:{{ .Tag }}-amd64'
-    ids: [s5]
-    goarch: amd64
-    use: buildx
-    build_flag_templates:
-      - --platform=linux/amd64
-      - --label=org.opencontainers.image.title={{ .ProjectName }}
-      - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/s5
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/s5
-      - --label=org.opencontainers.image.version={{ .Version }}
-      - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
-      - --label=org.opencontainers.image.revision={{ .FullCommit }}
-      - --label=org.opencontainers.image.licenses=Apache-2.0
-
-  - image_templates:
-      - 'docker.io/mvisonneau/s5:{{ .Tag }}-arm64'
-      - 'ghcr.io/mvisonneau/s5:{{ .Tag }}-arm64'
-      - 'quay.io/mvisonneau/s5:{{ .Tag }}-arm64'
-    ids: [s5]
-    goarch: arm64
-    use: buildx
-    build_flag_templates:
-      - --platform=linux/arm64
-      - --label=org.opencontainers.image.title={{ .ProjectName }}
-      - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/s5
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/s5
-      - --label=org.opencontainers.image.version={{ .Version }}
-      - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
-      - --label=org.opencontainers.image.revision={{ .FullCommit }}
-      - --label=org.opencontainers.image.licenses=Apache-2.0
-
-  - image_templates:
-      - 'docker.io/mvisonneau/s5:{{ .Tag }}-armv6'
-      - 'ghcr.io/mvisonneau/s5:{{ .Tag }}-armv6'
-      - 'quay.io/mvisonneau/s5:{{ .Tag }}-armv6'
-    ids: [s5]
-    goarch: arm
-    goarm: 6
-    use: buildx
-    build_flag_templates:
-      - --platform=linux/arm/v6
-      - --label=org.opencontainers.image.title={{ .ProjectName }}
-      - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/s5
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/s5
-      - --label=org.opencontainers.image.version={{ .Version }}
-      - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
-      - --label=org.opencontainers.image.revision={{ .FullCommit }}
-      - --label=org.opencontainers.image.licenses=Apache-2.0
-
-  - image_templates:
-      - 'docker.io/mvisonneau/s5:{{ .Tag }}-armv7'
-      - 'ghcr.io/mvisonneau/s5:{{ .Tag }}-armv7'
-      - 'quay.io/mvisonneau/s5:{{ .Tag }}-armv7'
-    ids: [s5]
-    goarch: arm
-    goarm: 7
-    use: buildx
-    build_flag_templates:
-      - --platform=linux/arm/v7
-      - --label=org.opencontainers.image.title={{ .ProjectName }}
-      - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/s5
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/s5
-      - --label=org.opencontainers.image.version={{ .Version }}
-      - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
-      - --label=org.opencontainers.image.revision={{ .FullCommit }}
-      - --label=org.opencontainers.image.licenses=Apache-2.0
-
-docker_manifests:
-  - name_template: docker.io/mvisonneau/s5:{{ .Tag }}
-    image_templates:
-      - docker.io/mvisonneau/s5:{{ .Tag }}-amd64
-      - docker.io/mvisonneau/s5:{{ .Tag }}-arm64
-      - docker.io/mvisonneau/s5:{{ .Tag }}-armv6
-      - docker.io/mvisonneau/s5:{{ .Tag }}-armv7
-
-  - name_template: ghcr.io/mvisonneau/s5:{{ .Tag }}
-    image_templates:
-      - ghcr.io/mvisonneau/s5:{{ .Tag }}-amd64
-      - ghcr.io/mvisonneau/s5:{{ .Tag }}-arm64
-      - ghcr.io/mvisonneau/s5:{{ .Tag }}-armv6
-      - ghcr.io/mvisonneau/s5:{{ .Tag }}-armv7
-
-  - name_template: quay.io/mvisonneau/s5:{{ .Tag }}
-    image_templates:
-      - quay.io/mvisonneau/s5:{{ .Tag }}-amd64
-      - quay.io/mvisonneau/s5:{{ .Tag }}-arm64
-      - quay.io/mvisonneau/s5:{{ .Tag }}-armv6
-      - quay.io/mvisonneau/s5:{{ .Tag }}-armv7
+dockers_v2:
+  - images:
+      - docker.io/mvisonneau/s5
+      - ghcr.io/mvisonneau/s5
+      - quay.io/mvisonneau/s5
+    tags:
+      - "{{ .Tag }}"
+    dockerfile: Dockerfile
+    platforms:
+      - linux/amd64
+      - linux/arm64
+      - linux/arm/v6
+      - linux/arm/v7
+    labels:
+      org.opencontainers.image.title: "{{ .ProjectName }}"
+      org.opencontainers.image.description: "{{ .ProjectName }}"
+      org.opencontainers.image.url: "https://github.com/mvisonneau/s5"
+      org.opencontainers.image.source: "https://github.com/mvisonneau/s5"
+      org.opencontainers.image.version: "{{ .Version }}"
+      org.opencontainers.image.created: "{{ .Date }}"
+      org.opencontainers.image.revision: "{{ .FullCommit }}"
+      org.opencontainers.image.licenses: "Apache-2.0"
 
 checksum:
   name_template: '{{ .ProjectName }}_{{ .Tag }}_sha512sums.txt'

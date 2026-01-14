@@ -16,7 +16,8 @@ FROM busybox:1.37.0-glibc@sha256:a2c55ed708c564a69a695e0a3bb16a4c47d2bb268d2ebd0
 WORKDIR /
 
 COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY s5 /usr/local/bin/
+ARG TARGETPLATFORM
+COPY ${TARGETPLATFORM}/s5 /usr/local/bin/
 
 # Run as nobody user
 USER 65534
