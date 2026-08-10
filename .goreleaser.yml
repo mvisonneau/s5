@@ -71,7 +71,6 @@ homebrew_casks:
   - description: *description
     homepage: *homepage
     license: *license
-    directory: Formula
     repository:
       owner: mvisonneau
       name: homebrew-tap
