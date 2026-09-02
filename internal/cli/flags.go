@@ -8,7 +8,7 @@ var aesFlags = []cli.Flag{
 	&cli.StringFlag{
 		Name:    "key",
 		Sources: cli.EnvVars("S5_AES_KEY"),
-		Usage:   "`path` to a readable key for AES encryption/decryption",
+		Usage:   "hexadecimal `key` for AES, or a 1password secret reference to it (op://<vault>/<item>/<field>)",
 	},
 }
 

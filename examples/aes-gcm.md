@@ -36,6 +36,13 @@ Otherwise you will need to use the `--key` flag on each of your commands
 ~$ s5 cipher aes --key 0b9f3051e89ba4d5018fc7fb96fe5b44 "foo"
 ```
 
+Storing the key in plaintext is however not great, if you use 1Password you can
+store it there and refer to it instead, see [1password.md](1password.md)
+
+```bash
+~$ export S5_AES_KEY="op://Private/s5/credential"
+```
+
 ## Usage
 
 ```bash

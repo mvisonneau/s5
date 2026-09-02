@@ -14,6 +14,7 @@ import (
 
 	"github.com/mvisonneau/s5/internal/logs"
 	"github.com/mvisonneau/s5/pkg/cipher"
+	"github.com/mvisonneau/s5/pkg/onepassword"
 )
 
 func configure(ctx context.Context, cmd *cli.Command) (context.Context, error) {
@@ -37,7 +38,11 @@ func getCipherEngine(ctx context.Context, cmd *cli.Command) (engine cipher.Engin
 	cmds := cmd.Names()
 	switch cmds[len(cmds)-1] {
 	case "aes":
-		engine, err = cipher.NewAESClient(cmd.String("key"))
+		var key string
+
+		if key, err = resolveSecret(ctx, cmd.String("key")); err == nil {
+			engine, err = cipher.NewAESClient(key)
+		}
 	case "aws":
 		engine, err = cipher.NewAWSClient(ctx, cmd.String("kms-key-arn"))
 	case "gcp":
@@ -55,6 +60,16 @@ func getCipherEngine(ctx context.Context, cmd *cli.Command) (engine cipher.Engin
 	}
 
 	return
+}
+
+// resolveSecret returns a value as provided, unless it holds a 1Password secret
+// reference, in which case it gets resolved against 1Password.
+func resolveSecret(ctx context.Context, value string) (string, error) {
+	if !onepassword.IsSecretReference(value) {
+		return value, nil
+	}
+
+	return onepassword.Read(ctx, value)
 }
 
 func readInput(cmd *cli.Command) (input string, err error) {
