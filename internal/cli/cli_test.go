@@ -49,6 +49,11 @@ func TestCipher(t *testing.T) {
 			arguments: []string{"s5", "cipher", "aes", "--key"},
 			expectErr: "flag needs an argument: --key",
 		},
+		{
+			name:      "invalid 1password secret reference",
+			arguments: []string{"s5", "cipher", "aes", "--key", "op://Personal", "coucou"},
+			expectErr: "invalid 1password secret reference",
+		},
 	}
 
 	for _, tt := range tests {

@@ -7,6 +7,11 @@ and this project adheres to [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+### Added
+
+- Support for [1Password secret references](examples/1password.md) (`op://<vault>/<item>[/<section>]/<field>`) as
+  a value for the AES key, resolved at runtime through the `op` CLI
+
 ## [v0.1.13] - 2024-03-04
 
 - Implemented `golangci`

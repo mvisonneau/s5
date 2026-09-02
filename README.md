@@ -17,6 +17,16 @@
 - [Hashicorp Vault](https://www.vaultproject.io) - [Transit secret engine](https://www.vaultproject.io/docs/secrets/transit/index.html) ([example usage](examples/vault.md))
 - [PGP](https://www.openpgp.org/) ([example usage](examples/pgp.md))
 
+## Secret references
+
+Instead of passing the AES key itself, you can point `s5` at a [1Password](https://1password.com) secret reference (`op://<vault>/<item>/<field>`) and keep the key out of your shell profile and environment entirely ([example usage](examples/1password.md))
+
+```bash
+~$ export S5_AES_KEY="op://Private/s5/credential"
+```
+
+It requires the [1Password CLI](https://developer.1password.com/docs/cli/get-started/) (`op`) to be installed. Values that do not start with `op://` keep being used as-is.
+
 ## TL:DR
 
 Example using AES-GCM as the encryption backend
